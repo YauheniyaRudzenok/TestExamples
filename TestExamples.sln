@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Todo.Web", "Jane.Todo.Web\Jane.Todo.Web.csproj", "{02AE4D22-745E-4B93-9215-7756176ED2A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Todo.Api", "Jane.Todo.Api\Jane.Todo.Api.csproj", "{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02AE4D22-745E-4B93-9215-7756176ED2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02AE4D22-745E-4B93-9215-7756176ED2A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02AE4D22-745E-4B93-9215-7756176ED2A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02AE4D22-745E-4B93-9215-7756176ED2A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0067F507-77C8-4B2F-932A-6592BC97BACF}
+	EndGlobalSection
+EndGlobal
