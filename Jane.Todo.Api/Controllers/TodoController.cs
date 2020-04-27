@@ -18,7 +18,7 @@ namespace Jane.Todo.Api.Controllers
 
 		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[HttpPost]
-		public IActionResult Create(TodoTaskDto dto)
+		public IActionResult Create([FromBody] TodoTaskDto dto)
 		{
 			if (dto == null) return this.BadRequest();
 
@@ -29,7 +29,7 @@ namespace Jane.Todo.Api.Controllers
 
 		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[HttpPut]
-		public IActionResult Update(TodoTaskDto dto)
+		public IActionResult Update([FromBody] TodoTaskDto dto)
 		{
 			if (dto == null) return this.BadRequest();
 
@@ -61,17 +61,5 @@ namespace Jane.Todo.Api.Controllers
 
 		[HttpGet]
 		public IActionResult Get() => this.Ok(this.todoService.GetAll());
-
-		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-		[HttpPut]
-		[Route("{id:int}/finished/{finished:bool}")]
-		public IActionResult SetFinished(int id, bool finished)
-		{
-			if (id <= 0) return this.BadRequest();
-
-			this.todoService.SetFinished(id, finished);
-
-			return this.Ok();
-		}
 	}
 }

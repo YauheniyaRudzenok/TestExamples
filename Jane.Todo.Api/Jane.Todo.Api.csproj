@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jane.Todo.Dto\Jane.Todo.Dto.csproj" />
-    <ProjectReference Include="..\Jane.Todo.Shared\Jane.Todo.Shared.csproj" />
   </ItemGroup>
 
 

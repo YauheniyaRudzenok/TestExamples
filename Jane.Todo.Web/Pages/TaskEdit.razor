@@ -1,0 +1,56 @@
+﻿@page "/taskedit"
+@page "/taskedit/{Id:int}"
+
+@attribute [Authorize]
+
+@inject TaskEditViewModel viewModel
+
+@if (viewModel.TaskForm == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <section>
+        <EditForm Model="viewModel.TaskForm" OnValidSubmit="viewModel.Save">
+            <DataAnnotationsValidator />
+            <div class="form-group row">
+                <label for="title" class="col-sm-3">Title: </label>
+                <InputText id="title" class="form-control col-sm-8" @bind-Value="@viewModel.TaskForm.Title" placeholder="Enter title"></InputText>
+                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => viewModel.TaskForm.Title)" />
+            </div>
+            <div class="form-group row">
+                <label for="note" class="col-sm-3">Note: </label>
+                <InputTextArea id="note" class="form-control col-sm-8" @bind-Value="@viewModel.TaskForm.Note" placeholder="Enter note"></InputTextArea>
+                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => viewModel.TaskForm.Note)" />
+            </div>
+            <div class="form-group row">
+                <label for="dueDate" class="col-sm-3">Due date: </label>
+                <InputDate id="dueDate" class="form-control col-sm-8" @bind-Value="@viewModel.TaskForm.DueDate" placeholder="Enter due date"></InputDate>
+                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => viewModel.TaskForm.DueDate)" />
+            </div>
+            @if (viewModel.TaskForm.Id > 0)
+            {
+                <div class="form-group row">
+                    <label for="finished" class="col-sm-3">Finished: </label>
+                    <InputCheckbox id="finished" class="form-control col-sm-8" @bind-Value="@viewModel.TaskForm.Finished"></InputCheckbox>
+                </div>
+            }
+            <button type="submit" class="btn btn-primary edit-btn">Save</button>
+            @if (viewModel.TaskForm.Id > 0)
+            {
+                <button type="button" class="btn btn-danger" @onclick="@viewModel.Delete" />
+            }
+            </EditForm>
+    </section>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await viewModel.RetirieveTodoTaskAsync(Id);
+    }
+}

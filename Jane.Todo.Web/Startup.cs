@@ -1,5 +1,5 @@
 using System;
-using Blazored.LocalStorage;
+using Jane.Todo.Web.Pages.ViewModels;
 using Jane.Todo.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -23,8 +23,6 @@ namespace Jane.Todo.Web
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddBlazoredLocalStorage();
-
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie();
 
@@ -34,6 +32,10 @@ namespace Jane.Todo.Web
 
 			services.AddTransient<IAuthService, AuthService>();
 			services.AddTransient<ITodoService, TodoService>();
+
+			services.AddTransient<IndexViewModel>();
+			services.AddTransient<TaskEditViewModel>();
+			services.AddTransient<TaskViewViewModel>();
 
 			services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>(client =>
 			{

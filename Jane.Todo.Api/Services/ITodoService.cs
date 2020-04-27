@@ -10,6 +10,5 @@ namespace Jane.Todo.Api.Services
 		TodoTaskDto GetById(int id);
 		void Delete(int id);
 		ICollection<TodoTaskDto> GetAll();
-		void SetFinished(int id, bool finished);
 	}
 }

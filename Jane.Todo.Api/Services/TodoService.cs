@@ -12,11 +12,9 @@ namespace Jane.Todo.Api.Services
 		{
 			var entity = dto.ToEntity();
 
-			using (var context = TodoContext.CreateContext())
-			{
-				context.TodoTasks.Add(entity);
-				context.SaveChanges();
-			}
+			using var context = TodoContext.CreateContext();
+			context.TodoTasks.Add(entity);
+			context.SaveChanges();
 
 			return entity.ToDto();
 		}
@@ -57,16 +55,6 @@ namespace Jane.Todo.Api.Services
 			context.SaveChanges();
 
 			return exists.ToDto();
-		}
-
-		public void SetFinished(int id, bool finished)
-		{
-			using var context = TodoContext.CreateContext();
-
-			var exists = context.TodoTasks.First(x => x.Id == id);
-			exists.Finished = finished;
-
-			context.SaveChanges();
 		}
 	}
 }

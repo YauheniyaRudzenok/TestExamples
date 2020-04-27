@@ -1,0 +1,66 @@
+﻿@page "/taskview/{Id:int}"
+
+@inject TaskViewViewModel viewModel
+
+@if (viewModel.Task == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+<section>
+    <h1 class="page-title">@viewModel.Task.Title</h1>
+    <div class="col-12 row">
+        <div class="col-xs-12 col-sm-8">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Finished</label>
+                <div class="col-sm-8">
+                    @if (viewModel.Task.Finished)
+                    {
+                        <label type="text" readonly class="form-control-plaintext">Yes</label>
+                    }
+                    else
+                    {
+                        <label type="text" readonly class="form-control-plaintext">No</label>
+                    }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Note</label>
+                <div class="col-sm-8">
+                    <label type="text" class="form-control-plaintext">@viewModel.Task.Note</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Create</label>
+                <div class="col-sm-8">
+                    <label type="text" class="form-control-plaintext">@viewModel.Task.Created.Date.ToLongDateString()</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Due Date</label>
+                <div class="col-sm-8">
+                    <label type="text" class="form-control-plaintext">@viewModel.Task.DueDate.Date.ToLongDateString()</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (viewModel.ShowEditButton)
+    {
+        <button type="button" class="btn btn-primary edit-btn" @onclick="viewModel.Edit">Edit</button>
+    }
+</section>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await viewModel.RetrieveTaskAsync(Id, authenticationStateTask);
+    }
+}

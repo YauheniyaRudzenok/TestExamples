@@ -10,6 +10,6 @@ namespace Jane.Todo.Web.Services
 		Task<TOut> PostAsync<TIn, TOut>(string requestUri, TIn value);
 		Task<TOut> PutAsync<TIn, TOut>(string requestUri, TIn value);
 		Task DeleteAsync(string requestUri);
-		IHttpClientWrapper AppendJwtToken();
+		Task<IHttpClientWrapper> AppendJwtToken();
 	}
 }

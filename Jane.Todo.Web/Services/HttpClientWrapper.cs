@@ -1,16 +1,18 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 namespace Jane.Todo.Web.Services
 {
 	public class HttpClientWrapper : IHttpClientWrapper
 	{
-		//private readonly SessionStorage sessionStorage;
+		private IHttpContextAccessor httpContextAccessor;
 
-		public HttpClientWrapper(HttpClient httpClient/*, SessionStorage sessionStorage*/)
+		public HttpClientWrapper(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
 		{
 			this.HttpClient = httpClient;
-			//this.sessionStorage = sessionStorage;
+			this.httpContextAccessor = httpContextAccessor;
 		}
 
 		protected HttpClient HttpClient { get; private set; }
@@ -50,14 +52,14 @@ namespace Jane.Todo.Web.Services
 			return await message.ReadContentAs<TOut>();
 		}
 
-		public IHttpClientWrapper AppendJwtToken()
+		public async Task<IHttpClientWrapper> AppendJwtToken()
 		{
 			if (this.HttpClient.DefaultRequestHeaders.Authorization != null)
 				return this;
 
-			//var token = this.sessionStorage.GetAuthToken();
+			var token = await this.httpContextAccessor.HttpContext.GetTokenAsync("jwt");
 
-			//this.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+			this.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
 			return this;
 		}

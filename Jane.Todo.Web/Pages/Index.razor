@@ -1,2 +1,58 @@
 ﻿@page "/"
 
+@inject IndexViewModel viewModel
+
+<h2>Tasks</h2>
+
+@if (viewModel.Tasks == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Finished</th>
+                <th scope="col">Title</th>
+                <th scope="col">Created</th>
+                <th scope="col">Due Date</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in viewModel.Tasks)
+            {
+                <tr>
+                    <td>
+                        <span class="oi @(task.Finished ? "oi-circle-check" : "oi-circle-x")"></span>
+                    </td>
+                    <td>@task.Title</td>
+                    <td>@task.Created.Date.ToLongDateString()</td>
+                    <td>@task.DueDate.Date.ToLongDateString()</td>
+                    <td>
+                        <a href="@($"taskview/{task.Id}")" class="btn btn-info table-btn">
+                            <span class="oi oi-info"></span>
+                        </a>
+                        @if (viewModel.ShowEditButton)
+                        {
+                            <a href="@($"taskedit/{task.Id}")" class="btn btn-primary table-btn">
+                                <span class="oi oi-pencil"></span>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await viewModel.RetrieveTasksAsync(authenticationStateTask);
+    }
+}
