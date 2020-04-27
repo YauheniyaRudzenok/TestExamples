@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazored.LocalStorage;
+using Jane.Todo.Web.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Jane.Todo.Web.Data;
 
 namespace Jane.Todo.Web
 {
@@ -25,9 +23,22 @@ namespace Jane.Todo.Web
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddBlazoredLocalStorage();
+
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie();
+
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
-			services.AddSingleton<WeatherForecastService>();
+			services.AddHttpContextAccessor();
+
+			services.AddTransient<IAuthService, AuthService>();
+			services.AddTransient<ITodoService, TodoService>();
+
+			services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>(client =>
+			{
+				client.BaseAddress = new Uri("http://localhost:63558/");
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +56,9 @@ namespace Jane.Todo.Web
 			app.UseStaticFiles();
 
 			app.UseRouting();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{

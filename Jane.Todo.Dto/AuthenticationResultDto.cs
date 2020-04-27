@@ -1,6 +1,6 @@
-﻿namespace Jane.Todo.Api.Dto
+﻿namespace Jane.Todo.Dto
 {
-	public class AuthorizationResultDto
+	public class AuthenticationResultDto
 	{
 		public string Token { get; set; }
 		public string UserName { get; set; }

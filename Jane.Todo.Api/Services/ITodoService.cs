@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Jane.Todo.Api.Dto;
+using Jane.Todo.Dto;
 
 namespace Jane.Todo.Api.Services
 {

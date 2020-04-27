@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jane.Todo.Api.Dto
+namespace Jane.Todo.Dto
 {
 	public class TodoTaskDto
 	{

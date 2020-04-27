@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Todo.Web", "Jane.Todo.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Todo.Api", "Jane.Todo.Api\Jane.Todo.Api.csproj", "{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Todo.Dto", "Jane.Todo.Dto\Jane.Todo.Dto.csproj", "{83AD030D-3795-4820-B680-23C3137384EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Todo.Shared", "Jane.Todo.Shared\Jane.Todo.Shared.csproj", "{3824B5DF-42F8-4F11-BE93-3352C273F27E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30DDC0A4-4E52-4B55-98CD-0FA2CCB00F70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83AD030D-3795-4820-B680-23C3137384EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83AD030D-3795-4820-B680-23C3137384EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83AD030D-3795-4820-B680-23C3137384EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83AD030D-3795-4820-B680-23C3137384EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3824B5DF-42F8-4F11-BE93-3352C273F27E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3824B5DF-42F8-4F11-BE93-3352C273F27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3824B5DF-42F8-4F11-BE93-3352C273F27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3824B5DF-42F8-4F11-BE93-3352C273F27E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

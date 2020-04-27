@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Jane.Todo.Api.Services
+namespace Jane.Todo.Api
 {
 	public static class TokenOptions
 	{

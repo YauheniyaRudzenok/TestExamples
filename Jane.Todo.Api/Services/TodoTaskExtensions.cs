@@ -1,7 +1,6 @@
 ﻿using System;
-
-using Jane.Todo.Api.Dto;
 using Jane.Todo.Api.Entities;
+using Jane.Todo.Dto;
 
 namespace Jane.Todo.Api.Services
 {
