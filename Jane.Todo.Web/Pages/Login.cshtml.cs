@@ -75,10 +75,12 @@ namespace Jane.Todo.Web.Pages
 		public class InputModel
 		{
 			[Required]
+			[MaxLength(100)]
 			public string UserName { get; set; }
 
 			[DataType(DataType.Password)]
 			[Required]
+			[MaxLength(20)]
 			public string Password { get; set; }
 		}
 	}

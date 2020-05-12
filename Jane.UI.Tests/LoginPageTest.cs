@@ -7,8 +7,8 @@ namespace Jane.UI.Tests
 {
 	public class LoginPageTest
 	{
-		private const string nameValidationMessage = "The UserName field is required.";
-		private const string passwordValidationMessage = "The Password field is required.";
+		private const string NameValidationMessage = "The UserName field is required.";
+		private const string PasswordValidationMessage = "The Password field is required.";
 
 		[Test]
 		public void CheckItemsOnThePage()
@@ -38,11 +38,18 @@ namespace Jane.UI.Tests
 			loginPage.Submit();
 
 			//Assert
-			Assert.That(loginPage.TopValidation(), Contains.Item(nameValidationMessage));
-			Assert.That(loginPage.TopValidation(), Contains.Item(passwordValidationMessage));
-			Assert.That(loginPage.RowNameValidationMessage(), Is.EqualTo(nameValidationMessage));
-			Assert.That(loginPage.RowPasswordValidationMessage(), Is.EqualTo(passwordValidationMessage));
+			Assert.That(loginPage.TopValidation(), Contains.Item(NameValidationMessage));
+			Assert.That(loginPage.TopValidation(), Contains.Item(PasswordValidationMessage));
+			Assert.That(loginPage.RowNameValidationMessage(), Is.EqualTo(NameValidationMessage));
+			Assert.That(loginPage.RowPasswordValidationMessage(), Is.EqualTo(PasswordValidationMessage));
+		}
 
+		[Test]
+		public void SubmitingInValidData()
+		{
+			using IWebDriver driver = new ChromeDriver();
+			var loginPage = new LoginPage(driver);
+			loginPage.GenerateStringValueInRange(50, 100);
 		}
 
 		//[Test]

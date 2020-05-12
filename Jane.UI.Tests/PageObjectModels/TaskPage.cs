@@ -16,7 +16,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		protected override string PageURL => "http://localhost:63508/";
 		protected override string PageTitle => "Jane.Todo.Web";
 
-		public void WaitForHeader()
+		public void WaitForPageLoaded()
 		{
 			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
 			wait.Until(ExpectedConditions.ElementIsVisible(By.TagName("h2")));

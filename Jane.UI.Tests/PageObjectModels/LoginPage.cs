@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
 
@@ -58,6 +59,21 @@ namespace Jane.UI.Tests.PageObjectModels
 			string passwordValidation = Driver.FindElement
 				(By.CssSelector("span[data-valmsg-for='Input.Password']")).Text;
 			return passwordValidation;
+		}
+
+		public string GenerateStringValueInRange(int min, int max)
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			var random = new Random(chars.Length);
+
+			var length = random.Next(min, max);
+
+			for (int i =0; i==length; i++)
+			{
+				stringBuilder.Append(chars[random.Next()]);
+			}
+			return stringBuilder.ToString();
 		}
 	}
 }

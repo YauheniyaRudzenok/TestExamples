@@ -17,7 +17,7 @@ namespace Jane.UI.Tests
 			
 			//Act
 			taskPage.NavigateTo();
-			taskPage.WaitForHeader();
+			taskPage.WaitForPageLoaded();
 
 			//Assert
 			Assert.That(taskPage.TableHeader(), Contains.Item("Finished"));
@@ -35,7 +35,7 @@ namespace Jane.UI.Tests
 
 			//Act
 			taskPage.NavigateTo();
-			taskPage.WaitForHeader();
+			taskPage.WaitForPageLoaded();
 
 			//WebDriverWait wait = new WebDriverWait(driver, timeout: TimeSpan.FromSeconds(30));
 			//wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("a[href*='github']")));
@@ -60,7 +60,7 @@ namespace Jane.UI.Tests
 
 			//Act
 			taskPage.NavigateTo();
-			taskPage.WaitForHeader();
+			taskPage.WaitForPageLoaded();
 			taskPage.NavigateToLogin();
 
 			//Assert
