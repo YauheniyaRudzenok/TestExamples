@@ -63,15 +63,15 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public string GenerateStringValueInRange(int min, int max)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
 			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-			var random = new Random(chars.Length);
+			StringBuilder stringBuilder = new StringBuilder();
+			var random = new Random();
 
 			var length = random.Next(min, max);
 
-			for (int i =0; i==length; i++)
+			for (int i =0; i<=length; i++)
 			{
-				stringBuilder.Append(chars[random.Next()]);
+				stringBuilder.Append(chars[random.Next(chars.Length)]);
 			}
 			return stringBuilder.ToString();
 		}

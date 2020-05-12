@@ -49,7 +49,7 @@ namespace Jane.UI.Tests
 		{
 			using IWebDriver driver = new ChromeDriver();
 			var loginPage = new LoginPage(driver);
-			loginPage.GenerateStringValueInRange(50, 100);
+			loginPage.GenerateStringValueInRange(1, 100);
 		}
 
 		//[Test]
