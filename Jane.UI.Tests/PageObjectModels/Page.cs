@@ -9,7 +9,7 @@ namespace Jane.UI.Tests.PageObjectModels
 	{
 		protected IWebDriver Driver;
 		protected virtual string PageURL { get; }
-		protected virtual string PageTitle { get; }
+		protected virtual string PageTitle { get=> "Jane.Todo.Web"; }
 
 		public void NavigateTo()
 		{

@@ -14,7 +14,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		}
 
 		protected override string PageURL => "http://localhost:63508/";
-		protected override string PageTitle => "Jane.Todo.Web";
 
 		public void WaitForPageLoaded()
 		{

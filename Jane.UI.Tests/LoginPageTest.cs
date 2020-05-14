@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using Jane.UI.Tests.TestServices;
 
 namespace Jane.UI.Tests
 {
@@ -9,6 +10,8 @@ namespace Jane.UI.Tests
 	{
 		private const string NameValidationMessage = "The UserName field is required.";
 		private const string PasswordValidationMessage = "The Password field is required.";
+		private const string FailedLoginHeader = "Login failed";
+		private const string FailedLoginText = "It looks like you aren't Jane and you didn't use 'password' to authenticate yourself.";
 
 		[Test]
 		public void CheckItemsOnThePage()
@@ -45,26 +48,48 @@ namespace Jane.UI.Tests
 		}
 
 		[Test]
-		public void SubmitingInValidData()
+		public void SubmitingInvalidData()
 		{
+			//Arrange
 			using IWebDriver driver = new ChromeDriver();
+			var input = new TestService();
 			var loginPage = new LoginPage(driver);
-			loginPage.GenerateStringValueInRange(1, 100);
+			var loginPageFiled = new LoginPageFailed(driver);
+			loginPage.NavigateTo();
+
+			//Act
+			loginPage.InputUserName(input.GenerateStringValueInRange(1, 100));
+			loginPage.InputPassword(input.GenerateStringValueInRange(1, 20));
+			loginPage.Submit();
+
+			//Assert
+			loginPageFiled.EnsurePageLoaded();
+			Assert.That(loginPageFiled.Header, Is.EqualTo(FailedLoginHeader));
+			Assert.That(loginPageFiled.WarningText, Is.EqualTo(FailedLoginText));
 		}
 
-		//[Test]
-		//public void SubmitingValidData()
-		//{
-		//	const string name = "Jane";
-		//	const string password = "Password";
+		//add test case for 100 items (that only 100 symbols value is displayed
 
-		//	using IWebDriver driver = new ChromeDriver();
-		//	var loginPage = new LoginPage(driver);
+		[Test]
+		[TestCase ("Jane", "Password")]
+		[TestCase("jane", "password")]
+		[TestCase("JANE", "PASSWORD")]
+		public void SubmitingValidData(string name, string password)
+		{
 
-		//	//Act
-		//	loginPage.NavigateTo();
+			using IWebDriver driver = new ChromeDriver();
+			var taskPage = new TaskPage(driver);
+			var loginPage = new LoginPage(driver);
 
-		//}
+			//Act
+			loginPage.NavigateTo();
+			loginPage.InputUserName(name);
+			loginPage.InputPassword(password);
+			loginPage.Submit();
+
+			//Assert
+			taskPage.EnsurePageLoaded();
+		}
 
 	}
 }

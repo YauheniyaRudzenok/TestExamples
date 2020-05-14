@@ -12,8 +12,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 			Driver = driver;
 		}
-
-		protected override string PageTitle => "Jane.Todo.Web";
 		protected override string PageURL => "http://localhost:63508/login";
 
 		public string UserName()
@@ -61,19 +59,8 @@ namespace Jane.UI.Tests.PageObjectModels
 			return passwordValidation;
 		}
 
-		public string GenerateStringValueInRange(int min, int max)
-		{
-			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-			StringBuilder stringBuilder = new StringBuilder();
-			var random = new Random();
+		public void InputUserName(string userName) => Driver.FindElement(By.Id("Input_UserName")).SendKeys(userName);
 
-			var length = random.Next(min, max);
-
-			for (int i =0; i<=length; i++)
-			{
-				stringBuilder.Append(chars[random.Next(chars.Length)]);
-			}
-			return stringBuilder.ToString();
-		}
+		public void InputPassword(string password) => Driver.FindElement(By.Id("Input_Password")).SendKeys(password);
 	}
 }
