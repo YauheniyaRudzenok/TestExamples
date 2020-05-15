@@ -43,5 +43,13 @@ namespace Jane.UI.Tests.PageObjectModels
 			Driver.FindElement(By.CssSelector("a[href='/login'")).Click();
 			return new LoginPage(Driver);
 		}
+
+		public void EnsureAllItemsAreDisplayed()
+		{
+			bool itemsArePresented = (TableHeader().Contains("Finished")) &&
+									(TableHeader().Contains("Title")) &&
+									(TableHeader().Contains("Created")) &&
+									(TableHeader().Contains("Due Date"));
+		}
 	}
 }

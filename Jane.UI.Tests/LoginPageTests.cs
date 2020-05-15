@@ -6,7 +6,7 @@ using Jane.UI.Tests.TestServices;
 
 namespace Jane.UI.Tests
 {
-	public class LoginPageTest
+	public class LoginPageTests
 	{
 		private const string NameValidationMessage = "The UserName field is required.";
 		private const string PasswordValidationMessage = "The Password field is required.";
@@ -54,13 +54,11 @@ namespace Jane.UI.Tests
 			using IWebDriver driver = new ChromeDriver();
 			var input = new TestService();
 			var loginPage = new LoginPage(driver);
-			var loginPageFiled = new LoginPageFailed(driver);
-			loginPage.NavigateTo();
+			var loginPageFiled = new LoginFailedPage(driver);
 
 			//Act
-			loginPage.InputUserName(input.GenerateStringValueInRange(1, 100));
-			loginPage.InputPassword(input.GenerateStringValueInRange(1, 20));
-			loginPage.Submit();
+			loginPage.NavigateAndLogin(input.GenerateStringValueInRange(1, 100),
+				input.GenerateStringValueInRange(1, 100));
 
 			//Assert
 			loginPageFiled.EnsurePageLoaded();
@@ -70,7 +68,6 @@ namespace Jane.UI.Tests
 
 		//add test case for 100 items (that only 100 symbols value is displayed
 
-		[Test]
 		[TestCase ("Jane", "Password")]
 		[TestCase("jane", "password")]
 		[TestCase("JANE", "PASSWORD")]
@@ -82,13 +79,11 @@ namespace Jane.UI.Tests
 			var loginPage = new LoginPage(driver);
 
 			//Act
-			loginPage.NavigateTo();
-			loginPage.InputUserName(name);
-			loginPage.InputPassword(password);
-			loginPage.Submit();
+			loginPage.NavigateAndLogin(name, password);
 
 			//Assert
 			taskPage.EnsurePageLoaded();
+
 		}
 
 	}

@@ -5,9 +5,9 @@ using OpenQA.Selenium;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
-	public class LoginPageFailed:Page
+	public class LoginFailedPage:Page
 	{
-		public LoginPageFailed(IWebDriver driver)
+		public LoginFailedPage(IWebDriver driver)
 		{
 			Driver = driver;
 		}

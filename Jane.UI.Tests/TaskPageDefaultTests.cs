@@ -5,7 +5,7 @@ using OpenQA.Selenium.Chrome;
 
 namespace Jane.UI.Tests
 {
-	class TaskPageDefault
+	class TaskPageDefaultTests
 	{
 
 		[Test]
@@ -20,10 +20,7 @@ namespace Jane.UI.Tests
 			taskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.That(taskPage.TableHeader(), Contains.Item("Finished"));
-			Assert.That(taskPage.TableHeader(), Contains.Item("Title"));
-			Assert.That(taskPage.TableHeader(), Contains.Item("Created"));
-			Assert.That(taskPage.TableHeader(), Contains.Item("Due Date"));
+			taskPage.EnsureAllItemsAreDisplayed();
 		}
 
 		[Test]

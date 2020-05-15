@@ -5,11 +5,11 @@ using OpenQA.Selenium;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
-	public class Page
+	public abstract class Page
 	{
 		protected IWebDriver Driver;
 		protected virtual string PageURL { get; }
-		protected virtual string PageTitle { get=> "Jane.Todo.Web"; }
+		protected virtual string PageTitle => "Jane.Todo.Web";
 
 		public void NavigateTo()
 		{
