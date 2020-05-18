@@ -12,6 +12,9 @@ namespace Jane.UI.Tests
 		private const string PasswordValidationMessage = "The Password field is required.";
 		private const string FailedLoginHeader = "Login failed";
 		private const string FailedLoginText = "It looks like you aren't Jane and you didn't use 'password' to authenticate yourself.";
+		private const string UserNameField = "UserName:";
+		private const string PasswordField = "Password:";
+		private const string Header = "Login";
 
 		[Test]
 		public void CheckItemsOnThePage()
@@ -24,9 +27,9 @@ namespace Jane.UI.Tests
 			loginPage.NavigateTo();
 
 			//Assert
-			Assert.That(loginPage.UserName(), Is.EqualTo("UserName:"));
-			Assert.That(loginPage.Password(), Is.EqualTo("Password:"));
-			Assert.That(loginPage.Header(), Is.EqualTo("Login"));
+			Assert.That(loginPage.UserName(), Is.EqualTo(UserNameField));
+			Assert.That(loginPage.Password(), Is.EqualTo(PasswordField));
+			Assert.That(loginPage.Header(), Is.EqualTo(Header));
 		}
 
 		[Test]
@@ -54,11 +57,11 @@ namespace Jane.UI.Tests
 			using IWebDriver driver = new ChromeDriver();
 			var input = new TestService();
 			var loginPage = new LoginPage(driver);
-			var loginPageFiled = new LoginFailedPage(driver);
 
 			//Act
 			loginPage.NavigateAndLogin(input.GenerateStringValueInRange(1, 100),
 				input.GenerateStringValueInRange(1, 100));
+			var loginPageFiled = new LoginFailedPage(driver);
 
 			//Assert
 			loginPageFiled.EnsurePageLoaded();
@@ -75,11 +78,11 @@ namespace Jane.UI.Tests
 		{
 
 			using IWebDriver driver = new ChromeDriver();
-			var taskPage = new TaskPage(driver);
 			var loginPage = new LoginPage(driver);
 
 			//Act
 			loginPage.NavigateAndLogin(name, password);
+			var taskPage = new TaskPage(driver);
 
 			//Assert
 			taskPage.EnsurePageLoaded();

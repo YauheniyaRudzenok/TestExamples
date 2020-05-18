@@ -6,15 +6,40 @@ using OpenQA.Selenium.Support.UI;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
-	class TaskPage:Page
+	public class TaskPage:Page
 	{
+		#region Constants
+		private const string TaskStatusColumn= "Finished";
+		private const string TaskDescriptionColumn = "Title";
+		private const string TaskCreationColumn = "Created";
+		private const string TaskDueDateColumn = "Due Date";
+		private const string AddTaskButton = "Add task";
+		private const string LogoutButton = "Log out";
+		private const string LoginButton = "Log in";
+		private const string HomeButton = "Home";
+		private const string GithubLink = "About";
+		#endregion
+
+		#region Constructors
 		public TaskPage (IWebDriver driver)
 		{
 			Driver = driver;
 		}
 
 		protected override string PageURL => "http://localhost:63508/";
+		#endregion
 
+		#region Elements List
+
+		public IWebElement AboutLinkItem() => Driver.FindElement(By.CssSelector("a[href*='github']"));
+		public IWebElement LoginButtonItem() => Driver.FindElement(By.CssSelector("a[href$='login'"));
+		public IWebElement HomeButtonItem() => Driver.FindElement(By.CssSelector("a[class^='nav-link'"));
+		public IWebElement AddTaskButtonItem() => Driver.FindElement(By.CssSelector("a[href$='taskedit'"));
+		public IWebElement LogOutButtonItem() => Driver.FindElement(By.CssSelector("a[href$='logout'"));
+
+		#endregion
+
+		#region Actions
 		public void WaitForPageLoaded()
 		{
 			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
@@ -32,24 +57,71 @@ namespace Jane.UI.Tests.PageObjectModels
 			return headers;
 		}
 
+		public bool AboutPageLinkText()
+		{
+			bool AboutLinkTextIsCorrect = true;
+			AboutLinkTextIsCorrect= AboutLinkItem().Text== GithubLink;
+			return AboutLinkTextIsCorrect;
+		}
+
 		public AboutPage ClickAboutLink()
 		{
-			Driver.FindElement(By.CssSelector("a[href*='github']")).Click();
+			AboutLinkItem().Click();
 			return new AboutPage(Driver);
 		}
 
 		public LoginPage NavigateToLogin()
 		{
-			Driver.FindElement(By.CssSelector("a[href='/login'")).Click();
+			LoginButtonItem().Click();
 			return new LoginPage(Driver);
 		}
 
-		public void EnsureAllItemsAreDisplayed()
+		public string HomeElement() => HomeButtonItem().Text;
+
+		public string AddTaskElement() => AddTaskButtonItem().Text;
+		public string Logout()=> LogOutButtonItem().Text;
+
+		public string Login() => LoginButtonItem().Text;
+
+		public bool EnsureAllHeaderItemsAreDisplayed()
 		{
-			bool itemsArePresented = (TableHeader().Contains("Finished")) &&
-									(TableHeader().Contains("Title")) &&
-									(TableHeader().Contains("Created")) &&
-									(TableHeader().Contains("Due Date"));
+			bool headerItemsArePresented = true;
+			headerItemsArePresented = (TableHeader().Contains(TaskStatusColumn)) &&
+									(TableHeader().Contains(TaskDescriptionColumn)) &&
+									(TableHeader().Contains(TaskCreationColumn)) &&
+									(TableHeader().Contains(TaskDueDateColumn));
+			return headerItemsArePresented;
 		}
+
+		public bool EnsureAllMenuItemsAreDisplayed(bool authorized=false, string name="Jane")
+		{
+			bool menuItemsArePresented=true;
+
+			if (authorized)
+			{
+				menuItemsArePresented = AddTaskElement() == AddTaskButton &&
+										Logout() == $"{LogoutButton} ({name})";
+			}
+			else
+			{
+				menuItemsArePresented = Login() == LoginButton;
+			}
+
+			menuItemsArePresented &= HomeElement() == HomeButton;
+
+			return menuItemsArePresented;
+		}
+
+		public AddTaskPage NavigateToAddTask()
+		{
+			AddTaskButtonItem().Click();
+			return new AddTaskPage(Driver);
+		}
+
+		public void ClickLogoutButton()
+		{
+			LogOutButtonItem().Click();
+		}
+		#endregion
 	}
 }

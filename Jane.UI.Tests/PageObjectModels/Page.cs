@@ -17,9 +17,18 @@ namespace Jane.UI.Tests.PageObjectModels
 			EnsurePageLoaded();
 		}
 
-		public void EnsurePageLoaded()
+		public void EnsurePageLoaded(bool onlyCheckStartsWith = true)
 		{
-			bool PageIsLoaded = (Driver.Url == PageURL)&&(Driver.Title==PageTitle);
+			bool URLIsCorrect;
+			if (onlyCheckStartsWith)
+			{
+				URLIsCorrect = Driver.Url.StartsWith(PageURL);
+			}
+			else
+			{
+				URLIsCorrect = Driver.Url == PageURL;
+			}
+			bool PageIsLoaded = URLIsCorrect && (Driver.Title==PageTitle);
 			if (!PageIsLoaded)
 			{
 				throw new Exception($"Failed to load the page. Page {Driver.Url} with title {Driver.Title} is not loaded");

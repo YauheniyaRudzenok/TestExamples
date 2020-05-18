@@ -9,7 +9,7 @@ namespace Jane.UI.Tests
 	{
 
 		[Test]
-		public void ShouldContainHeaderElements()
+		public void ShouldContainAllElements()
 		{
 			//Arrange
 			using IWebDriver driver = new ChromeDriver();
@@ -20,7 +20,9 @@ namespace Jane.UI.Tests
 			taskPage.WaitForPageLoaded();
 
 			//Assert
-			taskPage.EnsureAllItemsAreDisplayed();
+			Assert.IsTrue(taskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed());
+			Assert.IsTrue(taskPage.AboutPageLinkText());
 		}
 
 		[Test]
