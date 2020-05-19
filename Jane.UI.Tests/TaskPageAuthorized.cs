@@ -85,7 +85,7 @@ namespace Jane.UI.Tests
 
 			//Assert
 			taskPage.EnsurePageLoaded();
-			taskPage.EnsureAllMenuItemsAreDisplayed();
+			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed());
 		}
 
 		[TearDown]

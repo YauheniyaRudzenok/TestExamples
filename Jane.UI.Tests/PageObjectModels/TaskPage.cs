@@ -29,7 +29,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		protected override string PageURL => "http://localhost:63508/";
 		#endregion
 
-		#region Elements List
+		#region Elements
 
 		public IWebElement AboutLinkItem() => Driver.FindElement(By.CssSelector("a[href*='github']"));
 		public IWebElement LoginButtonItem() => Driver.FindElement(By.CssSelector("a[href$='login'"));
