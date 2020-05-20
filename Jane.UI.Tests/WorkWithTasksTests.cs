@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Jane.UI.Tests.PageObjectModels;
+using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -21,7 +22,7 @@ namespace Jane.UI.Tests
 		{
 			//Arrange
 			driver = new ChromeDriver();
-			LoginPage loginPage = new LoginPage(driver);
+			var loginPage = new LoginPage(driver);
 
 			//Act
 			loginPage.NavigateAndLogin(Name, Password);
@@ -31,7 +32,7 @@ namespace Jane.UI.Tests
 		public void AllItemsAreDisplayed()
 		{
 			//Arrange
-			AddTaskPage addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -45,7 +46,7 @@ namespace Jane.UI.Tests
 		public void DateIsDisplayedCorrectly()
 		{
 			//Arrange
-			AddTaskPage addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -61,15 +62,100 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyFields()
 		{
 			//Arrange
-			AddTaskPage addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
 			addTaskPage.ClickSave();
+			addTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.ValidationIsApplied());
+			Assert.IsTrue(addTaskPage.emptyFormsValidationCheck());
+		}
+
+		[Test]
+		public void SubmitEmptyTitle()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(5, 250));
+			addTaskPage.ClickSave();
+			addTaskPage.WaitForPageToBeLoaded();
+
+			//Assert
+			Assert.IsTrue(addTaskPage.emptyTitleValidationCheck());
+		}
+		[Test]
+		public void SubmitEmptyTaskNote()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(5, 250));
+			addTaskPage.ClickSave();
+			addTaskPage.WaitForPageToBeLoaded();
+
+			//Assert
+			Assert.IsTrue(addTaskPage.emptyBodyValidationCheck());
+		}
+		[Test]
+		public void SubmitValueBiggerThanAllowedToTitle()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(251, 400));
+			addTaskPage.ClickSave();
+			addTaskPage.WaitForPageToBeLoaded();
+
+			//Assert
+			Assert.IsTrue(addTaskPage.titleMoreThan250ValidationCheck());
+		}
+
+		[Test]
+		public void SubmitValueBiggerThanAllowedToNote()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(251, 400));
+			addTaskPage.ClickSave();
+			addTaskPage.WaitForPageToBeLoaded();
+
+			//Assert
+			Assert.IsTrue(addTaskPage.bodyMoreThan250ValidationCheck());
+		}
+
+		[Test]
+		public void SubmitAllValuesBiggerThanAllowed()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(251, 400));
+			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(251, 400));
+			addTaskPage.ClickSave();
+			addTaskPage.WaitForPageToBeLoaded();
+
+			//Assert
+			Assert.IsTrue(addTaskPage.allFieldsMoreThan250ValidationCheck());
 		}
 
 		[TearDown]

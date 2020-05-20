@@ -17,7 +17,9 @@ namespace Jane.UI.Tests.PageObjectModels
 		private const string TaskPlaceholder = "Enter note";
 		private const string SaveButtonText = "Save";
 		private const string TitleValidationMessage = "The Title field is required.";
-		private const string TaskBodyValidationMessage= "The Note field is required.";
+		private const string TaskBodyValidationMessage = "The Note field is required.";
+		private const string TitleMoreThan250ValidationMessage = "The field Title must be a string or array type with a maximum length of '250'.";
+		private const string BodyMoreThan250ValidationMessage = "The field Note must be a string or array type with a maximum length of '250'.";
 		#endregion
 		#region Constructor
 		public AddTaskPage(IWebDriver driver)
@@ -30,13 +32,15 @@ namespace Jane.UI.Tests.PageObjectModels
 		#region Elements
 		public IWebElement SaveElement() => Driver.FindElement(By.CssSelector("button[type='submit']"));
 		public IWebElement DueDateElement() => Driver.FindElement(By.CssSelector("input[id='dueDate']"));
-
+		public IWebElement Title() => Driver.FindElement(By.CssSelector("input[id='title']"));
+		public IWebElement TaskBody() => Driver.FindElement(By.CssSelector("textarea[id='note'"));
 		#endregion
 
 		#region Actions
 		public string TitleLabelText() => Driver.FindElement(By.CssSelector("label[for='title']")).Text;
 
 		public string TaskText() => Driver.FindElement(By.CssSelector("label[for='note']")).Text;
+
 		public string DateText() => Driver.FindElement(By.CssSelector("label[for='dueDate']")).Text;
 
 		public string TitlePlaceholder()=> Driver.FindElement(By.CssSelector("input[id='title']")).GetAttribute("placeholder");
@@ -74,12 +78,25 @@ namespace Jane.UI.Tests.PageObjectModels
 			return messages;
 		}
 
-		public bool ValidationIsApplied()
-		{
-			bool validation = ValidationCheck().Contains(TitleValidationMessage) &&
-							ValidationCheck().Contains(TaskBodyValidationMessage);
-			return validation;
-		}
-			#endregion
+		public bool emptyTitleValidationCheck()=> ValidationCheck().Contains(TitleValidationMessage) &&
+							 ValidationCheck().Count == 1;
+
+		public bool emptyBodyValidationCheck()=> ValidationCheck().Contains(TaskBodyValidationMessage) &&
+							 ValidationCheck().Count == 1;
+
+		public bool emptyFormsValidationCheck()=> ValidationCheck().Contains(TitleValidationMessage) &&
+				ValidationCheck().Contains(TaskBodyValidationMessage) && ValidationCheck().Count == 2;
+
+		public bool titleMoreThan250ValidationCheck()=> ValidationCheck().Contains(TitleMoreThan250ValidationMessage)&&
+														ValidationCheck().Count == 1;
+
+
+		public bool bodyMoreThan250ValidationCheck() => ValidationCheck().Contains(BodyMoreThan250ValidationMessage)&&
+														ValidationCheck().Count == 1;
+
+		public bool allFieldsMoreThan250ValidationCheck() => ValidationCheck().Contains(BodyMoreThan250ValidationMessage)&&
+															ValidationCheck().Contains(TitleMoreThan250ValidationMessage)&&
+															ValidationCheck().Count == 2;
+		#endregion
 	}
 }

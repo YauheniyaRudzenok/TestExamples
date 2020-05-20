@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Jane.UI.Tests.TestServices
 {
-	public class TestService
+	public static class TestService
 	{
-		public string GenerateStringValueInRange(int min, int max)
+		public static string GenerateStringValueInRange(int min, int max)
 		{
 			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789";
 			StringBuilder stringBuilder = new StringBuilder();

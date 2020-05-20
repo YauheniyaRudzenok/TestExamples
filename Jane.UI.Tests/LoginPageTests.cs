@@ -55,12 +55,11 @@ namespace Jane.UI.Tests
 		{
 			//Arrange
 			using IWebDriver driver = new ChromeDriver();
-			var input = new TestService();
 			var loginPage = new LoginPage(driver);
 
 			//Act
-			loginPage.NavigateAndLogin(input.GenerateStringValueInRange(1, 100),
-				input.GenerateStringValueInRange(1, 100));
+			loginPage.NavigateAndLogin(TestService.GenerateStringValueInRange(1, 100),
+				TestService.GenerateStringValueInRange(1, 100));
 			var loginPageFiled = new LoginFailedPage(driver);
 
 			//Assert

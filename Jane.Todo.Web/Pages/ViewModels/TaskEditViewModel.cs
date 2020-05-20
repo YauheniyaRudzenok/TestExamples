@@ -93,6 +93,8 @@ namespace Jane.Todo.Web.Pages.ViewModels
 		{
 			public int Id { get; set; }
 			[Required]
+			[MinLength(1)]
+			[MaxLength(250)]
 			public string Title { get; set; }
 			[Required]
 			[MinLength(5)]
