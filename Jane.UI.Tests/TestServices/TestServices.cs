@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Jane.UI.Tests.TestServices
 {
@@ -18,7 +19,10 @@ namespace Jane.UI.Tests.TestServices
 			{
 				stringBuilder.Append(chars[random.Next(chars.Length)]);
 			}
-			return stringBuilder.ToString();
+
+			var stringWithMultipleSpaces = stringBuilder.ToString();
+			var finalString = Regex.Replace(stringWithMultipleSpaces, " {2,}", " ");
+			return finalString.ToString();
 		}
 	}
 }

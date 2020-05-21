@@ -8,13 +8,6 @@ namespace Jane.UI.Tests
 {
 	public class LoginPageTests
 	{
-		private const string NameValidationMessage = "The UserName field is required.";
-		private const string PasswordValidationMessage = "The Password field is required.";
-		private const string FailedLoginHeader = "Login failed";
-		private const string FailedLoginText = "It looks like you aren't Jane and you didn't use 'password' to authenticate yourself.";
-		private const string UserNameField = "UserName:";
-		private const string PasswordField = "Password:";
-		private const string Header = "Login";
 
 		[Test]
 		public void CheckItemsOnThePage()
@@ -27,9 +20,9 @@ namespace Jane.UI.Tests
 			loginPage.NavigateTo();
 
 			//Assert
-			Assert.That(loginPage.UserName(), Is.EqualTo(UserNameField));
-			Assert.That(loginPage.Password(), Is.EqualTo(PasswordField));
-			Assert.That(loginPage.Header(), Is.EqualTo(Header));
+			Assert.IsTrue(loginPage.CheckThatLableUserNameLableIsCorrect());
+			Assert.IsTrue(loginPage.CheckThatLablePasswordLableIsCorrect());
+			Assert.IsTrue(loginPage.CheckThatHeaderISValid());
 		}
 
 		[Test]
@@ -44,12 +37,11 @@ namespace Jane.UI.Tests
 			loginPage.Submit();
 
 			//Assert
-			Assert.That(loginPage.TopValidation(), Contains.Item(NameValidationMessage));
-			Assert.That(loginPage.TopValidation(), Contains.Item(PasswordValidationMessage));
-			Assert.That(loginPage.RowNameValidationMessage(), Is.EqualTo(NameValidationMessage));
-			Assert.That(loginPage.RowPasswordValidationMessage(), Is.EqualTo(PasswordValidationMessage));
+			Assert.IsTrue(loginPage.CheckTopValidation());
+			Assert.That(loginPage.CheckRowPasswordValidationMessage());
+			Assert.That(loginPage.CheckRowNameValidationMessage());
 		}
-
+		//add submit empty login; submit empty password
 		[Test]
 		public void SubmitingInvalidData()
 		{
@@ -64,8 +56,8 @@ namespace Jane.UI.Tests
 
 			//Assert
 			loginPageFiled.EnsurePageLoaded();
-			Assert.That(loginPageFiled.Header, Is.EqualTo(FailedLoginHeader));
-			Assert.That(loginPageFiled.WarningText, Is.EqualTo(FailedLoginText));
+			Assert.IsTrue(loginPageFiled.CheckFailedLoginHeader());
+			Assert.IsTrue(loginPageFiled.CheckWarningText());
 		}
 
 		//add test case for 100 items (that only 100 symbols value is displayed

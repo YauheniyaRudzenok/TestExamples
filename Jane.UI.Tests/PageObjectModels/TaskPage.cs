@@ -86,10 +86,11 @@ namespace Jane.UI.Tests.PageObjectModels
 		public bool EnsureAllHeaderItemsAreDisplayed()
 		{
 			bool headerItemsArePresented = true;
-			headerItemsArePresented = (TableHeader().Contains(TaskStatusColumn)) &&
-									(TableHeader().Contains(TaskDescriptionColumn)) &&
-									(TableHeader().Contains(TaskCreationColumn)) &&
-									(TableHeader().Contains(TaskDueDateColumn));
+			var headers = TableHeader();
+			headerItemsArePresented = (headers.Contains(TaskStatusColumn)) &&
+									(headers.Contains(TaskDescriptionColumn)) &&
+									(headers.Contains(TaskCreationColumn)) &&
+									(headers.Contains(TaskDueDateColumn));
 			return headerItemsArePresented;
 		}
 

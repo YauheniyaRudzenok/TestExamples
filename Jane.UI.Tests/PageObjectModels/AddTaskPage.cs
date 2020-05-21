@@ -20,6 +20,8 @@ namespace Jane.UI.Tests.PageObjectModels
 		private const string TaskBodyValidationMessage = "The Note field is required.";
 		private const string TitleMoreThan250ValidationMessage = "The field Title must be a string or array type with a maximum length of '250'.";
 		private const string BodyMoreThan250ValidationMessage = "The field Note must be a string or array type with a maximum length of '250'.";
+		private const string BodyLessThan5ItemsValidationMessage = "The field Note must be a string or array type with a minimum length of '5'.";
+
 		#endregion
 		#region Constructor
 		public AddTaskPage(IWebDriver driver)
@@ -78,25 +80,63 @@ namespace Jane.UI.Tests.PageObjectModels
 			return messages;
 		}
 
-		public bool emptyTitleValidationCheck()=> ValidationCheck().Contains(TitleValidationMessage) &&
-							 ValidationCheck().Count == 1;
+		public bool EmptyTitleValidationCheck()
+		{
+			var validation = ValidationCheck();
+			bool validationCheckIsPassed = validation.Contains(TitleValidationMessage) &&
+											validation.Count == 1;
+			return validationCheckIsPassed;
+		}
 
-		public bool emptyBodyValidationCheck()=> ValidationCheck().Contains(TaskBodyValidationMessage) &&
-							 ValidationCheck().Count == 1;
+		public bool EmptyBodyValidationCheck()
+		{
+			var validation = ValidationCheck();
+			bool validationCheckIsPassed = validation.Contains(TaskBodyValidationMessage) &&
+											validation.Count == 1;
+			return validationCheckIsPassed;
+		}
 
-		public bool emptyFormsValidationCheck()=> ValidationCheck().Contains(TitleValidationMessage) &&
-				ValidationCheck().Contains(TaskBodyValidationMessage) && ValidationCheck().Count == 2;
+		public bool EmptyFormsValidationCheck()
+		{
+			var validation = ValidationCheck();
+			bool validationCheckIsPassed = validation.Contains(TitleValidationMessage) &&
+											validation.Contains(TaskBodyValidationMessage) && 
+											validation.Count == 2;
+			return validationCheckIsPassed;
+		}
 
-		public bool titleMoreThan250ValidationCheck()=> ValidationCheck().Contains(TitleMoreThan250ValidationMessage)&&
-														ValidationCheck().Count == 1;
+		public bool TitleMoreThan250ValidationCheck()
+		{
+			var validation = ValidationCheck();
+			bool validationCheckIsPassed = validation.Contains(TitleMoreThan250ValidationMessage) &&
+											validation.Count == 1;
+			return validationCheckIsPassed;
+		}
 
+		public bool BodyMoreThan250ValidationCheck()
+		{
+			var validation = ValidationCheck();
+			bool validationCheckIsPassed = validation.Contains(BodyMoreThan250ValidationMessage) &&
+											validation.Count == 1;
+			return validationCheckIsPassed;
+		}
 
-		public bool bodyMoreThan250ValidationCheck() => ValidationCheck().Contains(BodyMoreThan250ValidationMessage)&&
-														ValidationCheck().Count == 1;
+		public bool AllFieldsMoreThan250ValidationCheck()
+		{
+			var validation = ValidationCheck();
+			bool validationCheckIsPassed = validation.Contains(BodyMoreThan250ValidationMessage) &&
+											 validation.Contains(TitleMoreThan250ValidationMessage) &&
+											 validation.Count == 2;
+			return validationCheckIsPassed;
+		}
 
-		public bool allFieldsMoreThan250ValidationCheck() => ValidationCheck().Contains(BodyMoreThan250ValidationMessage)&&
-															ValidationCheck().Contains(TitleMoreThan250ValidationMessage)&&
-															ValidationCheck().Count == 2;
+		public bool BodyLessThan5ItemsCheck()
+		{
+			var validation = ValidationCheck();
+			bool validationCheckIsPassed = validation.Contains(BodyLessThan5ItemsValidationMessage) &&
+											validation.Count == 1;
+			return validationCheckIsPassed;
+		}
 		#endregion
 	}
 }

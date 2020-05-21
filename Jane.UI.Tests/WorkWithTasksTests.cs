@@ -71,7 +71,7 @@ namespace Jane.UI.Tests
 			addTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.emptyFormsValidationCheck());
+			Assert.IsTrue(addTaskPage.EmptyFormsValidationCheck());
 		}
 
 		[Test]
@@ -88,7 +88,7 @@ namespace Jane.UI.Tests
 			addTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.emptyTitleValidationCheck());
+			Assert.IsTrue(addTaskPage.EmptyTitleValidationCheck());
 		}
 		[Test]
 		public void SubmitEmptyTaskNote()
@@ -104,7 +104,7 @@ namespace Jane.UI.Tests
 			addTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.emptyBodyValidationCheck());
+			Assert.IsTrue(addTaskPage.EmptyBodyValidationCheck());
 		}
 		[Test]
 		public void SubmitValueBiggerThanAllowedToTitle()
@@ -116,11 +116,12 @@ namespace Jane.UI.Tests
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
 			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(251, 400));
+			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(1, 250));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.titleMoreThan250ValidationCheck());
+			Assert.IsTrue(addTaskPage.TitleMoreThan250ValidationCheck());
 		}
 
 		[Test]
@@ -133,11 +134,12 @@ namespace Jane.UI.Tests
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
 			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(251, 400));
+			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(1, 250));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.bodyMoreThan250ValidationCheck());
+			Assert.IsTrue(addTaskPage.BodyMoreThan250ValidationCheck());
 		}
 
 		[Test]
@@ -155,7 +157,48 @@ namespace Jane.UI.Tests
 			addTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.allFieldsMoreThan250ValidationCheck());
+			Assert.IsTrue(addTaskPage.AllFieldsMoreThan250ValidationCheck());
+		}
+		
+		[Test]
+		public void SubmitValuessToNoteSmallerThanAllowed()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(1, 250));
+			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(1, 4));
+			addTaskPage.ClickSave();
+			addTaskPage.WaitForPageToBeLoaded();
+
+			//Assert
+			Assert.IsTrue(addTaskPage.BodyLessThan5ItemsCheck());
+		}
+
+		[Test]
+		public void SubmitCorrectDataToTasks()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			var titleText = TestService.GenerateStringValueInRange(1, 250);
+			addTaskPage.Title().SendKeys(titleText);
+			var bodyText = (TestService.GenerateStringValueInRange(1, 250));
+			addTaskPage.TaskBody().SendKeys(bodyText);
+			addTaskPage.ClickSave();
+			var viewTask = new ViewTaskPage(driver);
+			viewTask.WaitForPageToBeLoaded();
+
+			//Assert
+			viewTask.EnsurePageLoaded();
+			Assert.That(viewTask.TaskTitleText(), Is.EqualTo(titleText));
+			Assert.That(viewTask.TaskItems()[1], Is.EqualTo(bodyText));
 		}
 
 		[TearDown]
