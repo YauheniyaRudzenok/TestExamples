@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -10,7 +7,7 @@ using OpenQA.Selenium.Chrome;
 namespace Jane.UI.Tests
 {
 
-	public class WorkWithTasksTests
+	public class TasksCreationTests
 	{
 		private const string Name = "Jane";
 		private const string Password = "Password";
@@ -51,7 +48,7 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			var currentDate = DateTime.Today.ToString("yyyy-MM-dd");
+			var currentDate = addTaskPage.CurrentDate();
 			var duedate = addTaskPage.DueDateDefaultValue();
 
 			//Assert
@@ -179,7 +176,7 @@ namespace Jane.UI.Tests
 		}
 
 		[Test]
-		public void SubmitCorrectDataToTasks()
+		public void SubmitDataWithDefaultDateToTasks()
 		{
 			//Arrange
 			var addTaskPage = new AddTaskPage(driver);
@@ -189,7 +186,7 @@ namespace Jane.UI.Tests
 			addTaskPage.WaitForPageToBeLoaded();
 			var titleText = TestService.GenerateStringValueInRange(1, 250);
 			addTaskPage.Title().SendKeys(titleText);
-			var bodyText = (TestService.GenerateStringValueInRange(1, 250));
+			var bodyText = TestService.GenerateStringValueInRange(5, 250);
 			addTaskPage.TaskBody().SendKeys(bodyText);
 			addTaskPage.ClickSave();
 			var viewTask = new ViewTaskPage(driver);
@@ -198,7 +195,39 @@ namespace Jane.UI.Tests
 			//Assert
 			viewTask.EnsurePageLoaded();
 			Assert.That(viewTask.TaskTitleText(), Is.EqualTo(titleText));
+			Assert.IsTrue(viewTask.CheckFinishedStatusIsCorrect());
 			Assert.That(viewTask.TaskItems()[1], Is.EqualTo(bodyText));
+			Assert.That(viewTask.StringCreationDateValue(), Is.EqualTo(addTaskPage.CurrentDate()));
+			Assert.That(viewTask.StringDueDateValue(), Is.EqualTo(addTaskPage.CurrentDate()));
+		}
+
+		[Test]
+		public void SubmitAllCorrectDataToTasks()
+		{
+			//Arrange
+			var addTaskPage = new AddTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			var titleText = TestService.GenerateStringValueInRange(1, 250);
+			addTaskPage.Title().SendKeys(titleText);
+			var bodyText = (TestService.GenerateStringValueInRange(5, 250));
+			addTaskPage.TaskBody().SendKeys(bodyText);
+			var date = TestService.GenerateRandomDateToString();
+			addTaskPage.DueDateDefaultValueReplace(date);
+			addTaskPage.ClickSave();
+			var viewTask = new ViewTaskPage(driver);
+			viewTask.WaitForPageToBeLoaded();
+			
+
+			//Assert
+			viewTask.EnsurePageLoaded();
+			Assert.That(viewTask.TaskTitleText(), Is.EqualTo(titleText));
+			Assert.IsTrue(viewTask.CheckFinishedStatusIsCorrect());
+			Assert.That(viewTask.TaskItems()[1], Is.EqualTo(bodyText));
+			Assert.That(viewTask.StringCreationDateValue(), Is.EqualTo(addTaskPage.CurrentDate()));
+			Assert.That(viewTask.StringDueDateValue(), Is.EqualTo(date));
 		}
 
 		[TearDown]

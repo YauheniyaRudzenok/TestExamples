@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.UI.Tests.PageObjectModels;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace Jane.UI.Tests
 {
-	public class TaskPageAuthorized
+	public class TaskPageAuthorizedTests
 	{
 		private const string Name = "Jane";
 		private const string Password = "Password";

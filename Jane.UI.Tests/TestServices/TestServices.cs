@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,7 +8,7 @@ namespace Jane.UI.Tests.TestServices
 	{
 		public static string GenerateStringValueInRange(int min, int max)
 		{
-			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789";
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789!@#$%^&*()_+?P{}:/~";
 			StringBuilder stringBuilder = new StringBuilder();
 			var random = new Random();
 
@@ -20,9 +19,29 @@ namespace Jane.UI.Tests.TestServices
 				stringBuilder.Append(chars[random.Next(chars.Length)]);
 			}
 
-			var stringWithMultipleSpaces = stringBuilder.ToString();
+			var stringWithMultipleSpaces = stringBuilder.ToString().Trim();
 			var finalString = Regex.Replace(stringWithMultipleSpaces, " {2,}", " ");
-			return finalString.ToString();
+			return finalString;
+		}
+		public static int GenerateRandomNumberInRange (int min, int max)
+		{
+			var random = new Random();
+			int randomValue = random.Next(min, max);
+			return randomValue;
+		}
+
+		//public static string GenerateRandomDateToString() => $"{GenerateRandomNumberInRange (2000, 4000)}" +
+		//														$"-{GenerateRandomNumberInRange(1, 12)}" +
+		//														$"{GenerateRandomNumberInRange(1, 30)}";
+
+		public static string GenerateRandomDateToString()
+		{
+			var year = GenerateRandomNumberInRange(2000, 2025);
+			var month = GenerateRandomNumberInRange(1, 12);
+			var maxDays = DateTime.DaysInMonth(year, month);
+			var day = GenerateRandomNumberInRange(1, maxDays);
+			var date = new DateTime(year, month, day);
+			return date.ToString("yyyy-MM-dd");
 		}
 	}
 }

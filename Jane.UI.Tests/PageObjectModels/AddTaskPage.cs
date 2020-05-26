@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -137,6 +136,18 @@ namespace Jane.UI.Tests.PageObjectModels
 											validation.Count == 1;
 			return validationCheckIsPassed;
 		}
+
+		public void DueDateDefaultValueReplace(string date)
+		{
+			string script = $"var event = new Event('change');" +
+				$"var dueDate=document.getElementById('dueDate');" +
+				$"dueDate.value='{date}';" +
+				$"dueDate.dispatchEvent(event)";
+			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
+			javaScriptExecutor.ExecuteScript(script);
+		}
+		public string CurrentDate ()=> DateTime.Today.ToString("yyyy-MM-dd");
+
 		#endregion
 	}
 }
