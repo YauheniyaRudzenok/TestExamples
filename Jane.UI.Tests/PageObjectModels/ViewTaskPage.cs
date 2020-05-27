@@ -51,6 +51,8 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public bool CheckFinishedStatusIsCorrect() => TaskItems()[0] == FinishedDefaultValue;
 
+		public IWebElement EditButton() => Driver.FindElement(By.LinkText("Edit"));
+
 		#endregion
 	}
 }

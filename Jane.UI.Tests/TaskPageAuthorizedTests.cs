@@ -7,6 +7,7 @@ namespace Jane.UI.Tests
 {
 	public class TaskPageAuthorizedTests
 	{
+		//move to config in the future
 		private const string Name = "Jane";
 		private const string Password = "Password";
 

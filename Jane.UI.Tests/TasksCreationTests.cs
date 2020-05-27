@@ -1,5 +1,6 @@
 ﻿using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -9,10 +10,16 @@ namespace Jane.UI.Tests
 
 	public class TasksCreationTests
 	{
-		private const string Name = "Jane";
-		private const string Password = "Password";
-
 		private IWebDriver driver;
+		private IConfigurationRoot configuration;
+
+		[OneTimeSetUp]
+		public void BuildConfig()
+		{
+			configuration = new ConfigurationBuilder()
+							.AddJsonFile("appsettings.json")
+							.Build();
+		}
 
 		[SetUp]
 		public void Setup()
@@ -22,7 +29,8 @@ namespace Jane.UI.Tests
 			var loginPage = new LoginPage(driver);
 
 			//Act
-			loginPage.NavigateAndLogin(Name, Password);
+			loginPage.NavigateAndLogin(configuration["appSettings:name"],
+										configuration["appSettings:password"]);
 		}
 
 		[Test]

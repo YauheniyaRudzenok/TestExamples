@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
+using Jane.Todo.Dto;
 using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
@@ -13,27 +17,20 @@ namespace Jane.UI.Tests
 		private IWebDriver driver;
 
 		[SetUp]
-		public void Setup()
+		public async Task Setup()
 		{
-			/// Performance can be imroved via using API instead of UI steps in SetUp
-			
-			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
-
-			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			var titleText = TestService.GenerateStringValueInRange(1, 250);
-			addTaskPage.Title().SendKeys(titleText);
-			var bodyText = (TestService.GenerateStringValueInRange(5, 250));
-			addTaskPage.TaskBody().SendKeys(bodyText);
-			var date = TestService.GenerateRandomDateToString();
-			addTaskPage.DueDateDefaultValueReplace(date);
-			addTaskPage.ClickSave();
-			var viewTask = new ViewTaskPage(driver);
-			viewTask.WaitForPageToBeLoaded();
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("http://localhost:63508");
+			var taskDto = new TodoTaskDto();
+			var content = new StringContent(JsonConvert.SerializeObject(taskDto), Encoding.UTF8, "application/json");
+			var result = await client.PostAsync("/api/todo", content);
 		}
 
+		[Test]
+		public void EditExistedTask()
+		{
+
+		}
 
 	}
 }
