@@ -16,9 +16,8 @@ namespace Jane.UI.Tests
 		[OneTimeSetUp]
 		public void BuildConfig()
 		{
-			configuration = new ConfigurationBuilder()
-							.AddJsonFile("appsettings.json")
-							.Build();
+			var config = new Config();
+			configuration = config.BuildConfig();
 		}
 
 		[SetUp]
@@ -88,7 +87,7 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(5, 250));
+			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
@@ -104,7 +103,7 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(5, 250));
+			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
@@ -120,8 +119,8 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(251, 400));
-			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(1, 250));
+			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
@@ -138,8 +137,8 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(251, 400));
-			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(1, 250));
+			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
@@ -156,8 +155,8 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(251, 400));
-			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(251, 400));
+			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
@@ -174,8 +173,8 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(TestService.GenerateStringValueInRange(1, 250));
-			addTaskPage.TaskBody().SendKeys(TestService.GenerateStringValueInRange(1, 4));
+			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
+			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 4));
 			addTaskPage.ClickSave();
 			addTaskPage.WaitForPageToBeLoaded();
 
@@ -192,9 +191,9 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			var titleText = TestService.GenerateStringValueInRange(1, 250);
+			var titleText = Randoms.GenerateStringValueInRange(1, 250);
 			addTaskPage.Title().SendKeys(titleText);
-			var bodyText = TestService.GenerateStringValueInRange(5, 250);
+			var bodyText = Randoms.GenerateStringValueInRange(5, 250);
 			addTaskPage.TaskBody().SendKeys(bodyText);
 			addTaskPage.ClickSave();
 			var viewTask = new ViewTaskPage(driver);
@@ -218,11 +217,11 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			var titleText = TestService.GenerateStringValueInRange(1, 250);
+			var titleText = Randoms.GenerateStringValueInRange(1, 250);
 			addTaskPage.Title().SendKeys(titleText);
-			var bodyText = (TestService.GenerateStringValueInRange(5, 250));
+			var bodyText = (Randoms.GenerateStringValueInRange(5, 250));
 			addTaskPage.TaskBody().SendKeys(bodyText);
-			var date = TestService.GenerateRandomDateToString();
+			var date = Randoms.GenerateRandomDateToString();
 			addTaskPage.DueDateDefaultValueReplace(date);
 			addTaskPage.ClickSave();
 			var viewTask = new ViewTaskPage(driver);

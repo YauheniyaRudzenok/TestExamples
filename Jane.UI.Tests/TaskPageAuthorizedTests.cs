@@ -1,4 +1,6 @@
 ﻿using Jane.UI.Tests.PageObjectModels;
+using Jane.UI.Tests.TestServices;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -7,19 +9,25 @@ namespace Jane.UI.Tests
 {
 	public class TaskPageAuthorizedTests
 	{
-		//move to config in the future
-		private const string Name = "Jane";
-		private const string Password = "Password";
 
 		private IWebDriver driver;
+		private IConfigurationRoot configuration;
 
+		[OneTimeSetUp]
+		public void BuildConfig()
+		{
+			var config = new Config();
+			configuration=config.BuildConfig();
+		}
+		
 		[SetUp]
 		public void Setup()
 		{
 			driver = new ChromeDriver();
 			var loginPage = new LoginPage(driver);
 
-			loginPage.NavigateAndLogin(Name, Password);
+			loginPage.NavigateAndLogin(configuration["appSettings:name"], 
+										configuration["appSettings:password"]);
 		}
 
 		[Test]
@@ -34,7 +42,7 @@ namespace Jane.UI.Tests
 
 			//Assert
 			Assert.IsTrue(taskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed(true, Name));
+			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed(true, configuration["appSettings:name"]));
 			Assert.IsTrue(taskPage.AboutPageLinkText());
 		}
 

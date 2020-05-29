@@ -50,8 +50,8 @@ namespace Jane.UI.Tests
 			var loginPage = new LoginPage(driver);
 
 			//Act
-			loginPage.NavigateAndLogin(TestService.GenerateStringValueInRange(1, 100),
-				TestService.GenerateStringValueInRange(1, 100));
+			loginPage.NavigateAndLogin(Randoms.GenerateStringValueInRange(1, 100),
+				Randoms.GenerateStringValueInRange(1, 100));
 			var loginPageFiled = new LoginFailedPage(driver);
 
 			//Assert

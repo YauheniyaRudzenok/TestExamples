@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Configuration;
 
 namespace Jane.UI.Tests.TestServices
 {
-	public static class TestService
+	public static class Randoms
 	{
 		public static string GenerateStringValueInRange(int min, int max)
 		{
@@ -29,10 +30,6 @@ namespace Jane.UI.Tests.TestServices
 			int randomValue = random.Next(min, max);
 			return randomValue;
 		}
-
-		//public static string GenerateRandomDateToString() => $"{GenerateRandomNumberInRange (2000, 4000)}" +
-		//														$"-{GenerateRandomNumberInRange(1, 12)}" +
-		//														$"{GenerateRandomNumberInRange(1, 30)}";
 
 		public static string GenerateRandomDateToString()
 		{
