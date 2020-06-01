@@ -71,7 +71,7 @@ namespace Jane.UI.Tests
 			//Act
 			taskPage.NavigateTo();
 			taskPage.WaitForPageLoaded();
-			AddTaskPage addTaskPage = taskPage.NavigateToAddTask();
+			AddEditTaskPage addTaskPage = taskPage.NavigateToAddTask();
 
 			//Assert
 			addTaskPage.EnsurePageLoaded();

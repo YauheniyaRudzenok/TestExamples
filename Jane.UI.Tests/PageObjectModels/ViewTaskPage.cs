@@ -9,7 +9,7 @@ namespace Jane.UI.Tests.PageObjectModels
 	{
 		#region Constants
 		private const string FinishedDefaultValue = "No";
-		private const string FinishedCompletedValue = "Yas";
+		private const string FinishedCompletedValue = "Yes";
 		#endregion
 
 		#region Constructors
@@ -49,9 +49,28 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public string StringCreationDateValue() => DateTime.Parse(TaskItems()[2]).ToString("yyyy-MM-dd");
 
-		public bool CheckFinishedStatusIsCorrect() => TaskItems()[0] == FinishedDefaultValue;
+        public bool CheckFinishedStatusIsCorrect(bool defaultStatus=true)
+        {
+			bool finishStatusIsCorrect;
+			if (defaultStatus == true)
+            {
+				finishStatusIsCorrect = TaskItems()[0] == FinishedDefaultValue;
+			}
+            else
+            {
+				finishStatusIsCorrect = TaskItems()[0] == FinishedCompletedValue;
 
-		public IWebElement EditButton() => Driver.FindElement(By.LinkText("Edit"));
+			}
+            return finishStatusIsCorrect;
+        }
+
+        public IWebElement EditButton() => Driver.FindElement(By.LinkText("Edit"));
+
+		public string TaskURL(int id) => PageURL + "/" + id;
+
+		public void NavigateToViewPage(int id) => Driver.Navigate().GoToUrl(TaskURL(id));
+
+		public void ClickEditButton() => Driver.FindElement(By.LinkText("Edit")).Click();
 
 		#endregion
 	}

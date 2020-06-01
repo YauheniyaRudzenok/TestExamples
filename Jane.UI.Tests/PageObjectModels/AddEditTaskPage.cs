@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jane.UI.Tests.TestServices;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
-	public class AddTaskPage:Page
+	public class AddEditTaskPage:Page
 	{
 		#region Constants
 
@@ -22,12 +23,20 @@ namespace Jane.UI.Tests.PageObjectModels
 		private const string BodyLessThan5ItemsValidationMessage = "The field Note must be a string or array type with a minimum length of '5'.";
 
 		#endregion
-		#region Constructor
-		public AddTaskPage(IWebDriver driver)
+		#region Constructors
+		public AddEditTaskPage(IWebDriver driver)
 		{
 			Driver = driver;
 		}
 		protected override string PageURL => "http://localhost:63508/taskedit";
+		#endregion
+
+		#region Variables
+
+		private string titleText;
+		private string bodyText;
+		private string date;
+
 		#endregion
 
 		#region Elements
@@ -147,6 +156,35 @@ namespace Jane.UI.Tests.PageObjectModels
 			javaScriptExecutor.ExecuteScript(script);
 		}
 		public string CurrentDate ()=> DateTime.Today.ToString("yyyy-MM-dd");
+
+		public ViewTaskPage PopulateAllItemsAndSubmit (bool withDueDate=true)
+        {
+			if (withDueDate==true)
+			{
+				date = Randoms.GenerateRandomDateToString();
+				DueDateDefaultValueReplace(date);
+			}
+			else
+            {
+				date = CurrentDate();
+            }
+			titleText = Randoms.GenerateStringValueInRange(1, 250);
+			Title().SendKeys(titleText);
+			bodyText = (Randoms.GenerateStringValueInRange(5, 250));
+			TaskBody().SendKeys(bodyText);
+			ClickSave();
+			return new ViewTaskPage(Driver);
+		}
+
+		public bool EnsureAllItemsAreSavedCorrectly()
+        {
+			var viewTask = new ViewTaskPage(Driver);
+			bool taskIsSavedCorrectly = viewTask.TaskTitleText() == titleText || viewTask.TaskItems()[1] == bodyText || viewTask.StringCreationDateValue() == CurrentDate() ||
+							viewTask.StringDueDateValue() == date;
+			return taskIsSavedCorrectly;
+		}
+
+		public void CheckFinishedCheckbox() => Driver.FindElement(By.Id("editPage")).Click();
 
 		#endregion
 	}

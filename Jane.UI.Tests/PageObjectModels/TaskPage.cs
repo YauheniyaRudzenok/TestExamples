@@ -112,10 +112,10 @@ namespace Jane.UI.Tests.PageObjectModels
 			return menuItemsArePresented;
 		}
 
-		public AddTaskPage NavigateToAddTask()
+		public AddEditTaskPage NavigateToAddTask()
 		{
 			AddTaskButtonItem().Click();
-			return new AddTaskPage(Driver);
+			return new AddEditTaskPage(Driver);
 		}
 
 		public void ClickLogoutButton()

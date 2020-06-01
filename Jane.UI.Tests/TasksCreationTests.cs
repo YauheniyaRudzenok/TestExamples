@@ -36,7 +36,7 @@ namespace Jane.UI.Tests
 		public void AllItemsAreDisplayed()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -50,7 +50,7 @@ namespace Jane.UI.Tests
 		public void DateIsDisplayedCorrectly()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -66,7 +66,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyFields()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -82,7 +82,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyTitle()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -98,7 +98,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyTaskNote()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -114,7 +114,7 @@ namespace Jane.UI.Tests
 		public void SubmitValueBiggerThanAllowedToTitle()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -132,7 +132,7 @@ namespace Jane.UI.Tests
 		public void SubmitValueBiggerThanAllowedToNote()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -150,7 +150,7 @@ namespace Jane.UI.Tests
 		public void SubmitAllValuesBiggerThanAllowed()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -168,7 +168,7 @@ namespace Jane.UI.Tests
 		public void SubmitValuessToNoteSmallerThanAllowed()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -186,55 +186,39 @@ namespace Jane.UI.Tests
 		public void SubmitDataWithDefaultDateToTasks()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			var titleText = Randoms.GenerateStringValueInRange(1, 250);
-			addTaskPage.Title().SendKeys(titleText);
-			var bodyText = Randoms.GenerateStringValueInRange(5, 250);
-			addTaskPage.TaskBody().SendKeys(bodyText);
-			addTaskPage.ClickSave();
+			addTaskPage.PopulateAllItemsAndSubmit(false);
 			var viewTask = new ViewTaskPage(driver);
 			viewTask.WaitForPageToBeLoaded();
 
 			//Assert
 			viewTask.EnsurePageLoaded();
-			Assert.That(viewTask.TaskTitleText(), Is.EqualTo(titleText));
 			Assert.IsTrue(viewTask.CheckFinishedStatusIsCorrect());
-			Assert.That(viewTask.TaskItems()[1], Is.EqualTo(bodyText));
-			Assert.That(viewTask.StringCreationDateValue(), Is.EqualTo(addTaskPage.CurrentDate()));
-			Assert.That(viewTask.StringDueDateValue(), Is.EqualTo(addTaskPage.CurrentDate()));
+			Assert.IsTrue(addTaskPage.EnsureAllItemsAreSavedCorrectly());
 		}
 
 		[Test]
 		public void SubmitAllCorrectDataToTasks()
 		{
 			//Arrange
-			var addTaskPage = new AddTaskPage(driver);
+			var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			var titleText = Randoms.GenerateStringValueInRange(1, 250);
-			addTaskPage.Title().SendKeys(titleText);
-			var bodyText = (Randoms.GenerateStringValueInRange(5, 250));
-			addTaskPage.TaskBody().SendKeys(bodyText);
-			var date = Randoms.GenerateRandomDateToString();
-			addTaskPage.DueDateDefaultValueReplace(date);
-			addTaskPage.ClickSave();
+			addTaskPage.PopulateAllItemsAndSubmit();
 			var viewTask = new ViewTaskPage(driver);
 			viewTask.WaitForPageToBeLoaded();
 			
 
 			//Assert
 			viewTask.EnsurePageLoaded();
-			Assert.That(viewTask.TaskTitleText(), Is.EqualTo(titleText));
 			Assert.IsTrue(viewTask.CheckFinishedStatusIsCorrect());
-			Assert.That(viewTask.TaskItems()[1], Is.EqualTo(bodyText));
-			Assert.That(viewTask.StringCreationDateValue(), Is.EqualTo(addTaskPage.CurrentDate()));
-			Assert.That(viewTask.StringDueDateValue(), Is.EqualTo(date));
+			Assert.IsTrue(addTaskPage.EnsureAllItemsAreSavedCorrectly());
 		}
 
 		[TearDown]

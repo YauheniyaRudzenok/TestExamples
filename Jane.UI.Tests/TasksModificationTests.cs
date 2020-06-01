@@ -45,6 +45,8 @@ namespace Jane.UI.Tests
 		public async Task Setup()
 		{
 			driver = new ChromeDriver();
+			Cookie cookie = new Cookie(".AspNetCore.Cookies", token);
+            driver.Manage().Cookies.AddCookie(cookie);
 
 			var client = new RestClient ("http://localhost:63558");
 			client.Authenticator = new JwtAuthenticator(token);
@@ -68,6 +70,22 @@ namespace Jane.UI.Tests
 		[Test]
 		public void EditExistedTask()
 		{
+			//Arrange
+			var viewTask = new ViewTaskPage(driver);
+
+			//Act
+			viewTask.NavigateToViewPage(taskId);
+			viewTask.WaitForPageToBeLoaded();
+			viewTask.ClickEditButton();
+			var editPage = new AddEditTaskPage(driver);
+			editPage.CheckFinishedCheckbox();
+			editPage.PopulateAllItemsAndSubmit();
+			viewTask.WaitForPageToBeLoaded();
+
+			//Assert
+			viewTask.EnsurePageLoaded();
+			Assert.IsTrue(editPage.EnsureAllItemsAreSavedCorrectly());
+			viewTask.CheckFinishedStatusIsCorrect(false);
 
 		}
 
