@@ -191,8 +191,7 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.PopulateAllItemsAndSubmit(false);
-			var viewTask = new ViewTaskPage(driver);
+			var viewTask = addTaskPage.PopulateAllItemsAndSubmit(false);
 			viewTask.WaitForPageToBeLoaded();
 
 			//Assert
@@ -210,8 +209,7 @@ namespace Jane.UI.Tests
 			//Act
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.PopulateAllItemsAndSubmit();
-			var viewTask = new ViewTaskPage(driver);
+			var viewTask = addTaskPage.PopulateAllItemsAndSubmit();
 			viewTask.WaitForPageToBeLoaded();
 			
 
