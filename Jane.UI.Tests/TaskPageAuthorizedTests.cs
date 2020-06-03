@@ -16,8 +16,7 @@ namespace Jane.UI.Tests
 		[OneTimeSetUp]
 		public void BuildConfig()
 		{
-			var config = new Config();
-			configuration=config.BuildConfig();
+			configuration = new Config().BuildConfig();
 		}
 		
 		[SetUp]
@@ -26,8 +25,8 @@ namespace Jane.UI.Tests
 			driver = new ChromeDriver();
 			var loginPage = new LoginPage(driver);
 
-			loginPage.NavigateAndLogin(configuration["appSettings:name"], 
-										configuration["appSettings:password"]);
+			loginPage.NavigateAndLogin(configuration["appCredentials:name"], 
+										configuration["appCredentials:password"]);
 		}
 
 		[Test]
@@ -42,7 +41,7 @@ namespace Jane.UI.Tests
 
 			//Assert
 			Assert.IsTrue(taskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed(true, configuration["appSettings:name"]));
+			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed(true, configuration["appCredentials:name"]));
 			Assert.IsTrue(taskPage.AboutPageLinkText());
 		}
 
@@ -87,7 +86,8 @@ namespace Jane.UI.Tests
 			taskPage.NavigateTo();
 			taskPage.WaitForPageLoaded();
 			taskPage.ClickLogoutButton();
-			taskPage.WaitForPageLoaded();
+			var failurePage = new LoginFailedPage(driver);
+			failurePage.WaitForPageLoaded();
 
 			//Assert
 			taskPage.EnsurePageLoaded();

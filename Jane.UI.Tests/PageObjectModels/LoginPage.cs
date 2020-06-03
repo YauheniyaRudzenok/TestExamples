@@ -18,7 +18,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 			Driver = driver;
 		}
-		protected override string PageURL => "http://localhost:63508/login";
+		protected override string PageURL => Configuration["appSettings:webURL"]+"/login";
 
 		#endregion
 		#region Actions

@@ -28,7 +28,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 			Driver = driver;
 		}
-		protected override string PageURL => "http://localhost:63508/taskedit";
+		protected override string PageURL => Configuration["appSettings:webURL"] +"/taskedit";
 		#endregion
 
 		#region Variables

@@ -40,5 +40,15 @@ namespace Jane.UI.Tests.TestServices
 			var date = new DateTime(year, month, day);
 			return date.ToString("yyyy-MM-dd");
 		}
+
+		public static DateTime GenerateRandomDate()
+		{
+			var year = GenerateRandomNumberInRange(2000, 2025);
+			var month = GenerateRandomNumberInRange(1, 12);
+			var maxDays = DateTime.DaysInMonth(year, month);
+			var day = GenerateRandomNumberInRange(1, maxDays);
+			var date = new DateTime(year, month, day);
+			return date;
+		}
 	}
 }

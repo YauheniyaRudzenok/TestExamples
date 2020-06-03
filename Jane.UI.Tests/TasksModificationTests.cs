@@ -26,15 +26,14 @@ namespace Jane.UI.Tests
 		[OneTimeSetUp]
 		public void BuildConfig()
 		{
-			var config = new Config();
-			var configuration = config.BuildConfig();
+			var configuration = new Config().BuildConfig();
 
 			var client = new RestClient("http://localhost:63558");
 			var request = new RestRequest("/api/auth", Method.POST);
 			request.AddJsonBody(new AuthenticationRequestDto
 			{
-				UserName = configuration["appSettings:name"],
-				Password = configuration["appSettings:password"]
+				UserName = configuration["appCredentials:name"],
+				Password = configuration["appCredentials:password"]
 			});
 
 			var response = client.Post<AuthenticationResultDto>(request);
@@ -45,15 +44,15 @@ namespace Jane.UI.Tests
 		public async Task Setup()
 		{
 			driver = new ChromeDriver();
-			Cookie cookie = new Cookie(".AspNetCore.Cookies", token);
-            driver.Manage().Cookies.AddCookie(cookie);
+			//Cookie cookie = new Cookie(".AspNetCore.Cookies", token);
+			//driver.Manage().Cookies.AddCookie(cookie);
 
 			var client = new RestClient ("http://localhost:63558");
 			client.Authenticator = new JwtAuthenticator(token);
 			var request = new RestRequest("/api/todo", Method.POST, DataFormat.Json);
 			request.AddJsonBody(new TodoTaskDto { 
 				Created = DateTimeOffset.UtcNow, 
-				DueDate = DateTimeOffset.UtcNow.AddDays(3),
+				DueDate = Randoms.GenerateRandomDate(),
 				Note = Randoms.GenerateStringValueInRange(5,250),
 				Title = Randoms.GenerateStringValueInRange(1,250)
 			});
@@ -89,7 +88,7 @@ namespace Jane.UI.Tests
 
 		}
 
-		[TearDown]
+		[OneTimeTearDown]
 		public void TearDown()
 		{
 			driver.Dispose();

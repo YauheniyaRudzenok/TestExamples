@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -25,7 +26,7 @@ namespace Jane.UI.Tests.PageObjectModels
 			Driver = driver;
 		}
 
-		protected override string PageURL => "http://localhost:63508/";
+		protected override string PageURL => Configuration["appSettings:webURL"];
 		#endregion
 
 		#region Elements
@@ -41,8 +42,10 @@ namespace Jane.UI.Tests.PageObjectModels
 		#region Actions
 		public void WaitForPageLoaded()
 		{
+			var script = "return document.readyState";
+			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
 			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
-			wait.Until(ExpectedConditions.ElementIsVisible(By.TagName("h2")));
+			wait.Until(condition=>javaScriptExecutor.ExecuteScript(script).Equals("complete"));
 		}
 
 		public List<string> TableHeader()

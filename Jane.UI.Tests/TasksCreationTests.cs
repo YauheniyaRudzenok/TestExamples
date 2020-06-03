@@ -16,8 +16,7 @@ namespace Jane.UI.Tests
 		[OneTimeSetUp]
 		public void BuildConfig()
 		{
-			var config = new Config();
-			configuration = config.BuildConfig();
+			configuration = new Config().BuildConfig();
 		}
 
 		[SetUp]
@@ -28,8 +27,8 @@ namespace Jane.UI.Tests
 			var loginPage = new LoginPage(driver);
 
 			//Act
-			loginPage.NavigateAndLogin(configuration["appSettings:name"],
-										configuration["appSettings:password"]);
+			loginPage.NavigateAndLogin(configuration["appCredentials:name"],
+										configuration["appCredentials:password"]);
 		}
 
 		[Test]

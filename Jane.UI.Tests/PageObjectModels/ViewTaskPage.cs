@@ -18,7 +18,7 @@ namespace Jane.UI.Tests.PageObjectModels
 			Driver = driver;
 		}
 
-		protected override string PageURL => "http://localhost:63508/taskview";
+		protected override string PageURL => Configuration["appSettings:webURL"]+"/taskview";
 		#endregion
 
 		#region Elements

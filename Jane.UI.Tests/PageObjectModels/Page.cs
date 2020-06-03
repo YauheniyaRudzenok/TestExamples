@@ -1,14 +1,20 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
 	public abstract class Page
 	{
-		protected IWebDriver Driver;
+		public Page()
+		{
+			Configuration = new Config().BuildConfig();
+		}
+		protected IWebDriver Driver { get; set; }
 		protected virtual string PageURL { get; }
 		protected virtual string PageTitle => "Jane.Todo.Web";
-
+		protected IConfigurationRoot Configuration { get; set; }
+		
 		public void NavigateTo()
 		{
 			Driver.Navigate().GoToUrl(PageURL);
