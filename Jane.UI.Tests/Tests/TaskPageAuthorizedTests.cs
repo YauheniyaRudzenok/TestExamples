@@ -11,22 +11,14 @@ namespace Jane.UI.Tests
 	{
 
 		private IWebDriver driver;
-		private IConfigurationRoot configuration;
 
-		[OneTimeSetUp]
-		public void BuildConfig()
-		{
-			configuration = new Config().BuildConfig();
-		}
-		
 		[SetUp]
 		public void Setup()
 		{
 			driver = new ChromeDriver();
 			var loginPage = new LoginPage(driver);
 
-			loginPage.NavigateAndLogin(configuration["appCredentials:name"], 
-										configuration["appCredentials:password"]);
+			loginPage.NavigateAndLogin();
 		}
 
 		[Test]
@@ -41,7 +33,7 @@ namespace Jane.UI.Tests
 
 			//Assert
 			Assert.IsTrue(taskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed(true, configuration["appCredentials:name"]));
+			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed(true));
 			Assert.IsTrue(taskPage.AboutPageLinkText());
 		}
 

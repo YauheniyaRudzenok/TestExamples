@@ -96,9 +96,10 @@ namespace Jane.UI.Tests.PageObjectModels
 			return headerItemsArePresented;
 		}
 
-		public bool EnsureAllMenuItemsAreDisplayed(bool authorized=false, string name="Jane")
+		public bool EnsureAllMenuItemsAreDisplayed(bool authorized=false, string name=null)
 		{
-			bool menuItemsArePresented=true;
+			bool menuItemsArePresented;
+			name = name ?? Configuration["appCredentials:name"];
 
 			if (authorized)
 			{

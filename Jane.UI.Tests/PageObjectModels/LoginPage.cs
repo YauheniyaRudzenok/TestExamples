@@ -87,8 +87,11 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public void InputPassword(string password) => Driver.FindElement(By.Id("Input_Password")).SendKeys(password);
 
-		public void NavigateAndLogin(string name, string password)
+		public void NavigateAndLogin(string name = null, string password = null)
 		{
+			name = name ?? Configuration["appCredentials:name"];
+			password = password ?? Configuration["appCredentials:password"];
+
 			NavigateTo();
 			InputUserName(name);
 			InputPassword(password);

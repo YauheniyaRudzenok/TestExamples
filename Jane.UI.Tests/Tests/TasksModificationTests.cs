@@ -28,7 +28,7 @@ namespace Jane.UI.Tests
 		{
 			var configuration = new Config().BuildConfig();
 
-			var client = new RestClient("http://localhost:63558");
+			var client = new RestClient(configuration["appSettings:apiURL"]);
 			var request = new RestRequest("/api/auth", Method.POST);
 			request.AddJsonBody(new AuthenticationRequestDto
 			{

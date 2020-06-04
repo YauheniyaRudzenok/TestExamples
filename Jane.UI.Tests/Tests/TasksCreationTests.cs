@@ -13,12 +13,6 @@ namespace Jane.UI.Tests
 		private IWebDriver driver;
 		private IConfigurationRoot configuration;
 
-		[OneTimeSetUp]
-		public void BuildConfig()
-		{
-			configuration = new Config().BuildConfig();
-		}
-
 		[SetUp]
 		public void Setup()
 		{
@@ -27,8 +21,7 @@ namespace Jane.UI.Tests
 			var loginPage = new LoginPage(driver);
 
 			//Act
-			loginPage.NavigateAndLogin(configuration["appCredentials:name"],
-										configuration["appCredentials:password"]);
+			loginPage.NavigateAndLogin();
 		}
 
 		[Test]
