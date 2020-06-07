@@ -3,6 +3,7 @@ using Jane.Todo.Web.Pages.ViewModels;
 using Jane.Todo.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,9 @@ namespace Jane.Todo.Web
 		{
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie();
+
+			services.AddDataProtection()
+				.SetApplicationName("todo-jane");
 
 			services.AddRazorPages();
 			services.AddServerSideBlazor();

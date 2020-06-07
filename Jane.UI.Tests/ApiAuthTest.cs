@@ -31,7 +31,7 @@ namespace Jane.UI.Tests
 			var container = ContainerBuilder.Build();
 			var dataProtectionProvider = container.GetService<IDataProtectionProvider>();
 
-			var cookieContent = new TicketDataFormat(dataProtectionProvider.CreateProtector("auth")).Protect(ticket);
+			var cookieContent = new TicketDataFormat(dataProtectionProvider.CreateProtector("todo-jane")).Protect(ticket);
 		}
 
 		private static AuthenticationProperties CreateAuthProperties(string accessToken)

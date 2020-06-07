@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Jane.UI.Tests
@@ -12,6 +13,9 @@ namespace Jane.UI.Tests
 
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie();
+
+			services.AddDataProtection()
+				.SetApplicationName("todo-jane");
 
 			return services.BuildServiceProvider();
 		}
