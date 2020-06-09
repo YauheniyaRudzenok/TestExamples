@@ -78,8 +78,7 @@ namespace Jane.UI.Tests
 			taskPage.NavigateTo();
 			taskPage.WaitForPageLoaded();
 			taskPage.ClickLogoutButton();
-			var failurePage = new LoginFailedPage(driver);
-			failurePage.WaitForPageLoaded();
+			taskPage.WaitForPageLoaded();
 
 			//Assert
 			taskPage.EnsurePageLoaded();

@@ -26,6 +26,12 @@ namespace Jane.Todo.Web.Pages
 
 		public async Task<IActionResult> OnPostAsync()
 		{
+			//if(this.Input == null)
+			//{
+			//	this.Input.UserName = "jane";
+			//	this.Input.Password = "password";
+			//}
+
 			if (!ModelState.IsValid)
 			{
 				return Page();

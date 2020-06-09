@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 
 namespace Jane.UI.Tests.PageObjectModels
@@ -31,7 +32,7 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		#region Elements
 
-		public IWebElement AboutLinkItem() => Driver.FindElement(By.CssSelector("a[href*='github']"));
+		public IWebElement AboutLinkItem() => Driver.FindElement(By.LinkText("About"));
 		public IWebElement LoginButtonItem() => Driver.FindElement(By.CssSelector("a[href$='login'"));
 		public IWebElement HomeButtonItem() => Driver.FindElement(By.CssSelector("a[class^='nav-link'"));
 		public IWebElement AddTaskButtonItem() => Driver.FindElement(By.CssSelector("a[href$='taskedit'"));
@@ -45,7 +46,7 @@ namespace Jane.UI.Tests.PageObjectModels
 			var script = "return document.readyState";
 			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
 			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
-			wait.Until(condition=>javaScriptExecutor.ExecuteScript(script).Equals("complete"));
+			wait.Until(condition=>javaScriptExecutor.ExecuteScript(script).ToString().Equals("complete"));
 		}
 
 		public List<string> TableHeader()
@@ -83,7 +84,12 @@ namespace Jane.UI.Tests.PageObjectModels
 		public string AddTaskElement() => AddTaskButtonItem().Text;
 		public string Logout()=> LogOutButtonItem().Text;
 
-		public string Login() => LoginButtonItem().Text;
+		//public string Login() => LoginButtonItem().Text;
+		public string Login()
+		{
+			Driver.TakeScreenshot().SaveAsFile(@"C:\Temp\Jane\temp\Logoutest.png");
+			return LoginButtonItem().Text;
+		}
 
 		public bool EnsureAllHeaderItemsAreDisplayed()
 		{
@@ -125,6 +131,18 @@ namespace Jane.UI.Tests.PageObjectModels
 		public void ClickLogoutButton()
 		{
 			LogOutButtonItem().Click();
+		}
+
+		public List<string> ListOfTasks()
+		{
+			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(15));
+			var itemList = wait.Until(items => Driver.FindElements(By.XPath(".//tr/td[2]")));
+			var textItems = new List<string>();
+			foreach (IWebElement item in itemList)
+			{
+				textItems.Add(item.Text);
+			}
+			return textItems;
 		}
 		#endregion
 	}

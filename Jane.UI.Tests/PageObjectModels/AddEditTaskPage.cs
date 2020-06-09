@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Jane.UI.Tests.TestServices;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 
 namespace Jane.UI.Tests.PageObjectModels
@@ -24,11 +26,13 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		#endregion
 		#region Constructors
+
 		public AddEditTaskPage(IWebDriver driver)
 		{
 			Driver = driver;
 		}
 		protected override string PageURL => Configuration["appSettings:webURL"] +"/taskedit";
+		
 		#endregion
 
 		#region Variables
@@ -40,13 +44,17 @@ namespace Jane.UI.Tests.PageObjectModels
 		#endregion
 
 		#region Elements
+
 		public IWebElement SaveElement() => Driver.FindElement(By.CssSelector("button[type='submit']"));
 		public IWebElement DueDateElement() => Driver.FindElement(By.CssSelector("input[id='dueDate']"));
 		public IWebElement Title() => Driver.FindElement(By.CssSelector("input[id='title']"));
-		public IWebElement TaskBody() => Driver.FindElement(By.CssSelector("textarea[id='note'"));
+
+		public IWebElement TaskBody() => Driver.FindElement(By.CssSelector("textarea[id='note']"));
+
 		#endregion
 
 		#region Actions
+
 		public string TitleLabelText() => Driver.FindElement(By.CssSelector("label[for='title']")).Text;
 
 		public string TaskText() => Driver.FindElement(By.CssSelector("label[for='note']")).Text;
@@ -59,8 +67,10 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public void WaitForPageToBeLoaded()
 		{
-			WebDriverWait wait = new WebDriverWait(Driver, timeout:TimeSpan.FromSeconds(10));
-			wait.Until(ExpectedConditions.ElementIsVisible((By.CssSelector("button[type='submit']"))));
+			var script = "return document.readyState";
+			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
+			WebDriverWait wait = new WebDriverWait(Driver, timeout:TimeSpan.FromSeconds(30));
+			wait.Until(condition => javaScriptExecutor.ExecuteScript(script).ToString().Equals("complete"));
 		}
 		public string SaveButtonItemText() => SaveElement().Text;
 
@@ -176,6 +186,12 @@ namespace Jane.UI.Tests.PageObjectModels
 			return new ViewTaskPage(Driver);
 		}
 
+		public void ClearTheData()
+		{
+			Title().Clear();
+			TaskBody().Clear();
+		}
+
 		public bool EnsureAllItemsAreSavedCorrectly()
         {
 			var viewTask = new ViewTaskPage(Driver);
@@ -184,7 +200,9 @@ namespace Jane.UI.Tests.PageObjectModels
 			return taskIsSavedCorrectly;
 		}
 
-		public void CheckFinishedCheckbox() => Driver.FindElement(By.Id("editPage")).Click();
+		public void CheckFinishedCheckbox() => Driver.FindElement(By.CssSelector("input[id='finished']")).Click();
+
+		public string ReturnTitleText() => titleText;
 
 		#endregion
 	}

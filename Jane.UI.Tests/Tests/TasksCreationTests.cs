@@ -17,7 +17,9 @@ namespace Jane.UI.Tests
 		public void Setup()
 		{
 			//Arrange
-			driver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.PageLoadStrategy = PageLoadStrategy.Normal;
+			driver = new ChromeDriver(options);
 			var loginPage = new LoginPage(driver);
 
 			//Act
@@ -209,6 +211,27 @@ namespace Jane.UI.Tests
 			viewTask.EnsurePageLoaded();
 			Assert.IsTrue(viewTask.CheckFinishedStatusIsCorrect());
 			Assert.IsTrue(addTaskPage.EnsureAllItemsAreSavedCorrectly());
+		}
+
+		[Test]
+		public void TaskPresenceInTheList()
+		{
+			//Arrange 
+			var addTaskPage = new AddEditTaskPage(driver);
+
+			//Act
+			addTaskPage.NavigateTo();
+			addTaskPage.WaitForPageToBeLoaded();
+			var viewPage = addTaskPage.PopulateAllItemsAndSubmit();
+			viewPage.WaitForPageToBeLoaded();
+			var title = addTaskPage.ReturnTitleText();
+			var tasksPage = new TaskPage(driver);
+			tasksPage.NavigateTo();
+			tasksPage.WaitForPageLoaded();
+			var allTasks = tasksPage.ListOfTasks();
+
+			//Assert
+			Assert.That(allTasks, Contains.Item(title));
 		}
 
 		[TearDown]

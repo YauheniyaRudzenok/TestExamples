@@ -8,17 +8,21 @@ namespace Jane.UI.Tests.PageObjectModels
 	public class ViewTaskPage:Page
 	{
 		#region Constants
+
 		private const string FinishedDefaultValue = "No";
 		private const string FinishedCompletedValue = "Yes";
+
 		#endregion
 
 		#region Constructors
+
 		public ViewTaskPage(IWebDriver driver)
 		{
 			Driver = driver;
 		}
 
 		protected override string PageURL => Configuration["appSettings:webURL"]+"/taskview";
+		
 		#endregion
 
 		#region Elements
@@ -35,6 +39,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		#endregion
 
 		#region Actions
+
 		public void WaitForPageToBeLoaded()
 		{
 			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
@@ -42,8 +47,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		}
 
 		public string TaskTitleText() => Driver.FindElement(By.CssSelector("h1[class=page-title]")).Text;
-
-
 
 		public string StringDueDateValue() => DateTime.Parse(TaskItems()[3]).ToString("yyyy-MM-dd");
 
@@ -64,13 +67,9 @@ namespace Jane.UI.Tests.PageObjectModels
             return finishStatusIsCorrect;
         }
 
-        public IWebElement EditButton() => Driver.FindElement(By.LinkText("Edit"));
+		public void NavigateToViewPage(int id) => Driver.Navigate().GoToUrl(PageURL + "/" + id);
 
-		public string TaskURL(int id) => PageURL + "/" + id;
-
-		public void NavigateToViewPage(int id) => Driver.Navigate().GoToUrl(TaskURL(id));
-
-		public void ClickEditButton() => Driver.FindElement(By.LinkText("Edit")).Click();
+		public void ClickEditButton() => Driver.FindElement(By.CssSelector("button[class$=edit-btn]")).Click();
 
 		#endregion
 	}

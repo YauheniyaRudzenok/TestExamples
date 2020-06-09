@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Jane.Todo.Dto;
 using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
-using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using RestSharp;
 using RestSharp.Authenticators;
-using System.Text.Json;
 
 namespace Jane.UI.Tests
 {
@@ -24,29 +18,21 @@ namespace Jane.UI.Tests
 		private int taskId;
 
 		[OneTimeSetUp]
-		public void BuildConfig()
+		public void Autorize()
 		{
-			var configuration = new Config().BuildConfig();
 
-			var client = new RestClient(configuration["appSettings:apiURL"]);
-			var request = new RestRequest("/api/auth", Method.POST);
-			request.AddJsonBody(new AuthenticationRequestDto
-			{
-				UserName = configuration["appCredentials:name"],
-				Password = configuration["appCredentials:password"]
-			});
+			var auth = new Authentication();
+			token = auth.LogIn();
+			driver = new ChromeDriver();
+			var loginPage = new LoginPage(driver);
 
-			var response = client.Post<AuthenticationResultDto>(request);
-			token = response.Data.Token;
+			loginPage.NavigateAndLogin();
+
 		}
 
 		[SetUp]
 		public async Task Setup()
 		{
-			driver = new ChromeDriver();
-			//Cookie cookie = new Cookie(".AspNetCore.Cookies", token);
-			//driver.Manage().Cookies.AddCookie(cookie);
-
 			var client = new RestClient ("http://localhost:63558");
 			client.Authenticator = new JwtAuthenticator(token);
 			var request = new RestRequest("/api/todo", Method.POST, DataFormat.Json);
@@ -77,6 +63,8 @@ namespace Jane.UI.Tests
 			viewTask.WaitForPageToBeLoaded();
 			viewTask.ClickEditButton();
 			var editPage = new AddEditTaskPage(driver);
+			editPage.WaitForPageToBeLoaded();
+			editPage.ClearTheData();
 			editPage.CheckFinishedCheckbox();
 			editPage.PopulateAllItemsAndSubmit();
 			viewTask.WaitForPageToBeLoaded();

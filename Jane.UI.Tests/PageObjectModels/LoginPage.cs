@@ -97,6 +97,7 @@ namespace Jane.UI.Tests.PageObjectModels
 			InputPassword(password);
 			Submit();
 		}
+
 		#endregion
 	}
 }
