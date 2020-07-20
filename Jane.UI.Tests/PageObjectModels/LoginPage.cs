@@ -22,27 +22,23 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		#endregion
 		#region Actions
-		public string UserName()
+		public string ReturnUserName()
 		{
 			var userNameLable = Driver.FindElement(By.CssSelector("label[for='Input_UserName']")).Text;
 			return userNameLable;
 		}
-		public bool CheckThatLableUserNameLableIsCorrect() => UserName() == UserNameField;
-
-		public string Password()
+		
+		public string ReturnPassword()
 		{
 			var userPasswordLable = Driver.FindElement(By.CssSelector("label[for='Input_Password']")).Text;
 			return userPasswordLable;
 		}
 
-		public bool CheckThatLablePasswordLableIsCorrect() => Password() == PasswordField;
-
-		public string Header()
+		public string ReturnHeader()
 		{
 			string headerTitle = Driver.FindElement(By.TagName("h1")).Text;
 			return headerTitle;
 		}
-		public bool CheckThatHeaderISValid() => Header() == HeaderField;
 
 		public void Submit() => Driver.FindElement(By.CssSelector("button[type='submit']")).Click();
 
@@ -57,22 +53,12 @@ namespace Jane.UI.Tests.PageObjectModels
 			return messages;
 		}
 
-		public bool CheckTopValidation()
-		{
-			var listOfMessages = TopValidation();
-			bool validationIsCorrect = listOfMessages.Contains(NameValidationMessage) &&
-								listOfMessages.Contains(PasswordValidationMessage) &&
-								listOfMessages.Count == 2;
-			return validationIsCorrect;
-		}
-
 		public string RowNameValidationMessage()
 		{
 			string nameValidation = Driver.FindElement
 				(By.CssSelector("span[data-valmsg-for='Input.UserName']")).Text;
 			return nameValidation;
 		}
-		public bool CheckRowNameValidationMessage() => RowNameValidationMessage() == NameValidationMessage;
 
 		public string RowPasswordValidationMessage()
 		{
@@ -80,8 +66,6 @@ namespace Jane.UI.Tests.PageObjectModels
 				(By.CssSelector("span[data-valmsg-for='Input.Password']")).Text;
 			return passwordValidation;
 		}
-
-		public bool CheckRowPasswordValidationMessage() => RowPasswordValidationMessage() == PasswordValidationMessage;
 
 		public void InputUserName(string userName) => Driver.FindElement(By.Id("Input_UserName")).SendKeys(userName);
 
@@ -97,6 +81,29 @@ namespace Jane.UI.Tests.PageObjectModels
 			InputPassword(password);
 			Submit();
 		}
+
+		#endregion
+
+		#region Verification
+
+		public bool CheckThatLablePasswordLableIsCorrect() => ReturnPassword() == PasswordField;
+
+		public bool CheckThatLableUserNameLableIsCorrect() => ReturnUserName() == UserNameField;
+
+		public bool CheckRowPasswordValidationMessage() => RowPasswordValidationMessage() == PasswordValidationMessage;
+
+		public bool CheckRowNameValidationMessage() => RowNameValidationMessage() == NameValidationMessage;
+
+		public bool CheckTopValidation()
+		{
+			var listOfMessages = TopValidation();
+			bool validationIsCorrect = listOfMessages.Contains(NameValidationMessage) &&
+								listOfMessages.Contains(PasswordValidationMessage) &&
+								listOfMessages.Count == 2;
+			return validationIsCorrect;
+		}
+
+		public bool CheckThatHeaderISValid() => ReturnHeader() == HeaderField;
 
 		#endregion
 	}

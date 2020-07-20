@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
+using Jane.Tests.Infrastructure;
 
 namespace Jane.UI.Tests.PageObjectModels
 {

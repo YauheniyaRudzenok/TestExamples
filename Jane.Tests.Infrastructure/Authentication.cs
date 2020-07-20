@@ -1,4 +1,5 @@
-﻿using Jane.Todo.Dto;
+﻿using Jane.Tests.Infrastructure;
+using Jane.Todo.Dto;
 using RestSharp;
 
 namespace Jane.UI.Tests.TestServices

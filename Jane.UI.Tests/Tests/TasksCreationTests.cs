@@ -50,7 +50,7 @@ namespace Jane.UI.Tests
 			addTaskPage.NavigateTo();
 			addTaskPage.WaitForPageToBeLoaded();
 			var currentDate = addTaskPage.CurrentDate();
-			var duedate = addTaskPage.DueDateDefaultValue();
+			var duedate = addTaskPage.ReturnDueDateDefaultValue();
 
 			//Assert
 			Assert.That(currentDate, Is.EqualTo(duedate));

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Configuration;
 
 namespace Jane.UI.Tests.TestServices
 {
@@ -24,7 +23,7 @@ namespace Jane.UI.Tests.TestServices
 			var finalString = Regex.Replace(stringWithMultipleSpaces, " {2,}", " ");
 			return finalString;
 		}
-		public static int GenerateRandomNumberInRange (int min, int max)
+		public static int GenerateRandomNumberInRange(int min, int max)
 		{
 			var random = new Random();
 			int randomValue = random.Next(min, max);

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Jane.UI.Tests
+namespace Jane.Tests.Infrastructure
 {
 	public class Config
 	{

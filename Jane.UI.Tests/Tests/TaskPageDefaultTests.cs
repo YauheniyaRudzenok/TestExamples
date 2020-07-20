@@ -22,7 +22,7 @@ namespace Jane.UI.Tests
 			//Assert
 			Assert.IsTrue(taskPage.EnsureAllHeaderItemsAreDisplayed());
 			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed());
-			Assert.IsTrue(taskPage.AboutPageLinkText());
+			Assert.IsTrue(taskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]

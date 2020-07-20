@@ -4,6 +4,7 @@ using System.ComponentModel;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
@@ -47,9 +48,10 @@ namespace Jane.UI.Tests.PageObjectModels
 			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
 			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
 			wait.Until(condition=>javaScriptExecutor.ExecuteScript(script).ToString().Equals("complete"));
+			wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("h2")));
 		}
 
-		public List<string> TableHeader()
+		public List<string> ReturnTableHeader()
 		{
 			var headerList = Driver.FindElements(By.TagName("th"));
 			var headers = new List<string>();
@@ -60,7 +62,7 @@ namespace Jane.UI.Tests.PageObjectModels
 			return headers;
 		}
 
-		public bool AboutPageLinkText()
+		public bool ReturnAboutPageLinkText()
 		{
 			bool AboutLinkTextIsCorrect = true;
 			AboutLinkTextIsCorrect= AboutLinkItem().Text== GithubLink;
@@ -79,48 +81,13 @@ namespace Jane.UI.Tests.PageObjectModels
 			return new LoginPage(Driver);
 		}
 
-		public string HomeElement() => HomeButtonItem().Text;
+		public string ReturnHomeElement() => HomeButtonItem().Text;
 
-		public string AddTaskElement() => AddTaskButtonItem().Text;
-		public string Logout()=> LogOutButtonItem().Text;
+		public string ReturnAddTaskElement() => AddTaskButtonItem().Text;
 
-		//public string Login() => LoginButtonItem().Text;
-		public string Login()
-		{
-			Driver.TakeScreenshot().SaveAsFile(@"C:\Temp\Jane\temp\Logoutest.png");
-			return LoginButtonItem().Text;
-		}
+		public string ReturnLogout()=> LogOutButtonItem().Text;
 
-		public bool EnsureAllHeaderItemsAreDisplayed()
-		{
-			bool headerItemsArePresented = true;
-			var headers = TableHeader();
-			headerItemsArePresented = (headers.Contains(TaskStatusColumn)) &&
-									(headers.Contains(TaskDescriptionColumn)) &&
-									(headers.Contains(TaskCreationColumn)) &&
-									(headers.Contains(TaskDueDateColumn));
-			return headerItemsArePresented;
-		}
-
-		public bool EnsureAllMenuItemsAreDisplayed(bool authorized=false, string name=null)
-		{
-			bool menuItemsArePresented;
-			name = name ?? Configuration["appCredentials:name"];
-
-			if (authorized)
-			{
-				menuItemsArePresented = AddTaskElement() == AddTaskButton &&
-										Logout() == $"{LogoutButton} ({name})";
-			}
-			else
-			{
-				menuItemsArePresented = Login() == LoginButton;
-			}
-
-			menuItemsArePresented &= HomeElement() == HomeButton;
-
-			return menuItemsArePresented;
-		}
+		public string ReturnLogin()=> LoginButtonItem().Text;
 
 		public AddEditTaskPage NavigateToAddTask()
 		{
@@ -144,6 +111,41 @@ namespace Jane.UI.Tests.PageObjectModels
 			}
 			return textItems;
 		}
+		#endregion
+
+		#region Verification
+
+		public bool EnsureAllHeaderItemsAreDisplayed()
+		{
+			bool headerItemsArePresented = true;
+			var headers = ReturnTableHeader();
+			headerItemsArePresented = (headers.Contains(TaskStatusColumn)) &&
+									(headers.Contains(TaskDescriptionColumn)) &&
+									(headers.Contains(TaskCreationColumn)) &&
+									(headers.Contains(TaskDueDateColumn));
+			return headerItemsArePresented;
+		}
+
+		public bool EnsureAllMenuItemsAreDisplayed(bool authorized = false, string name = null)
+		{
+			bool menuItemsArePresented;
+			name = name ?? Configuration["appCredentials:name"];
+
+			if (authorized)
+			{
+				menuItemsArePresented = ReturnAddTaskElement() == AddTaskButton &&
+										ReturnLogout() == $"{LogoutButton} ({name})";
+			}
+			else
+			{
+				menuItemsArePresented = ReturnLogin() == LoginButton;
+			}
+
+			menuItemsArePresented &= ReturnHomeElement() == HomeButton;
+
+			return menuItemsArePresented;
+		}
+
 		#endregion
 	}
 }

@@ -52,24 +52,28 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public string StringCreationDateValue() => DateTime.Parse(TaskItems()[2]).ToString("yyyy-MM-dd");
 
-        public bool CheckFinishedStatusIsCorrect(bool defaultStatus=true)
-        {
-			bool finishStatusIsCorrect;
-			if (defaultStatus == true)
-            {
-				finishStatusIsCorrect = TaskItems()[0] == FinishedDefaultValue;
-			}
-            else
-            {
-				finishStatusIsCorrect = TaskItems()[0] == FinishedCompletedValue;
-
-			}
-            return finishStatusIsCorrect;
-        }
-
 		public void NavigateToViewPage(int id) => Driver.Navigate().GoToUrl(PageURL + "/" + id);
 
 		public void ClickEditButton() => Driver.FindElement(By.CssSelector("button[class$=edit-btn]")).Click();
+
+		#endregion
+
+		#region Verification
+
+		public bool CheckFinishedStatusIsCorrect(bool defaultStatus = true)
+		{
+			bool finishStatusIsCorrect;
+			if (defaultStatus == true)
+			{
+				finishStatusIsCorrect = TaskItems()[0] == FinishedDefaultValue;
+			}
+			else
+			{
+				finishStatusIsCorrect = TaskItems()[0] == FinishedCompletedValue;
+
+			}
+			return finishStatusIsCorrect;
+		}
 
 		#endregion
 	}

@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using RestSharp;
 using RestSharp.Authenticators;
+using Jane.Tests.Infrastructure;
 
 namespace Jane.UI.Tests
 {
@@ -33,7 +34,8 @@ namespace Jane.UI.Tests
 		[SetUp]
 		public async Task Setup()
 		{
-			var client = new RestClient ("http://localhost:63558");
+			var configuration = new Config().BuildConfig();
+			var client = new RestClient (configuration["appSettings:apiURL"]);
 			client.Authenticator = new JwtAuthenticator(token);
 			var request = new RestRequest("/api/todo", Method.POST, DataFormat.Json);
 			request.AddJsonBody(new TodoTaskDto { 

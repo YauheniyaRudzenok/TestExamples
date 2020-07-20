@@ -31,10 +31,6 @@ namespace Jane.UI.Tests.PageObjectModels
 			return text;
 		}
 
-		public bool CheckFailedLoginHeader() => HeaderText() == FailedLoginHeader;
-
-		public bool CheckWarningText() => WarningText() == FailedLoginText;
-
 		public void WaitForPageLoaded()
 		{
 			string script = "return document.readyState";
@@ -42,6 +38,14 @@ namespace Jane.UI.Tests.PageObjectModels
 			WebDriverWait wait = new WebDriverWait(Driver, timeout:TimeSpan.FromSeconds(30));
 			wait.Until(condition => javaScriptExecutor.ExecuteScript(script).Equals("complete"));
 		}
+		#endregion
+
+		#region Verification
+
+		public bool CheckWarningText() => WarningText() == FailedLoginText;
+
+		public bool CheckFailedLoginHeader() => HeaderText() == FailedLoginHeader;
+
 		#endregion
 	}
 }
