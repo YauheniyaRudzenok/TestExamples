@@ -62,13 +62,6 @@ namespace Jane.UI.Tests.PageObjectModels
 			return headers;
 		}
 
-		public bool ReturnAboutPageLinkText()
-		{
-			bool AboutLinkTextIsCorrect = true;
-			AboutLinkTextIsCorrect= AboutLinkItem().Text== GithubLink;
-			return AboutLinkTextIsCorrect;
-		}
-
 		public AboutPage ClickAboutLink()
 		{
 			AboutLinkItem().Click();

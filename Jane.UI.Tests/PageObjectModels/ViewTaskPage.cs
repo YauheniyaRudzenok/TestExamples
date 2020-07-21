@@ -63,7 +63,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		public bool CheckFinishedStatusIsCorrect(bool defaultStatus = true)
 		{
 			bool finishStatusIsCorrect;
-			if (defaultStatus == true)
+			if (defaultStatus)
 			{
 				finishStatusIsCorrect = TaskItems()[0] == FinishedDefaultValue;
 			}
