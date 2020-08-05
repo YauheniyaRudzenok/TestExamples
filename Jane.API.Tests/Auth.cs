@@ -1,12 +1,8 @@
-using NUnit.Framework;
-using RestSharp;
-using RestSharp.Authenticators;
 using Jane.Tests.Infrastructure;
 using Jane.Todo.Dto;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.InteropServices;
 using Microsoft.Extensions.Configuration;
-using NUnit.Framework.Constraints;
+using NUnit.Framework;
+using RestSharp;
 
 namespace Jane.API.Tests
 {

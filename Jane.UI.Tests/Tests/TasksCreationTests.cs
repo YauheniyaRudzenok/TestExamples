@@ -7,7 +7,8 @@ using OpenQA.Selenium.Chrome;
 
 namespace Jane.UI.Tests
 {
-
+	[TestFixture]
+	[Parallelizable]
 	public class TasksCreationTests
 	{
 		private IWebDriver driver;

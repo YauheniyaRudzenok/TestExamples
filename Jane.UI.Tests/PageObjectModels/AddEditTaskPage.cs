@@ -49,6 +49,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		public IWebElement DueDateElement() => Driver.FindElement(By.CssSelector("input[id='dueDate']"));
 		public IWebElement Title() => Driver.FindElement(By.CssSelector("input[id='title']"));
 		public IWebElement TaskBody() => Driver.FindElement(By.CssSelector("textarea[id='note']"));
+		public IWebElement DeleteButton() => Driver.FindElement(By.XPath("//button[@class='btn btn-danger']"));
 
 		#endregion
 
@@ -128,6 +129,8 @@ namespace Jane.UI.Tests.PageObjectModels
 		public void CheckFinishedCheckbox() => Driver.FindElement(By.CssSelector("input[id='finished']")).Click();
 
 		public string ReturnTitleText() => titleText;
+
+		public void ClickDeleteButton() => DeleteButton().Click();
 
 		#endregion
 

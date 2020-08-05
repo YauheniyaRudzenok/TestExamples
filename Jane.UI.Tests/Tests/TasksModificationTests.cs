@@ -12,11 +12,14 @@ using Jane.Tests.Infrastructure;
 
 namespace Jane.UI.Tests
 {
+	[TestFixture]
+	[Parallelizable]
 	class TasksModificationTests
 	{
 		private IWebDriver driver;
 		private string token;
 		private int taskId;
+		private string taskTitle;
 
 		[OneTimeSetUp]
 		public void Autorize()
@@ -34,6 +37,8 @@ namespace Jane.UI.Tests
 		[SetUp]
 		public async Task Setup()
 		{
+			taskTitle = Randoms.GenerateStringValueInRange(1, 250);
+
 			var configuration = new Config().BuildConfig();
 			var client = new RestClient (configuration["appSettings:apiURL"]);
 			client.Authenticator = new JwtAuthenticator(token);
@@ -42,7 +47,7 @@ namespace Jane.UI.Tests
 				Created = DateTimeOffset.UtcNow, 
 				DueDate = Randoms.GenerateRandomDate(),
 				Note = Randoms.GenerateStringValueInRange(5,250),
-				Title = Randoms.GenerateStringValueInRange(1,250)
+				Title = taskTitle
 			});
 
 			///GET
@@ -63,8 +68,7 @@ namespace Jane.UI.Tests
 			//Act
 			viewTask.NavigateToViewPage(taskId);
 			viewTask.WaitForPageToBeLoaded();
-			viewTask.ClickEditButton();
-			var editPage = new AddEditTaskPage(driver);
+			var editPage = viewTask.ClickEditButton();
 			editPage.WaitForPageToBeLoaded();
 			editPage.ClearTheData();
 			editPage.CheckFinishedCheckbox();
@@ -75,7 +79,78 @@ namespace Jane.UI.Tests
 			viewTask.EnsurePageLoaded();
 			Assert.IsTrue(editPage.EnsureAllItemsAreSavedCorrectly());
 			viewTask.CheckFinishedStatusIsCorrect(false);
+		}
 
+		[Test]
+		public void OpenEditTaskFromTasksPage()
+		{
+			//Arrange
+			var tasksPage = new TaskPage(driver);
+
+			//Act
+			tasksPage.NavigateTo();
+			tasksPage.WaitForPageLoaded();
+			var editPage = tasksPage.ClickEditLatestCreatedTask();
+			editPage.WaitForPageToBeLoaded();
+
+			//Assert
+			Assert.IsTrue(editPage.AllItemsArePresented());
+		}
+
+		[Test]
+		public void OpenInfoTaskFromTasksPage()
+		{
+			//Arrange
+			var tasksPage = new TaskPage(driver);
+
+			//Act
+			tasksPage.NavigateTo();
+			tasksPage.WaitForPageLoaded();
+			var viewTaskPage = tasksPage.ClickInfoForLatestCreatedTask();
+
+			//Assert
+			viewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(viewTaskPage.CheckFinishedStatusIsCorrect());
+		}
+
+		[Test]
+		public void EditTaskFromInfoPage()
+		{
+			//Arrange
+			var tasksPage = new TaskPage(driver);
+
+			//Act
+			tasksPage.NavigateTo();
+			tasksPage.WaitForPageLoaded();
+			var viewTask = tasksPage.ClickInfoForLatestCreatedTask();
+			var editPage = viewTask.ClickEditButton();
+			editPage.WaitForPageToBeLoaded();
+			editPage.ClearTheData();
+			editPage.PopulateAllItemsAndSubmit();
+			viewTask.WaitForPageToBeLoaded();
+
+			//Assert
+			viewTask.EnsurePageLoaded();
+			Assert.IsTrue(editPage.EnsureAllItemsAreSavedCorrectly());
+			viewTask.CheckFinishedStatusIsCorrect(false);
+		}
+
+		[Test]
+		public void DeleteTask()
+		{
+			//Arrange
+			var viewTask = new ViewTaskPage(driver);
+
+			//Act
+			viewTask.NavigateToViewPage(taskId);
+			viewTask.WaitForPageToBeLoaded();
+			var editPage = viewTask.ClickEditButton();
+			editPage.WaitForPageToBeLoaded();
+			editPage.ClickDeleteButton();
+			var tasksPage = new TaskPage(driver);
+
+			//Assert
+			Assert.Throws<NoSuchElementException>(() => tasksPage.SearchByTaskTitle(taskTitle));
 		}
 
 		[OneTimeTearDown]

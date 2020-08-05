@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
@@ -38,6 +35,8 @@ namespace Jane.UI.Tests.PageObjectModels
 		public IWebElement HomeButtonItem() => Driver.FindElement(By.CssSelector("a[class^='nav-link'"));
 		public IWebElement AddTaskButtonItem() => Driver.FindElement(By.CssSelector("a[href$='taskedit'"));
 		public IWebElement LogOutButtonItem() => Driver.FindElement(By.CssSelector("a[href$='logout'"));
+		public IWebElement LatestCreatedTaskEditButton() => Driver.FindElement(By.XPath("//tr[last()]/td/a[contains(@href, 'taskedit')]"));
+		public IWebElement LatestCreatedTaskInfoButton() => Driver.FindElement(By.XPath("//tr[last()]/td/a[contains(@href, 'taskview')]"));
 
 		#endregion
 
@@ -60,6 +59,13 @@ namespace Jane.UI.Tests.PageObjectModels
 				headers.Add(item.Text);
 			}
 			return headers;
+		}
+
+		public bool ReturnAboutPageLinkText()
+		{
+			bool AboutLinkTextIsCorrect = true;
+			AboutLinkTextIsCorrect = AboutLinkItem().Text == GithubLink;
+			return AboutLinkTextIsCorrect;
 		}
 
 		public AboutPage ClickAboutLink()
@@ -104,6 +110,9 @@ namespace Jane.UI.Tests.PageObjectModels
 			}
 			return textItems;
 		}
+
+		public IWebElement SearchByTaskTitle(string taskTitle) => Driver.FindElement(By.XPath("//tr/td[text()='" + taskTitle + "']"));
+
 		#endregion
 
 		#region Verification
@@ -137,6 +146,18 @@ namespace Jane.UI.Tests.PageObjectModels
 			menuItemsArePresented &= ReturnHomeElement() == HomeButton;
 
 			return menuItemsArePresented;
+		}
+
+		public AddEditTaskPage ClickEditLatestCreatedTask()
+		{
+			LatestCreatedTaskEditButton().Click();
+			return new AddEditTaskPage(Driver);
+		}
+
+		public ViewTaskPage ClickInfoForLatestCreatedTask()
+		{
+			LatestCreatedTaskInfoButton().Click();
+			return new ViewTaskPage(Driver);
 		}
 
 		#endregion

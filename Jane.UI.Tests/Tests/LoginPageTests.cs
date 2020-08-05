@@ -6,6 +6,8 @@ using Jane.UI.Tests.TestServices;
 
 namespace Jane.UI.Tests
 {
+	[TestFixture]
+	[Parallelizable]
 	public class LoginPageTests
 	{
 

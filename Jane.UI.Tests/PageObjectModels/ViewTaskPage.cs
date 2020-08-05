@@ -36,6 +36,9 @@ namespace Jane.UI.Tests.PageObjectModels
 			}
 			return textItems;
 		}
+
+		public IWebElement EditButton() => Driver.FindElement(By.XPath("//button[text()='Edit']"));
+
 		#endregion
 
 		#region Actions
@@ -54,7 +57,11 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public void NavigateToViewPage(int id) => Driver.Navigate().GoToUrl(PageURL + "/" + id);
 
-		public void ClickEditButton() => Driver.FindElement(By.CssSelector("button[class$=edit-btn]")).Click();
+		public AddEditTaskPage ClickEditButton()
+		{
+			EditButton().Click();
+			return new AddEditTaskPage(Driver);
+		}
 
 		#endregion
 
