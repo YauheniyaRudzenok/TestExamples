@@ -9,6 +9,7 @@ using OpenQA.Selenium.Chrome;
 using RestSharp;
 using RestSharp.Authenticators;
 using Jane.Tests.Infrastructure;
+using OpenQA.Selenium.Remote;
 
 namespace Jane.UI.Tests
 {
@@ -40,20 +41,21 @@ namespace Jane.UI.Tests
 			taskTitle = Randoms.GenerateStringValueInRange(1, 250);
 
 			var configuration = new Config().BuildConfig();
-			var client = new RestClient (configuration["appSettings:apiURL"]);
+			var client = new RestClient(configuration["appSettings:apiURL"]);
 			client.Authenticator = new JwtAuthenticator(token);
 			var request = new RestRequest("/api/todo", Method.POST, DataFormat.Json);
-			request.AddJsonBody(new TodoTaskDto { 
-				Created = DateTimeOffset.UtcNow, 
+			request.AddJsonBody(new TodoTaskDto
+			{
+				Created = DateTimeOffset.UtcNow,
 				DueDate = Randoms.GenerateRandomDate(),
-				Note = Randoms.GenerateStringValueInRange(5,250),
+				Note = Randoms.GenerateStringValueInRange(5, 250),
 				Title = taskTitle
 			});
 
 			///GET
 			//var response = client.Get<List<TodoTaskDto>>(request);
 
-			///POST
+			// POST
 			var response = client.Post<TodoTaskDto>(request);
 			taskId = response.Data.Id;
 
@@ -151,6 +153,23 @@ namespace Jane.UI.Tests
 
 			//Assert
 			Assert.Throws<NoSuchElementException>(() => tasksPage.SearchByTaskTitle(taskTitle));
+		}
+
+		[Test]
+		public void GoogleWithSelenoidRun()
+		{
+			var URL = "https://www.google.com/";
+
+			var capabilities = new DesiredCapabilities();
+			capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
+			capabilities.SetCapability(CapabilityType.BrowserVersion, "84.0");
+			capabilities.SetCapability("enableVNC", true);
+			var remoteDriver = new RemoteWebDriver(new Uri("http://127.0.0.1:4444/wd/hub"), capabilities);
+
+			remoteDriver.Navigate().GoToUrl(URL);
+
+			//Assert
+			Assert.AreEqual(URL, remoteDriver.Url);
 		}
 
 		[OneTimeTearDown]
