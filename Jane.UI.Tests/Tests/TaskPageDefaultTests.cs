@@ -1,4 +1,6 @@
-﻿using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.Tests.Infrastructure;
+using Jane.UI.Tests.PageObjectModels;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -9,12 +11,19 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	class TaskPageDefaultTests
 	{
+		private IConfigurationRoot configuration;
+
+		[OneTimeSetUp]
+		public void Configuration()
+		{
+			configuration = Config.Instance;
+		}
 
 		[Test]
 		public void ShouldContainAllElements()
 		{
 			//Arrange
-			using IWebDriver driver = new ChromeDriver();
+			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var taskPage = new TaskPage(driver);
 			
 			//Act
@@ -31,7 +40,7 @@ namespace Jane.UI.Tests
 		public void AboutLinkNavigation()
 		{
 			//Arrange
-			using IWebDriver driver = new ChromeDriver();
+			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var taskPage = new TaskPage(driver);
 
 			//Act
@@ -55,7 +64,7 @@ namespace Jane.UI.Tests
 		public void SignInLinkNavigation()
 		{
 			//Arrange
-			using IWebDriver driver = new ChromeDriver();
+			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var taskPage = new TaskPage(driver);
 			var loginPage = new LoginPage(driver);
 

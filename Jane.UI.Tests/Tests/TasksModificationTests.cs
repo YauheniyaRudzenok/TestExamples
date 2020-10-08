@@ -10,6 +10,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using Jane.Tests.Infrastructure;
 using OpenQA.Selenium.Remote;
+using Microsoft.Extensions.Configuration;
 
 namespace Jane.UI.Tests
 {
@@ -21,6 +22,7 @@ namespace Jane.UI.Tests
 		private string token;
 		private int taskId;
 		private string taskTitle;
+		private IConfigurationRoot configuration; 
 
 		[OneTimeSetUp]
 		public void Autorize()
@@ -28,7 +30,8 @@ namespace Jane.UI.Tests
 
 			var auth = new Authentication();
 			token = auth.LogIn();
-			driver = new ChromeDriver();
+			configuration = Config.Instance;
+			driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var loginPage = new LoginPage(driver);
 
 			loginPage.NavigateAndLogin();
@@ -40,7 +43,6 @@ namespace Jane.UI.Tests
 		{
 			taskTitle = Randoms.GenerateStringValueInRange(1, 250);
 
-			var configuration = new Config().BuildConfig();
 			var client = new RestClient(configuration["appSettings:apiURL"]);
 			client.Authenticator = new JwtAuthenticator(token);
 			var request = new RestRequest("/api/todo", Method.POST, DataFormat.Json);

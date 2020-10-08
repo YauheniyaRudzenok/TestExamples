@@ -3,6 +3,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Jane.UI.Tests.TestServices;
+using Microsoft.Extensions.Configuration;
+using Jane.Tests.Infrastructure;
 
 namespace Jane.UI.Tests
 {
@@ -10,12 +12,19 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class LoginPageTests
 	{
+		private IConfigurationRoot configuration;
+		
+		[OneTimeSetUp]
+		public void Configuration()
+		{
+			configuration = new Config().BuildConfig();
+		}
 
 		[Test]
 		public void CheckItemsOnThePage()
 		{
 			//Arrange
-			using IWebDriver driver = new ChromeDriver();
+			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var loginPage = new LoginPage(driver);
 
 			//Act
@@ -31,7 +40,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyValues()
 		{
 			//Arrange
-			using IWebDriver driver = new ChromeDriver();
+			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var loginPage = new LoginPage(driver);
 
 			//Act
@@ -48,7 +57,7 @@ namespace Jane.UI.Tests
 		public void SubmitingInvalidData()
 		{
 			//Arrange
-			using IWebDriver driver = new ChromeDriver();
+			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var loginPage = new LoginPage(driver);
 
 			//Act
@@ -70,7 +79,7 @@ namespace Jane.UI.Tests
 		public void SubmitingValidData(string name, string password)
 		{
 
-			using IWebDriver driver = new ChromeDriver();
+			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
 			var loginPage = new LoginPage(driver);
 
 			//Act

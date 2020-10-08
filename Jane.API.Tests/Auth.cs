@@ -1,6 +1,5 @@
 using Jane.Tests.Infrastructure;
 using Jane.Todo.Dto;
-using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using RestSharp;
 
@@ -8,25 +7,15 @@ namespace Jane.API.Tests
 {
 	public class Auth
 	{
-		IConfigurationRoot configuration;
-
-		[OneTimeSetUp]
-		public void BuildConfig()
-		{
-			configuration = new Config().BuildConfig();
-		}
-
 		[Test]
 		public void Login()
 		{
 			//Arrange
-			var client = new RestClient(configuration["appSettings:apiURL"]);
+			var client = new RestClient(Config.Instance["appSettings:apiURL"]);
 			var request = new RestRequest("/api/auth", Method.POST);
-			request.AddJsonBody(new AuthenticationRequestDto
-			{
-				UserName = configuration["appCredentials:name"],
-				Password = configuration["appCredentials:password"]
-			});
+			request.AddJsonBody(new AuthentificationRequestBuilder().AddName()
+																	.AddPassword()
+																	.Build());
 
 			//Act
 			var response = client.Post<AuthenticationResultDto>(request);

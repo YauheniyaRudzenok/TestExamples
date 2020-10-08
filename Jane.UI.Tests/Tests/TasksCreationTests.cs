@@ -1,4 +1,5 @@
-﻿using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.Tests.Infrastructure;
+using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
@@ -14,13 +15,19 @@ namespace Jane.UI.Tests
 		private IWebDriver driver;
 		private IConfigurationRoot configuration;
 
+		[OneTimeSetUp]
+		public void Configuration()
+		{
+			configuration = Config.Instance;
+		}
+
 		[SetUp]
 		public void Setup()
 		{
 			//Arrange
 			ChromeOptions options = new ChromeOptions();
 			options.PageLoadStrategy = PageLoadStrategy.Normal;
-			driver = new ChromeDriver(options);
+			driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"],(options));
 			var loginPage = new LoginPage(driver);
 
 			//Act

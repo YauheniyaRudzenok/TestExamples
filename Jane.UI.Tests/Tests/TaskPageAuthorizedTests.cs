@@ -1,9 +1,7 @@
-﻿using Jane.UI.Tests.PageObjectModels;
-using Jane.UI.Tests.TestServices;
-using Microsoft.Extensions.Configuration;
+﻿using Jane.Tests.Infrastructure;
+using Jane.UI.Tests.PageObjectModels;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace Jane.UI.Tests
 {
@@ -11,13 +9,12 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TaskPageAuthorizedTests
 	{
-
 		private IWebDriver driver;
 
 		[SetUp]
 		public void Setup()
 		{
-			driver = new ChromeDriver();
+			driver = BrowserFabric.CreateDriver(Config.Instance["browserSettings:browser"]);
 			var loginPage = new LoginPage(driver);
 
 			loginPage.NavigateAndLogin();
