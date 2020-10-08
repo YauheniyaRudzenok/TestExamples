@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 
 namespace Jane.UI.Tests.PageObjectModels
@@ -45,12 +46,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		public List<string> TopValidation()
 		{
 			var messagesObjects = Driver.FindElements(By.CssSelector("ul>li"));
-			List<string> messages = new List<string>();
-			foreach (IWebElement item in messagesObjects)
-			{
-				messages.Add(item.Text);
-			}
-			return messages;
+			return messagesObjects.Select(i=>i.Text).ToList();
 		}
 
 		public string RowNameValidationMessage()

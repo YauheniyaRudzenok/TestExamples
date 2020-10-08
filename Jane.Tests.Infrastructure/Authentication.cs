@@ -9,7 +9,7 @@ namespace Jane.UI.Tests.TestServices
 		public string LogIn()
 		{
 
-			var configuration = new Config().BuildConfig();
+			var configuration = Config.Instance;
 
 			var client = new RestClient(configuration["appSettings:apiURL"]);
 			var request = new RestRequest("/api/auth", Method.POST);

@@ -31,13 +31,6 @@ namespace Jane.UI.Tests.PageObjectModels
 			return text;
 		}
 
-		public void WaitForPageLoaded()
-		{
-			string script = "return document.readyState";
-			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
-			WebDriverWait wait = new WebDriverWait(Driver, timeout:TimeSpan.FromSeconds(30));
-			wait.Until(condition => javaScriptExecutor.ExecuteScript(script).Equals("complete"));
-		}
 		#endregion
 
 		#region Verification

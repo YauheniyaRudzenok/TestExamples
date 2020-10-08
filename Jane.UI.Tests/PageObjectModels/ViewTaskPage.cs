@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -34,7 +35,7 @@ namespace Jane.UI.Tests.PageObjectModels
 			{
 				textItems.Add(item.Text);
 			}
-			return textItems;
+			return elements.Select(i=>i.Text).ToList();
 		}
 
 		public IWebElement EditButton() => Driver.FindElement(By.XPath("//button[text()='Edit']"));
@@ -45,8 +46,7 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public void WaitForPageToBeLoaded()
 		{
-			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
-			wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("h1[class=page-title]")));
+			WaitByCss("h1[class=page-title]");
 		}
 
 		public string TaskTitleText() => Driver.FindElement(By.CssSelector("h1[class=page-title]")).Text;

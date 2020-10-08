@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using Jane.Tests.Infrastructure;
+using OpenQA.Selenium.Support.UI;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
@@ -9,7 +10,7 @@ namespace Jane.UI.Tests.PageObjectModels
 	{
 		public Page()
 		{
-			Configuration = new Config().BuildConfig();
+			Configuration = Config.Instance;
 		}
 		protected IWebDriver Driver { get; set; }
 		protected virtual string PageURL { get; }
@@ -38,6 +39,21 @@ namespace Jane.UI.Tests.PageObjectModels
 			{
 				throw new Exception($"Failed to load the page. Page {Driver.Url} with title {Driver.Title} is not loaded");
 			}
+		}
+
+		public string JavaScriptExecutor(string script)
+		{
+			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
+			return javaScriptExecutor.ExecuteScript(script)?.ToString();
+		}
+
+		public void WaitByCss(string item=null)
+		{
+			var script = "return document.readyState";
+			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
+			wait.Until(condition => JavaScriptExecutor(script).Equals("complete"));
+			if(item!=null)
+			wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(item)));
 		}
 
 	}

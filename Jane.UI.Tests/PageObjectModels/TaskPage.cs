@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -43,28 +44,19 @@ namespace Jane.UI.Tests.PageObjectModels
 		#region Actions
 		public void WaitForPageLoaded()
 		{
-			var script = "return document.readyState";
-			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
-			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(30));
-			wait.Until(condition=>javaScriptExecutor.ExecuteScript(script).ToString().Equals("complete"));
-			wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("h2")));
+			var item = "h2";
+			WaitByCss(item);
 		}
 
-		public List<string> ReturnTableHeader()
+		public IEnumerable<string> ReturnTableHeader()
 		{
 			var headerList = Driver.FindElements(By.TagName("th"));
-			var headers = new List<string>();
-			foreach (IWebElement item in headerList)
-			{
-				headers.Add(item.Text);
-			}
-			return headers;
+			return headerList.Select(i => i.Text);
 		}
 
 		public bool ReturnAboutPageLinkText()
 		{
-			bool AboutLinkTextIsCorrect = true;
-			AboutLinkTextIsCorrect = AboutLinkItem().Text == GithubLink;
+			bool AboutLinkTextIsCorrect = AboutLinkItem().Text == GithubLink;
 			return AboutLinkTextIsCorrect;
 		}
 
@@ -103,12 +95,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 			WebDriverWait wait = new WebDriverWait(Driver, timeout: TimeSpan.FromSeconds(15));
 			var itemList = wait.Until(items => Driver.FindElements(By.XPath(".//tr/td[2]")));
-			var textItems = new List<string>();
-			foreach (IWebElement item in itemList)
-			{
-				textItems.Add(item.Text);
-			}
-			return textItems;
+			return itemList.Select(i => i.Text).ToList();
 		}
 
 		public IWebElement SearchByTaskTitle(string taskTitle) => Driver.FindElement(By.XPath("//tr/td[text()='" + taskTitle + "']"));
@@ -119,13 +106,11 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public bool EnsureAllHeaderItemsAreDisplayed()
 		{
-			bool headerItemsArePresented = true;
 			var headers = ReturnTableHeader();
-			headerItemsArePresented = (headers.Contains(TaskStatusColumn)) &&
+			return (headers.Contains(TaskStatusColumn)) &&
 									(headers.Contains(TaskDescriptionColumn)) &&
 									(headers.Contains(TaskCreationColumn)) &&
 									(headers.Contains(TaskDueDateColumn));
-			return headerItemsArePresented;
 		}
 
 		public bool EnsureAllMenuItemsAreDisplayed(bool authorized = false, string name = null)

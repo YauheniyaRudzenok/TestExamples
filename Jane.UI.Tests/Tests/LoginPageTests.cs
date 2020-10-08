@@ -17,7 +17,7 @@ namespace Jane.UI.Tests
 		[OneTimeSetUp]
 		public void Configuration()
 		{
-			configuration = new Config().BuildConfig();
+			configuration = Config.Instance;
 		}
 
 		[Test]

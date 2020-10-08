@@ -67,11 +67,7 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public void WaitForPageToBeLoaded()
 		{
-			var script = "return document.readyState";
-			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
-			WebDriverWait wait = new WebDriverWait(Driver, timeout:TimeSpan.FromSeconds(30));
-			wait.Until(condition => javaScriptExecutor.ExecuteScript(script).ToString().Equals("complete"));
-			wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("button[type='submit']")));
+			WaitByCss("button[type='submit']");
 		}
 		public string ReturnSaveButtonItemText() => SaveElement().Text;
 
@@ -96,8 +92,7 @@ namespace Jane.UI.Tests.PageObjectModels
 				$"var dueDate=document.getElementById('dueDate');" +
 				$"dueDate.value='{date}';" +
 				$"dueDate.dispatchEvent(event)";
-			IJavaScriptExecutor javaScriptExecutor = (IJavaScriptExecutor)Driver;
-			javaScriptExecutor.ExecuteScript(script);
+			JavaScriptExecutor(script);
 		}
 		public string CurrentDate ()=> DateTime.Today.ToString("yyyy-MM-dd");
 
