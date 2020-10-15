@@ -9,7 +9,7 @@ namespace Jane.Tests.Infrastructure
 {
 	public static class BrowserFabric
 	{
-		public static IWebDriver CreateDriver (string browser, ChromeOptions options=null)
+		public static IWebDriver CreateDriver(string browser, ChromeOptions options = null)
 		{
 			switch (browser)
 			{
