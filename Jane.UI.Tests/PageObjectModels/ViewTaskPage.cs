@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Jane.Tests.Infrastructure;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -17,12 +18,15 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		#region Constructors
 
-		public ViewTaskPage(IWebDriver driver)
+		public ViewTaskPage(IWebDriver driver):base(driver)
 		{
-			Driver = driver;
 		}
 
-		protected override string PageURL => Configuration["appSettings:webURL"]+"/taskview";
+		public ViewTaskPage() : base()
+		{
+		}
+
+		protected override string PageURL => Config.Instance["appSettings:webURL"]+"/taskview";
 		
 		#endregion
 

@@ -3,19 +3,23 @@ using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using Jane.Tests.Infrastructure;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Chrome;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
-	public abstract class Page
+	public abstract class Page : IDisposable
 	{
-		public Page()
+		protected Page()
 		{
-			Configuration = Config.Instance;
+			Driver = BrowserFabric.CreateDriver(Config.Instance["browserSettings:browser"]);
 		}
-		protected IWebDriver Driver { get; set; }
+		protected Page(IWebDriver driver)
+		{
+			Driver = driver;
+		}
+		public IWebDriver Driver { get; protected set; }
 		protected virtual string PageURL { get; }
 		protected virtual string PageTitle => "Jane.Todo.Web";
-		protected IConfigurationRoot Configuration { get; private set; }
 		
 		public void NavigateTo()
 		{
@@ -56,5 +60,9 @@ namespace Jane.UI.Tests.PageObjectModels
 			wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(item)));
 		}
 
+		public void Dispose()
+		{
+			Driver.Dispose();
+		}
 	}
 }

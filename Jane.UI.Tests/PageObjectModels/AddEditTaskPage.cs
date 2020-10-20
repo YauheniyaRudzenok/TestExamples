@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Jane.Tests.Infrastructure;
 using Jane.UI.Tests.TestServices;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
@@ -27,11 +28,15 @@ namespace Jane.UI.Tests.PageObjectModels
 		#endregion
 		#region Constructors
 
-		public AddEditTaskPage(IWebDriver driver)
+		public AddEditTaskPage(IWebDriver driver):base(driver)
 		{
-			Driver = driver;
+
 		}
-		protected override string PageURL => Configuration["appSettings:webURL"] +"/taskedit";
+		public AddEditTaskPage() : base()
+		{
+
+		}
+		protected override string PageURL => Config.Instance["appSettings:webURL"] +"/taskedit";
 		
 		#endregion
 

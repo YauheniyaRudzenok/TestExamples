@@ -1,5 +1,4 @@
-﻿using Jane.Tests.Infrastructure;
-using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.UI.Tests.PageObjectModels;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
@@ -14,17 +13,17 @@ namespace Jane.UI.Tests
 		[SetUp]
 		public void Setup()
 		{
-			driver = BrowserFabric.CreateDriver(Config.Instance["browserSettings:browser"]);
-			var loginPage = new LoginPage(driver);
+			var loginPage = new LoginPage();
 
 			loginPage.NavigateAndLogin();
+			driver = loginPage.Driver;
 		}
 
 		[Test]
 		public void ShouldContainAllElements()
 		{
 			//Arrange
-			var taskPage = new TaskPage(driver);
+			using var taskPage = new TaskPage(driver);
 
 			//Act
 			taskPage.NavigateTo();
@@ -40,7 +39,7 @@ namespace Jane.UI.Tests
 		public void AboutLinkNavigation()
 		{
 			//Arrange
-			var taskPage = new TaskPage(driver);
+			using var taskPage = new TaskPage(driver);
 
 			//Act
 			taskPage.NavigateTo();
@@ -56,7 +55,7 @@ namespace Jane.UI.Tests
 		public void NavigateToAddTaskPage()
 		{
 			//Arrange
-			var taskPage = new TaskPage(driver);
+			using var taskPage = new TaskPage(driver);
 
 			//Act
 			taskPage.NavigateTo();
@@ -71,7 +70,7 @@ namespace Jane.UI.Tests
 		public void LogOut()
 		{
 			//Arrange
-			var taskPage = new TaskPage(driver);
+			using var taskPage = new TaskPage(driver);
 
 			//Act
 			taskPage.NavigateTo();
@@ -82,12 +81,6 @@ namespace Jane.UI.Tests
 			//Assert
 			taskPage.EnsurePageLoaded();
 			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed());
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
-			driver.Dispose();
 		}
 	}
 }

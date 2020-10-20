@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Jane.Tests.Infrastructure;
 using Jane.Todo.Dto;
 using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using RestSharp;
 using RestSharp.Authenticators;
-using Jane.Tests.Infrastructure;
-using OpenQA.Selenium.Remote;
-using Microsoft.Extensions.Configuration;
 
 namespace Jane.UI.Tests
 {
@@ -18,32 +16,30 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	class TasksModificationTests
 	{
-		private IWebDriver driver;
 		private string token;
 		private int taskId;
 		private string taskTitle;
-		private IConfigurationRoot configuration; 
+		private IWebDriver driver;
 
 		[OneTimeSetUp]
 		public void Autorize()
 		{
-
 			var auth = new Authentication();
 			token = auth.LogIn();
-			configuration = Config.Instance;
-			driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
-			var loginPage = new LoginPage(driver);
-
-			loginPage.NavigateAndLogin();
-
 		}
 
 		[SetUp]
 		public async Task Setup()
 		{
+			//navigate to login page
+			var loginPage = new LoginPage();
+			driver = loginPage.Driver;
+			loginPage.NavigateAndLogin();
+
+			//create new task
 			taskTitle = Randoms.GenerateStringValueInRange(1, 250);
 
-			var client = new RestClient(configuration["appSettings:apiURL"]);
+			var client = new RestClient(Config.Instance["appSettings:apiURL"]);
 			client.Authenticator = new JwtAuthenticator(token);
 			var request = new RestRequest("/api/todo", Method.POST, DataFormat.Json);
 			request.AddJsonBody(new TodoTaskDto
@@ -67,7 +63,7 @@ namespace Jane.UI.Tests
 		public void EditExistedTask()
 		{
 			//Arrange
-			var viewTask = new ViewTaskPage(driver);
+			using var viewTask = new ViewTaskPage(driver);
 
 			//Act
 			viewTask.NavigateToViewPage(taskId);
@@ -89,7 +85,7 @@ namespace Jane.UI.Tests
 		public void OpenEditTaskFromTasksPage()
 		{
 			//Arrange
-			var tasksPage = new TaskPage(driver);
+			using var tasksPage = new TaskPage(driver);
 
 			//Act
 			tasksPage.NavigateTo();
@@ -105,7 +101,7 @@ namespace Jane.UI.Tests
 		public void OpenInfoTaskFromTasksPage()
 		{
 			//Arrange
-			var tasksPage = new TaskPage(driver);
+			using var tasksPage = new TaskPage(driver);
 
 			//Act
 			tasksPage.NavigateTo();
@@ -121,7 +117,7 @@ namespace Jane.UI.Tests
 		public void EditTaskFromInfoPage()
 		{
 			//Arrange
-			var tasksPage = new TaskPage(driver);
+			using var tasksPage = new TaskPage(driver);
 
 			//Act
 			tasksPage.NavigateTo();
@@ -143,7 +139,7 @@ namespace Jane.UI.Tests
 		public void DeleteTask()
 		{
 			//Arrange
-			var viewTask = new ViewTaskPage(driver);
+			using var viewTask = new ViewTaskPage(driver);
 
 			//Act
 			viewTask.NavigateToViewPage(taskId);
@@ -151,13 +147,14 @@ namespace Jane.UI.Tests
 			var editPage = viewTask.ClickEditButton();
 			editPage.WaitForPageToBeLoaded();
 			editPage.ClickDeleteButton();
-			var tasksPage = new TaskPage(driver);
+			var tasksPage = new TaskPage(editPage.Driver);
 
 			//Assert
 			Assert.Throws<NoSuchElementException>(() => tasksPage.SearchByTaskTitle(taskTitle));
 		}
 
 		[Test]
+		[Ignore ("can be run only with selenoid started excluded from common tuns")]
 		public void GoogleWithSelenoidRun()
 		{
 			var URL = "https://www.google.com/";
@@ -173,12 +170,5 @@ namespace Jane.UI.Tests
 			//Assert
 			Assert.AreEqual(URL, remoteDriver.Url);
 		}
-
-		[OneTimeTearDown]
-		public void TearDown()
-		{
-			driver.Dispose();
-		}
-
 	}
 }

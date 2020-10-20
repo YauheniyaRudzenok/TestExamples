@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Jane.Tests.Infrastructure;
 using OpenQA.Selenium;
 
 namespace Jane.UI.Tests.PageObjectModels
@@ -15,11 +16,15 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		#endregion
 		#region Constructors
-		public LoginPage(IWebDriver driver)
+		public LoginPage(IWebDriver driver):base(driver)
 		{
-			Driver = driver;
+
 		}
-		protected override string PageURL => Configuration["appSettings:webURL"]+"/login";
+		public LoginPage() : base()
+		{
+
+		}
+		protected override string PageURL => Config.Instance["appSettings:webURL"]+"/login";
 
 		#endregion
 		#region Actions
@@ -69,8 +74,8 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public void NavigateAndLogin(string name = null, string password = null)
 		{
-			name = name ?? Configuration["appCredentials:name"];
-			password = password ?? Configuration["appCredentials:password"];
+			name = name ?? Config.Instance["appCredentials:name"];
+			password = password ?? Config.Instance["appCredentials:password"];
 
 			NavigateTo();
 			InputUserName(name);

@@ -12,20 +12,12 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class LoginPageTests
 	{
-		private IConfigurationRoot configuration;
-		
-		[OneTimeSetUp]
-		public void Configuration()
-		{
-			configuration = Config.Instance;
-		}
 
 		[Test]
 		public void CheckItemsOnThePage()
 		{
 			//Arrange
-			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
-			var loginPage = new LoginPage(driver);
+			using var loginPage = new LoginPage();
 
 			//Act
 			loginPage.NavigateTo();
@@ -40,8 +32,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyValues()
 		{
 			//Arrange
-			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
-			var loginPage = new LoginPage(driver);
+			using var loginPage = new LoginPage();
 
 			//Act
 			loginPage.NavigateTo();
@@ -57,13 +48,12 @@ namespace Jane.UI.Tests
 		public void SubmitingInvalidData()
 		{
 			//Arrange
-			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
-			var loginPage = new LoginPage(driver);
+			using var loginPage = new LoginPage();
 
 			//Act
 			loginPage.NavigateAndLogin(Randoms.GenerateStringValueInRange(1, 100),
 				Randoms.GenerateStringValueInRange(1, 100));
-			var loginPageFiled = new LoginFailedPage(driver);
+			var loginPageFiled = new LoginFailedPage(loginPage.Driver);
 
 			//Assert
 			loginPageFiled.EnsurePageLoaded();
@@ -78,13 +68,11 @@ namespace Jane.UI.Tests
 		[TestCase("JANE", "PASSWORD")]
 		public void SubmitingValidData(string name, string password)
 		{
-
-			using IWebDriver driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"]);
-			var loginPage = new LoginPage(driver);
+			using var loginPage = new LoginPage();
 
 			//Act
 			loginPage.NavigateAndLogin(name, password);
-			var taskPage = new TaskPage(driver);
+			var taskPage = new TaskPage(loginPage.Driver);
 
 			//Assert
 			taskPage.EnsurePageLoaded();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Jane.Tests.Infrastructure;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -21,12 +22,17 @@ namespace Jane.UI.Tests.PageObjectModels
 		#endregion
 
 		#region Constructors
-		public TaskPage (IWebDriver driver)
+		public TaskPage(IWebDriver driver) : base(driver)
 		{
-			Driver = driver;
+
 		}
 
-		protected override string PageURL => Configuration["appSettings:webURL"];
+		public TaskPage():base()
+		{
+
+		}
+
+		protected override string PageURL => Config.Instance["appSettings:webURL"];
 		#endregion
 
 		#region Elements
@@ -116,7 +122,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		public bool EnsureAllMenuItemsAreDisplayed(bool authorized = false, string name = null)
 		{
 			bool menuItemsArePresented;
-			name = name ?? Configuration["appCredentials:name"];
+			name = name ?? Config.Instance["appCredentials:name"];
 
 			if (authorized)
 			{

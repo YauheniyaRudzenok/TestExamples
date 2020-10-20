@@ -1,10 +1,7 @@
-﻿using Jane.Tests.Infrastructure;
-using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
-using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace Jane.UI.Tests
 {
@@ -13,22 +10,13 @@ namespace Jane.UI.Tests
 	public class TasksCreationTests
 	{
 		private IWebDriver driver;
-		private IConfigurationRoot configuration;
-
-		[OneTimeSetUp]
-		public void Configuration()
-		{
-			configuration = Config.Instance;
-		}
 
 		[SetUp]
 		public void Setup()
 		{
 			//Arrange
-			ChromeOptions options = new ChromeOptions();
-			options.PageLoadStrategy = PageLoadStrategy.Normal;
-			driver = BrowserFabric.CreateDriver(configuration["browserSettings:browser"],(options));
-			var loginPage = new LoginPage(driver);
+			var loginPage = new LoginPage();
+			driver = loginPage.Driver;
 
 			//Act
 			loginPage.NavigateAndLogin();
@@ -38,7 +26,7 @@ namespace Jane.UI.Tests
 		public void AllItemsAreDisplayed()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -52,7 +40,7 @@ namespace Jane.UI.Tests
 		public void DateIsDisplayedCorrectly()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -68,7 +56,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyFields()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -84,7 +72,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyTitle()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -100,7 +88,7 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyTaskNote()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -116,7 +104,7 @@ namespace Jane.UI.Tests
 		public void SubmitValueBiggerThanAllowedToTitle()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -134,7 +122,7 @@ namespace Jane.UI.Tests
 		public void SubmitValueBiggerThanAllowedToNote()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -152,7 +140,7 @@ namespace Jane.UI.Tests
 		public void SubmitAllValuesBiggerThanAllowed()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -170,7 +158,7 @@ namespace Jane.UI.Tests
 		public void SubmitValuessToNoteSmallerThanAllowed()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -188,7 +176,7 @@ namespace Jane.UI.Tests
 		public void SubmitDataWithDefaultDateToTasks()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -206,7 +194,7 @@ namespace Jane.UI.Tests
 		public void SubmitAllCorrectDataToTasks()
 		{
 			//Arrange
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -225,7 +213,7 @@ namespace Jane.UI.Tests
 		public void TaskPresenceInTheList()
 		{
 			//Arrange 
-			var addTaskPage = new AddEditTaskPage(driver);
+			using var addTaskPage = new AddEditTaskPage(driver);
 
 			//Act
 			addTaskPage.NavigateTo();
@@ -240,12 +228,6 @@ namespace Jane.UI.Tests
 
 			//Assert
 			Assert.That(allTasks, Contains.Item(title));
-		}
-
-		[TearDown]
-		public void Teardown()
-		{
-			driver.Dispose();
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Jane.Tests.Infrastructure;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -12,11 +13,16 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		#endregion
 		#region Constructors
-		public LoginFailedPage(IWebDriver driver)
+
+		public LoginFailedPage(IWebDriver driver): base(driver)
 		{
-			Driver = driver;
+
 		}
-		protected override string PageURL => Configuration["appSettings:webURL"] +"/loginfailed";
+		public LoginFailedPage() : base()
+		{
+
+		}
+		protected override string PageURL => Config.Instance["appSettings:webURL"] +"/loginfailed";
 		#endregion
 		#region Actions
 		public string HeaderText()
