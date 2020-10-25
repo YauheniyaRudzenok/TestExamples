@@ -18,10 +18,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 
 		}
-		public LoginFailedPage() : base()
-		{
-
-		}
 		protected override string PageURL => Config.Instance["appSettings:webURL"] +"/loginfailed";
 		#endregion
 		#region Actions

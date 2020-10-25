@@ -1,7 +1,6 @@
 ﻿using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
-using OpenQA.Selenium;
 
 namespace Jane.UI.Tests
 {
@@ -9,44 +8,35 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TasksCreationTests
 	{
-		private IWebDriver driver;
+		private PageManager pageManager;
 
 		[SetUp]
 		public void Setup()
 		{
-			//Arrange
-			var loginPage = new LoginPage();
-			driver = loginPage.Driver;
-
 			//Act
-			loginPage.NavigateAndLogin();
+			pageManager = new PageManager();
+			pageManager.LoginPage.NavigateAndLogin();
 		}
 
 		[Test]
 		public void AllItemsAreDisplayed()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.AllItemsArePresented());
+			Assert.IsTrue(pageManager.AddEditTaskPage.AllItemsArePresented());
 		}
 
 		[Test]
 		public void DateIsDisplayedCorrectly()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			var currentDate = addTaskPage.CurrentDate();
-			var duedate = addTaskPage.ReturnDueDateDefaultValue();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			var currentDate = pageManager.AddEditTaskPage.CurrentDate();
+			var duedate = pageManager.AddEditTaskPage.ReturnDueDateDefaultValue();
 
 			//Assert
 			Assert.That(currentDate, Is.EqualTo(duedate));
@@ -55,179 +45,154 @@ namespace Jane.UI.Tests
 		[Test]
 		public void SubmitEmptyFields()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.ClickSave();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.ClickSave();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.EmptyFormsValidationCheck());
+			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyFormsValidationCheck());
 		}
 
 		[Test]
 		public void SubmitEmptyTitle()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
-			addTaskPage.ClickSave();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
+			pageManager.AddEditTaskPage.ClickSave();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.EmptyTitleValidationCheck());
+			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyTitleValidationCheck());
 		}
 		[Test]
 		public void SubmitEmptyTaskNote()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
-			addTaskPage.ClickSave();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
+			pageManager.AddEditTaskPage.ClickSave();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.EmptyBodyValidationCheck());
+			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyBodyValidationCheck());
 		}
 		[Test]
 		public void SubmitValueBiggerThanAllowedToTitle()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
-			addTaskPage.ClickSave();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
+			pageManager.AddEditTaskPage.ClickSave();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.TitleMoreThan250ValidationCheck());
+			Assert.IsTrue(pageManager.AddEditTaskPage.TitleMoreThan250ValidationCheck());
 		}
 
 		[Test]
 		public void SubmitValueBiggerThanAllowedToNote()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
-			addTaskPage.ClickSave();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
+			pageManager.AddEditTaskPage.ClickSave();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.BodyMoreThan250ValidationCheck());
+			Assert.IsTrue(pageManager.AddEditTaskPage.BodyMoreThan250ValidationCheck());
 		}
 
 		[Test]
 		public void SubmitAllValuesBiggerThanAllowed()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			addTaskPage.ClickSave();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			pageManager.AddEditTaskPage.ClickSave();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.AllFieldsMoreThan250ValidationCheck());
+			Assert.IsTrue(pageManager.AddEditTaskPage.AllFieldsMoreThan250ValidationCheck());
 		}
 		
 		[Test]
 		public void SubmitValuessToNoteSmallerThanAllowed()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			addTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
-			addTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 4));
-			addTaskPage.ClickSave();
-			addTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
+			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 4));
+			pageManager.AddEditTaskPage.ClickSave();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(addTaskPage.BodyLessThan5ItemsCheck());
+			Assert.IsTrue(pageManager.AddEditTaskPage.BodyLessThan5ItemsCheck());
 		}
 
 		[Test]
 		public void SubmitDataWithDefaultDateToTasks()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			var viewTask = addTaskPage.PopulateAllItemsAndSubmit(false);
-			viewTask.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit(false);
+			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			viewTask.EnsurePageLoaded();
-			Assert.IsTrue(viewTask.CheckFinishedStatusIsCorrect());
-			Assert.IsTrue(addTaskPage.EnsureAllItemsAreSavedCorrectly());
+			pageManager.ViewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
+			Assert.IsTrue(pageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
 		}
 
 		[Test]
 		public void SubmitAllCorrectDataToTasks()
 		{
-			//Arrange
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			var viewTask = addTaskPage.PopulateAllItemsAndSubmit();
-			viewTask.WaitForPageToBeLoaded();
-			
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
+			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+
 
 			//Assert
-			viewTask.EnsurePageLoaded();
-			Assert.IsTrue(viewTask.CheckFinishedStatusIsCorrect());
-			Assert.IsTrue(addTaskPage.EnsureAllItemsAreSavedCorrectly());
+			pageManager.ViewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
+			Assert.IsTrue(pageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
 		}
 
 		[Test]
 		public void TaskPresenceInTheList()
 		{
-			//Arrange 
-			using var addTaskPage = new AddEditTaskPage(driver);
-
 			//Act
-			addTaskPage.NavigateTo();
-			addTaskPage.WaitForPageToBeLoaded();
-			var viewPage = addTaskPage.PopulateAllItemsAndSubmit();
-			viewPage.WaitForPageToBeLoaded();
-			var title = addTaskPage.ReturnTitleText();
-			var tasksPage = new TaskPage(driver);
-			tasksPage.NavigateTo();
-			tasksPage.WaitForPageLoaded();
-			var allTasks = tasksPage.ListOfTasks();
+			pageManager.AddEditTaskPage.NavigateTo();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
+			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			var title = pageManager.AddEditTaskPage.ReturnTitleText();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			var allTasks = pageManager.TaskPage.ListOfTasks();
 
 			//Assert
 			Assert.That(allTasks, Contains.Item(title));
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			pageManager.Clean();
 		}
 	}
 }

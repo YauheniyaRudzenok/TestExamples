@@ -22,16 +22,9 @@ namespace Jane.UI.Tests.PageObjectModels
 		#endregion
 
 		#region Constructors
-		public TaskPage(IWebDriver driver) : base(driver)
+		public TaskPage(IWebDriver driver):base(driver)
 		{
-
 		}
-
-		public TaskPage():base()
-		{
-
-		}
-
 		protected override string PageURL => Config.Instance["appSettings:webURL"];
 		#endregion
 

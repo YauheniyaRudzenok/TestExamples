@@ -9,10 +9,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 
 		}
-		public AboutPage() : base()
-		{
-
-		}
 		protected override string PageURL => "https://github.com/YauheniyaRudzenok";
 		protected override string PageTitle => "YauheniyaRudzenok · GitHub";
         #endregion

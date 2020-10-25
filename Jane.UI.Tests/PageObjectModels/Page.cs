@@ -9,10 +9,6 @@ namespace Jane.UI.Tests.PageObjectModels
 {
 	public abstract class Page : IDisposable
 	{
-		protected Page()
-		{
-			Driver = BrowserFabric.CreateDriver(Config.Instance["browserSettings:browser"]);
-		}
 		protected Page(IWebDriver driver)
 		{
 			Driver = driver;

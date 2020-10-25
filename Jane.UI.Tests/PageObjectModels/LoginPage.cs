@@ -20,10 +20,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 
 		}
-		public LoginPage() : base()
-		{
-
-		}
 		protected override string PageURL => Config.Instance["appSettings:webURL"]+"/login";
 
 		#endregion

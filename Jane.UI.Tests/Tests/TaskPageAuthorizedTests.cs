@@ -1,6 +1,5 @@
 ﻿using Jane.UI.Tests.PageObjectModels;
 using NUnit.Framework;
-using OpenQA.Selenium;
 
 namespace Jane.UI.Tests
 {
@@ -8,43 +7,36 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TaskPageAuthorizedTests
 	{
-		private IWebDriver driver;
+		private PageManager pageManager;
 
 		[SetUp]
 		public void Setup()
 		{
-			var loginPage = new LoginPage();
-
-			loginPage.NavigateAndLogin();
-			driver = loginPage.Driver;
+			pageManager = new PageManager();
+			pageManager.LoginPage.NavigateAndLogin();
 		}
 
 		[Test]
 		public void ShouldContainAllElements()
 		{
-			//Arrange
-			using var taskPage = new TaskPage(driver);
-
 			//Act
-			taskPage.NavigateTo();
-			taskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.IsTrue(taskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed(true));
-			Assert.IsTrue(taskPage.ReturnAboutPageLinkText());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed(true));
+			Assert.IsTrue(pageManager.TaskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]
 		public void AboutLinkNavigation()
 		{
-			//Arrange
-			using var taskPage = new TaskPage(driver);
-
 			//Act
-			taskPage.NavigateTo();
-			taskPage.WaitForPageLoaded();
-			AboutPage aboutPage = taskPage.ClickAboutLink();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			AboutPage aboutPage = pageManager.TaskPage.ClickAboutLink();
+			var driver = pageManager.TaskPage.Driver;
 			driver.SwitchTo().Window(driver.WindowHandles[1]);
 
 			//Assert
@@ -54,33 +46,32 @@ namespace Jane.UI.Tests
 		[Test]
 		public void NavigateToAddTaskPage()
 		{
-			//Arrange
-			using var taskPage = new TaskPage(driver);
-
 			//Act
-			taskPage.NavigateTo();
-			taskPage.WaitForPageLoaded();
-			AddEditTaskPage addTaskPage = taskPage.NavigateToAddTask();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateToAddTask();
 
 			//Assert
-			addTaskPage.EnsurePageLoaded();
+			pageManager.AddEditTaskPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void LogOut()
 		{
-			//Arrange
-			using var taskPage = new TaskPage(driver);
-
 			//Act
-			taskPage.NavigateTo();
-			taskPage.WaitForPageLoaded();
-			taskPage.ClickLogoutButton();
-			taskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.ClickLogoutButton();
+			pageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			taskPage.EnsurePageLoaded();
-			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed());
+			pageManager.TaskPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
+		}
+		[TearDown]
+		public void TearDown()
+		{
+			pageManager.Clean();
 		}
 	}
 }

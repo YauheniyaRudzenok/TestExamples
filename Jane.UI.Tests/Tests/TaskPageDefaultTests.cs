@@ -5,35 +5,37 @@ namespace Jane.UI.Tests
 {
 	[TestFixture]
 	[Parallelizable]
-	class TaskPageDefaultTests
+	public class TaskPageDefaultTests
 	{
+		private PageManager pageManager;
+
+		[SetUp]
+		public void SetUp()
+		{
+			pageManager = new PageManager();
+		}
+
 		[Test]
 		public void ShouldContainAllElements()
 		{
-			//Arrange
-			using var taskPage = new TaskPage();
-			
 			//Act
-			taskPage.NavigateTo();
-			taskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.IsTrue(taskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(taskPage.EnsureAllMenuItemsAreDisplayed());
-			Assert.IsTrue(taskPage.ReturnAboutPageLinkText());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
+			Assert.IsTrue(pageManager.TaskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]
 		public void AboutLinkNavigation()
 		{
-			//Arrange
-			using var taskPage = new TaskPage();
-
 			//Act
-			taskPage.NavigateTo();
-			taskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
 
-			AboutPage aboutPage = taskPage.ClickAboutLink();
+			AboutPage aboutPage = pageManager.TaskPage.ClickAboutLink();
 			aboutPage.Driver.SwitchTo().Window(aboutPage.Driver.WindowHandles[1]);
 
 			//Assert
@@ -43,16 +45,18 @@ namespace Jane.UI.Tests
 		[Test]
 		public void SignInLinkNavigation()
 		{
-			//Arrange
-			using var taskPage = new TaskPage();
-
 			//Act
-			taskPage.NavigateTo();
-			taskPage.WaitForPageLoaded();
-			var loginPage=taskPage.NavigateToLogin();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateToLogin();
 
 			//Assert
-			loginPage.EnsurePageLoaded();
+			pageManager.LoginPage.EnsurePageLoaded();
+		}
+		[TearDown]
+		public void TearDown()
+		{
+			pageManager.Clean();
 		}
 	}
 }

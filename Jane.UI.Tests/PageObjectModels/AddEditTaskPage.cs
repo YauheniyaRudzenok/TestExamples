@@ -32,10 +32,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 
 		}
-		public AddEditTaskPage() : base()
-		{
-
-		}
 		protected override string PageURL => Config.Instance["appSettings:webURL"] +"/taskedit";
 		
 		#endregion

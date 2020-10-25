@@ -21,11 +21,6 @@ namespace Jane.UI.Tests.PageObjectModels
 		public ViewTaskPage(IWebDriver driver):base(driver)
 		{
 		}
-
-		public ViewTaskPage() : base()
-		{
-		}
-
 		protected override string PageURL => Config.Instance["appSettings:webURL"]+"/taskview";
 		
 		#endregion

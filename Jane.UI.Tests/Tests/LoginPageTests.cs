@@ -1,10 +1,6 @@
 ﻿using Jane.UI.Tests.PageObjectModels;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using Jane.UI.Tests.TestServices;
-using Microsoft.Extensions.Configuration;
-using Jane.Tests.Infrastructure;
+using NUnit.Framework;
 
 namespace Jane.UI.Tests
 {
@@ -12,53 +8,50 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class LoginPageTests
 	{
+		private PageManager pageManager;
+
+		[SetUp]
+		public void SetUp()
+		{
+			pageManager = new PageManager();
+		}
 
 		[Test]
 		public void CheckItemsOnThePage()
 		{
-			//Arrange
-			using var loginPage = new LoginPage();
-
 			//Act
-			loginPage.NavigateTo();
+			pageManager.LoginPage.NavigateTo();
 
 			//Assert
-			Assert.IsTrue(loginPage.CheckThatLableUserNameLableIsCorrect());
-			Assert.IsTrue(loginPage.CheckThatLablePasswordLableIsCorrect());
-			Assert.IsTrue(loginPage.CheckThatHeaderISValid());
+			Assert.IsTrue(pageManager.LoginPage.CheckThatLableUserNameLableIsCorrect());
+			Assert.IsTrue(pageManager.LoginPage.CheckThatLablePasswordLableIsCorrect());
+			Assert.IsTrue(pageManager.LoginPage.CheckThatHeaderISValid());
 		}
 
 		[Test]
 		public void SubmitEmptyValues()
 		{
-			//Arrange
-			using var loginPage = new LoginPage();
-
 			//Act
-			loginPage.NavigateTo();
-			loginPage.Submit();
+			pageManager.LoginPage.NavigateTo();
+			pageManager.LoginPage.Submit();
 
 			//Assert
-			Assert.IsTrue(loginPage.CheckTopValidation());
-			Assert.That(loginPage.CheckRowPasswordValidationMessage());
-			Assert.That(loginPage.CheckRowNameValidationMessage());
+			Assert.IsTrue(pageManager.LoginPage.CheckTopValidation());
+			Assert.That(pageManager.LoginPage.CheckRowPasswordValidationMessage());
+			Assert.That(pageManager.LoginPage.CheckRowNameValidationMessage());
 		}
 		//add submit empty login; submit empty password
 		[Test]
 		public void SubmitingInvalidData()
 		{
-			//Arrange
-			using var loginPage = new LoginPage();
-
 			//Act
-			loginPage.NavigateAndLogin(Randoms.GenerateStringValueInRange(1, 100),
+			pageManager.LoginPage.NavigateAndLogin(Randoms.GenerateStringValueInRange(1, 100),
 				Randoms.GenerateStringValueInRange(1, 100));
-			var loginPageFiled = new LoginFailedPage(loginPage.Driver);
 
 			//Assert
-			loginPageFiled.EnsurePageLoaded();
-			Assert.IsTrue(loginPageFiled.CheckFailedLoginHeader());
-			Assert.IsTrue(loginPageFiled.CheckWarningText());
+			pageManager.LoginFailedPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.LoginFailedPage.CheckFailedLoginHeader());
+			Assert.IsTrue(pageManager.LoginFailedPage.CheckWarningText());
 		}
 
 		//add test case for 100 items (that only 100 symbols value is displayed
@@ -68,16 +61,17 @@ namespace Jane.UI.Tests
 		[TestCase("JANE", "PASSWORD")]
 		public void SubmitingValidData(string name, string password)
 		{
-			using var loginPage = new LoginPage();
-
 			//Act
-			loginPage.NavigateAndLogin(name, password);
-			var taskPage = new TaskPage(loginPage.Driver);
+			pageManager.LoginPage.NavigateAndLogin(name, password);
 
 			//Assert
-			taskPage.EnsurePageLoaded();
-
+			pageManager.TaskPage.EnsurePageLoaded();
 		}
 
+		[TearDown]
+		public void TearDown()
+		{
+			pageManager.Clean();
+		}
 	}
 }
