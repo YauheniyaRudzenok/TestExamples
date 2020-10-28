@@ -7,56 +7,48 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TaskPageDefaultTests
 	{
-		private PageManager pageManager;
-
-		[SetUp]
-		public void SetUp()
-		{
-			pageManager = new PageManager();
-		}
-
 		[Test]
 		public void ShouldContainAllElements()
 		{
 			//Act
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
-			Assert.IsTrue(pageManager.TaskPage.ReturnAboutPageLinkText());
+			Assert.IsTrue(Main.PageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(Main.PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
+			Assert.IsTrue(Main.PageManager.TaskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]
 		public void AboutLinkNavigation()
 		{
 			//Act
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
 
-			AboutPage aboutPage = pageManager.TaskPage.ClickAboutLink();
-			aboutPage.Driver.SwitchTo().Window(aboutPage.Driver.WindowHandles[1]);
+			Main.PageManager.TaskPage.ClickAboutLink();
+			Main.PageManager.SwitchTab(1);
 
 			//Assert
-			aboutPage.EnsurePageLoaded();
+			Main.PageManager.AboutPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void SignInLinkNavigation()
 		{
 			//Act
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
-			pageManager.TaskPage.NavigateToLogin();
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.NavigateToLogin();
 
 			//Assert
-			pageManager.LoginPage.EnsurePageLoaded();
+			Main.PageManager.LoginPage.EnsurePageLoaded();
 		}
 		[TearDown]
 		public void TearDown()
 		{
-			pageManager.Clean();
+			Main.Clean();
 		}
 	}
 }

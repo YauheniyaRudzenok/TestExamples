@@ -41,6 +41,12 @@ namespace Jane.UI.Tests.PageObjectModels
 
 		public bool CheckFailedLoginHeader() => HeaderText() == FailedLoginHeader;
 
+		public void WaitForPageLoaded()
+		{
+			var item = "h5[class='card-title]'";
+			WaitByCss(item);
+		}
+
 		#endregion
 	}
 }
