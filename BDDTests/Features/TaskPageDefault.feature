@@ -4,11 +4,11 @@
 
 @NotSignedIn
 Scenario: Navigate to login page
-#	Given user is on Home page
-#	When he clicks Log In link
-#	Then Log in page is opened
-#
+	Given I am on Home page
+	When I click Log In link
+	Then I see log in page is opened
+
 Scenario: Navigate to About page
-#	Given user is on Home page
-#	When he clicks About link
-#	Then About page is opened
+	Given I am on Home page
+	When I click About link
+	Then I see About page is opened

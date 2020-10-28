@@ -7,71 +7,67 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TaskPageAuthorizedTests
 	{
-		private PageManager pageManager;
-
 		[SetUp]
 		public void Setup()
 		{
-			pageManager = new PageManager();
-			pageManager.LoginPage.NavigateAndLogin();
+			Main.PageManager.LoginPage.NavigateAndLogin();
 		}
 
 		[Test]
 		public void ShouldContainAllElements()
 		{
 			//Act
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed(true));
-			Assert.IsTrue(pageManager.TaskPage.ReturnAboutPageLinkText());
+			Assert.IsTrue(Main.PageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(Main.PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed(true));
+			Assert.IsTrue(Main.PageManager.TaskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]
 		public void AboutLinkNavigation()
 		{
 			//Act
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
-			AboutPage aboutPage = pageManager.TaskPage.ClickAboutLink();
-			var driver = pageManager.TaskPage.Driver;
-			driver.SwitchTo().Window(driver.WindowHandles[1]);
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.ClickAboutLink();
+			Main.PageManager.SwitchTab(1);
 
 			//Assert
-			aboutPage.EnsurePageLoaded();
+			Main.PageManager.AboutPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void NavigateToAddTaskPage()
 		{
 			//Act
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
-			pageManager.TaskPage.NavigateToAddTask();
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.NavigateToAddTask();
 
 			//Assert
-			pageManager.AddEditTaskPage.EnsurePageLoaded();
+			Main.PageManager.AddEditTaskPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void LogOut()
 		{
 			//Act
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
-			pageManager.TaskPage.ClickLogoutButton();
-			pageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
+			Main.PageManager.TaskPage.ClickLogoutButton();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			pageManager.TaskPage.EnsurePageLoaded();
-			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
+			Main.PageManager.TaskPage.EnsurePageLoaded();
+			Assert.IsTrue(Main.PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
 		}
 		[TearDown]
 		public void TearDown()
 		{
-			pageManager.Clean();
+			Main.Clean();
 		}
 	}
 }

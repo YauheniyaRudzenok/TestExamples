@@ -8,35 +8,33 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TasksCreationTests
 	{
-		private PageManager pageManager;
 
 		[SetUp]
 		public void Setup()
 		{
 			//Act
-			pageManager = new PageManager();
-			pageManager.LoginPage.NavigateAndLogin();
+			Main.PageManager.LoginPage.NavigateAndLogin();
 		}
 
 		[Test]
 		public void AllItemsAreDisplayed()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.AllItemsArePresented());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.AllItemsArePresented());
 		}
 
 		[Test]
 		public void DateIsDisplayedCorrectly()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			var currentDate = pageManager.AddEditTaskPage.CurrentDate();
-			var duedate = pageManager.AddEditTaskPage.ReturnDueDateDefaultValue();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			var currentDate = Main.PageManager.AddEditTaskPage.CurrentDate();
+			var duedate = Main.PageManager.AddEditTaskPage.ReturnDueDateDefaultValue();
 
 			//Assert
 			Assert.That(currentDate, Is.EqualTo(duedate));
@@ -46,144 +44,144 @@ namespace Jane.UI.Tests
 		public void SubmitEmptyFields()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.ClickSave();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.ClickSave();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyFormsValidationCheck());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.EmptyFormsValidationCheck());
 		}
 
 		[Test]
 		public void SubmitEmptyTitle()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
-			pageManager.AddEditTaskPage.ClickSave();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
+			Main.PageManager.AddEditTaskPage.ClickSave();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyTitleValidationCheck());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.EmptyTitleValidationCheck());
 		}
 		[Test]
 		public void SubmitEmptyTaskNote()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
-			pageManager.AddEditTaskPage.ClickSave();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
+			Main.PageManager.AddEditTaskPage.ClickSave();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyBodyValidationCheck());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.EmptyBodyValidationCheck());
 		}
 		[Test]
 		public void SubmitValueBiggerThanAllowedToTitle()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
-			pageManager.AddEditTaskPage.ClickSave();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			Main.PageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
+			Main.PageManager.AddEditTaskPage.ClickSave();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.TitleMoreThan250ValidationCheck());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.TitleMoreThan250ValidationCheck());
 		}
 
 		[Test]
 		public void SubmitValueBiggerThanAllowedToNote()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
-			pageManager.AddEditTaskPage.ClickSave();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			Main.PageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
+			Main.PageManager.AddEditTaskPage.ClickSave();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.BodyMoreThan250ValidationCheck());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.BodyMoreThan250ValidationCheck());
 		}
 
 		[Test]
 		public void SubmitAllValuesBiggerThanAllowed()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
-			pageManager.AddEditTaskPage.ClickSave();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			Main.PageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
+			Main.PageManager.AddEditTaskPage.ClickSave();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.AllFieldsMoreThan250ValidationCheck());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.AllFieldsMoreThan250ValidationCheck());
 		}
 		
 		[Test]
 		public void SubmitValuessToNoteSmallerThanAllowed()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
-			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 4));
-			pageManager.AddEditTaskPage.ClickSave();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
+			Main.PageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 4));
+			Main.PageManager.AddEditTaskPage.ClickSave();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(pageManager.AddEditTaskPage.BodyLessThan5ItemsCheck());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.BodyLessThan5ItemsCheck());
 		}
 
 		[Test]
 		public void SubmitDataWithDefaultDateToTasks()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit(false);
-			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.PopulateAllItemsAndSubmit(false);
+			Main.PageManager.ViewTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			pageManager.ViewTaskPage.EnsurePageLoaded();
-			Assert.IsTrue(pageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
-			Assert.IsTrue(pageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
+			Main.PageManager.ViewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(Main.PageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
 		}
 
 		[Test]
 		public void SubmitAllCorrectDataToTasks()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
-			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
+			Main.PageManager.ViewTaskPage.WaitForPageToBeLoaded();
 
 
 			//Assert
-			pageManager.ViewTaskPage.EnsurePageLoaded();
-			Assert.IsTrue(pageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
-			Assert.IsTrue(pageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
+			Main.PageManager.ViewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(Main.PageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
+			Assert.IsTrue(Main.PageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
 		}
 
 		[Test]
 		public void TaskPresenceInTheList()
 		{
 			//Act
-			pageManager.AddEditTaskPage.NavigateTo();
-			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
-			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
-			var title = pageManager.AddEditTaskPage.ReturnTitleText();
-			pageManager.TaskPage.NavigateTo();
-			pageManager.TaskPage.WaitForPageLoaded();
-			var allTasks = pageManager.TaskPage.ListOfTasks();
+			Main.PageManager.AddEditTaskPage.NavigateTo();
+			Main.PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			Main.PageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
+			Main.PageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			var title = Main.PageManager.AddEditTaskPage.ReturnTitleText();
+			Main.PageManager.TaskPage.NavigateTo();
+			Main.PageManager.TaskPage.WaitForPageLoaded();
+			var allTasks = Main.PageManager.TaskPage.ListOfTasks();
 
 			//Assert
 			Assert.That(allTasks, Contains.Item(title));
@@ -192,7 +190,7 @@ namespace Jane.UI.Tests
 		[TearDown]
 		public void TearDown()
 		{
-			pageManager.Clean();
+			Main.Clean();
 		}
 	}
 }
