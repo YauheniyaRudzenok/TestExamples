@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Jane.Tests.Infrastructure;
 using Jane.Todo.Dto;
+using Jane.UI.Tests.Infrastructure;
 using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
@@ -35,9 +36,6 @@ namespace Jane.UI.Tests
 			pageManager = new PageManager();
 			pageManager.LoginPage.NavigateAndLogin();
 
-			//create new task
-			taskTitle = Randoms.GenerateStringValueInRange(1, 250);
-
 			var client = new RestClient(Config.Instance["appSettings:apiURL"]);
 			client.Authenticator = new JwtAuthenticator(token);
 			var request = new RestRequest("/api/todo", Method.POST, DataFormat.Json);
@@ -46,7 +44,7 @@ namespace Jane.UI.Tests
 				Created = DateTimeOffset.UtcNow,
 				DueDate = Randoms.GenerateRandomDate(),
 				Note = Randoms.GenerateStringValueInRange(5, 250),
-				Title = taskTitle
+				Title = Randoms.GenerateStringValueInRange(1, 250)
 			});
 
 			///GET

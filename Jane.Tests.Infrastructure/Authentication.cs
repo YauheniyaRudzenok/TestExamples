@@ -2,7 +2,7 @@
 using Jane.Todo.Dto;
 using RestSharp;
 
-namespace Jane.UI.Tests.TestServices
+namespace Jane.UI.Tests.Infrastructure
 {
 	public class Authentication
 	{

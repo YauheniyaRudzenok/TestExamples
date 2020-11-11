@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Jane.Tests.Infrastructure;
-using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.Tests.Infrastructure;
 using OpenQA.Selenium;
 
 namespace Jane.UI.Tests.PageObjectModels
