@@ -25,9 +25,14 @@ namespace Jane.UI.Tests.PageObjectModels
 		public TaskPage TaskPage => _taskPage ??= new TaskPage(driver);
 		public ViewTaskPage ViewTaskPage => _viewTaskPage ??= new ViewTaskPage(driver);
 
-		public void Clean()
+		public void CleanWebDriver()
 		{
 			driver?.Dispose();
+		}
+
+		public void SwitchTab(int tabNumber)
+		{
+			driver.SwitchTo().Window(driver.WindowHandles[tabNumber]);
 		}
 	}
 }
