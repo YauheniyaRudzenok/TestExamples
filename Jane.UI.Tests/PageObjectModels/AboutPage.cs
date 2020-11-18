@@ -11,6 +11,12 @@ namespace Jane.UI.Tests.PageObjectModels
 		}
 		protected override string PageURL => "https://github.com/YauheniyaRudzenok";
 		protected override string PageTitle => "YauheniyaRudzenok · GitHub";
-        #endregion
-    }
+
+		public void WaitAboutPageToBeLoaded()
+        {
+			WaitByCss("span[itemprop='additionalName']");
+
+		}
+		#endregion
+	}
 }

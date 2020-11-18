@@ -37,6 +37,7 @@ namespace Jane.UI.Tests
 
 			pageManager.TaskPage.ClickAboutLink();
 			pageManager.SwitchTab(1);
+			pageManager.AboutPage.WaitAboutPageToBeLoaded();
 
 			//Assert
 			pageManager.AboutPage.EnsurePageLoaded();
