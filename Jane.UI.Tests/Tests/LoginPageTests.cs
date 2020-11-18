@@ -8,42 +8,50 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class LoginPageTests
 	{
+		private PageManager PageManager;
+
+		[SetUp]
+		public void CreatePageManager()
+        {
+			PageManager = new PageManager();
+		}
+
 		[Test]
 		public void CheckItemsOnThePage()
 		{
 			//Act
-			Main.PageManager.LoginPage.NavigateTo();
+			PageManager.LoginPage.NavigateTo();
 
 			//Assert
-			Assert.IsTrue(Main.PageManager.LoginPage.CheckThatLableUserNameLableIsCorrect());
-			Assert.IsTrue(Main.PageManager.LoginPage.CheckThatLablePasswordLableIsCorrect());
-			Assert.IsTrue(Main.PageManager.LoginPage.CheckThatHeaderISValid());
+			Assert.IsTrue(PageManager.LoginPage.CheckThatLableUserNameLableIsCorrect());
+			Assert.IsTrue(PageManager.LoginPage.CheckThatLablePasswordLableIsCorrect());
+			Assert.IsTrue(PageManager.LoginPage.CheckThatHeaderISValid());
 		}
 
 		[Test]
 		public void SubmitEmptyValues()
 		{
 			//Act
-			Main.PageManager.LoginPage.NavigateTo();
-			Main.PageManager.LoginPage.Submit();
+			PageManager.LoginPage.NavigateTo();
+			PageManager.LoginPage.Submit();
 
 			//Assert
-			Assert.IsTrue(Main.PageManager.LoginPage.CheckTopValidation());
-			Assert.That(Main.PageManager.LoginPage.CheckRowPasswordValidationMessage());
-			Assert.That(Main.PageManager.LoginPage.CheckRowNameValidationMessage());
+			Assert.IsTrue(PageManager.LoginPage.CheckTopValidation());
+			Assert.That(PageManager.LoginPage.CheckRowPasswordValidationMessage());
+			Assert.That(PageManager.LoginPage.CheckRowNameValidationMessage());
 		}
 		//add submit empty login; submit empty password
 		[Test]
 		public void SubmitingInvalidData()
 		{
 			//Act
-			Main.PageManager.LoginPage.NavigateAndLogin(Randoms.GenerateStringValueInRange(1, 100),
+			PageManager.LoginPage.NavigateAndLogin(Randoms.GenerateStringValueInRange(1, 100),
 				Randoms.GenerateStringValueInRange(1, 100));
-			Main.PageManager.LoginFailedPage.EnsurePageLoaded();
+			PageManager.LoginFailedPage.EnsurePageLoaded();
 
 			//Assert
-			Assert.IsTrue(Main.PageManager.LoginFailedPage.CheckFailedLoginHeader());
-			Assert.IsTrue(Main.PageManager.LoginFailedPage.CheckWarningText());
+			Assert.IsTrue(PageManager.LoginFailedPage.CheckFailedLoginHeader());
+			Assert.IsTrue(PageManager.LoginFailedPage.CheckWarningText());
 		}
 
 		//add test case for 100 items (that only 100 symbols value is displayed
@@ -54,16 +62,16 @@ namespace Jane.UI.Tests
 		public void SubmitingValidData(string name, string password)
 		{
 			//Act
-			Main.PageManager.LoginPage.NavigateAndLogin(name, password);
+			PageManager.LoginPage.NavigateAndLogin(name, password);
 
 			//Assert
-			Main.PageManager.TaskPage.EnsurePageLoaded();
+			PageManager.TaskPage.EnsurePageLoaded();
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			Main.Clean();
+			PageManager.CleanWebDriver();
 		}
 	}
 }

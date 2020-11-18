@@ -7,48 +7,55 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TaskPageDefaultTests
 	{
+		private PageManager PageManager;
+		[SetUp]
+		public void CreatePageManager()
+        {
+			PageManager = new PageManager();
+        }
+
 		[Test]
 		public void ShouldContainAllElements()
 		{
 			//Act
-			Main.PageManager.TaskPage.NavigateTo();
-			Main.PageManager.TaskPage.WaitForPageLoaded();
+			PageManager.TaskPage.NavigateTo();
+			PageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.IsTrue(Main.PageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(Main.PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
-			Assert.IsTrue(Main.PageManager.TaskPage.ReturnAboutPageLinkText());
+			Assert.IsTrue(PageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
+			Assert.IsTrue(PageManager.TaskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]
 		public void AboutLinkNavigation()
 		{
 			//Act
-			Main.PageManager.TaskPage.NavigateTo();
-			Main.PageManager.TaskPage.WaitForPageLoaded();
+			PageManager.TaskPage.NavigateTo();
+			PageManager.TaskPage.WaitForPageLoaded();
 
-			Main.PageManager.TaskPage.ClickAboutLink();
-			Main.PageManager.SwitchTab(1);
+			PageManager.TaskPage.ClickAboutLink();
+			PageManager.SwitchTab(1);
 
 			//Assert
-			Main.PageManager.AboutPage.EnsurePageLoaded();
+			PageManager.AboutPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void SignInLinkNavigation()
 		{
 			//Act
-			Main.PageManager.TaskPage.NavigateTo();
-			Main.PageManager.TaskPage.WaitForPageLoaded();
-			Main.PageManager.TaskPage.NavigateToLogin();
+			PageManager.TaskPage.NavigateTo();
+			PageManager.TaskPage.WaitForPageLoaded();
+			PageManager.TaskPage.NavigateToLogin();
 
 			//Assert
-			Main.PageManager.LoginPage.EnsurePageLoaded();
+			PageManager.LoginPage.EnsurePageLoaded();
 		}
 		[TearDown]
 		public void TearDown()
 		{
-			Main.Clean();
+			PageManager.CleanWebDriver();
 		}
 	}
 }

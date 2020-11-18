@@ -1,4 +1,5 @@
-﻿using Jane.Tests.Infrastructure;
+﻿using System;
+using Jane.Tests.Infrastructure;
 using OpenQA.Selenium;
 
 namespace Jane.UI.Tests.PageObjectModels
@@ -16,6 +17,7 @@ namespace Jane.UI.Tests.PageObjectModels
 		public PageManager()
 		{
 			driver = BrowserFabric.CreateDriver(Config.Instance["browserSettings:browser"]);
+			Console.WriteLine("DRIVER START!!!");
 		}
 
 		public AboutPage AboutPage => _aboutPage ??= new AboutPage(driver);
