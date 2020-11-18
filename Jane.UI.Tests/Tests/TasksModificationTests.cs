@@ -20,7 +20,7 @@ namespace Jane.UI.Tests
 		private string token;
 		private int taskId;
 		private string taskTitle;
-		private PageManager PageManager;
+		private PageManager pageManager;
 
 		[OneTimeSetUp]
 		public void Autorize()
@@ -32,9 +32,9 @@ namespace Jane.UI.Tests
 		[SetUp]
 		public async Task Setup()
 		{
-			PageManager = new PageManager();
+			pageManager = new PageManager();
 			//navigate to login page
-			PageManager.LoginPage.NavigateAndLogin();
+			pageManager.LoginPage.NavigateAndLogin();
 
 			var client = new RestClient(Config.Instance["appSettings:apiURL"]);
 			client.Authenticator = new JwtAuthenticator(token);
@@ -60,78 +60,78 @@ namespace Jane.UI.Tests
 		public void EditExistedTask()
 		{
 			//Act
-			PageManager.ViewTaskPage.NavigateToViewPage(taskId);
-			PageManager.ViewTaskPage.WaitForPageToBeLoaded();
-			PageManager.ViewTaskPage.ClickEditButton();
-			PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			PageManager.AddEditTaskPage.ClearTheData();
-			PageManager.AddEditTaskPage.CheckFinishedCheckbox();
-			PageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
-			PageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			pageManager.ViewTaskPage.NavigateToViewPage(taskId);
+			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			pageManager.ViewTaskPage.ClickEditButton();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.ClearTheData();
+			pageManager.AddEditTaskPage.CheckFinishedCheckbox();
+			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
+			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			PageManager.ViewTaskPage.EnsurePageLoaded();
-			Assert.IsTrue(PageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
-			PageManager.ViewTaskPage.CheckFinishedStatusIsCorrect(false);
+			pageManager.ViewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
+			pageManager.ViewTaskPage.CheckFinishedStatusIsCorrect(false);
 		}
 
 		[Test]
 		public void OpenEditTaskFromTasksPage()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
-			PageManager.TaskPage.ClickEditLatestCreatedTask();
-			PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.ClickEditLatestCreatedTask();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			Assert.IsTrue(PageManager.AddEditTaskPage.AllItemsArePresented());
+			Assert.IsTrue(pageManager.AddEditTaskPage.AllItemsArePresented());
 		}
 
 		[Test]
 		public void OpenInfoTaskFromTasksPage()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
-			PageManager.TaskPage.ClickInfoForLatestCreatedTask();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.ClickInfoForLatestCreatedTask();
 
 			//Assert
-			PageManager.ViewTaskPage.EnsurePageLoaded();
-			Assert.IsTrue(PageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
+			pageManager.ViewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.ViewTaskPage.CheckFinishedStatusIsCorrect());
 		}
 
 		[Test]
 		public void EditTaskFromInfoPage()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
-			PageManager.TaskPage.ClickInfoForLatestCreatedTask();
-			PageManager.ViewTaskPage.ClickEditButton();
-			PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			PageManager.AddEditTaskPage.ClearTheData();
-			PageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
-			PageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.ClickInfoForLatestCreatedTask();
+			pageManager.ViewTaskPage.ClickEditButton();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.ClearTheData();
+			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
+			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
 
 			//Assert
-			PageManager.ViewTaskPage.EnsurePageLoaded();
-			Assert.IsTrue(PageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
-			PageManager.ViewTaskPage.CheckFinishedStatusIsCorrect(false);
+			pageManager.ViewTaskPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.AddEditTaskPage.EnsureAllItemsAreSavedCorrectly());
+			pageManager.ViewTaskPage.CheckFinishedStatusIsCorrect(false);
 		}
 
 		[Test]
 		public void DeleteTask()
 		{
 			//Act
-			PageManager.ViewTaskPage.NavigateToViewPage(taskId);
-			PageManager.ViewTaskPage.WaitForPageToBeLoaded();
-			PageManager.ViewTaskPage.ClickEditButton();
-			PageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			PageManager.AddEditTaskPage.ClickDeleteButton();
+			pageManager.ViewTaskPage.NavigateToViewPage(taskId);
+			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			pageManager.ViewTaskPage.ClickEditButton();
+			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.ClickDeleteButton();
 
 			//Assert
-			Assert.Throws<NoSuchElementException>(() => PageManager.TaskPage.SearchByTaskTitle(taskTitle));
+			Assert.Throws<NoSuchElementException>(() => pageManager.TaskPage.SearchByTaskTitle(taskTitle));
 		}
 
 		[Test]
@@ -155,7 +155,7 @@ namespace Jane.UI.Tests
 		[TearDown]
 		public void TearDown()
 		{
-			PageManager.CleanWebDriver();
+			pageManager.CleanWebDriver();
 		}
 	}
 }

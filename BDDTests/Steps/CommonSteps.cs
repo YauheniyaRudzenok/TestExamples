@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
-using Jane.UI.Tests.PageObjectModels;
-using Jane.UI.Tests.TestServices;
+﻿using Jane.UI.Tests.TestServices;
 using TechTalk.SpecFlow;
 
 namespace BDDTests.Steps
 {
-	[Binding]
+    [Binding]
 	public class CommonSteps
 	{
+
 		[After]
 		public void CleanUp()
 		{

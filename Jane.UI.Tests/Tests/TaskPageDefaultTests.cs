@@ -7,55 +7,56 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TaskPageDefaultTests
 	{
-		private PageManager PageManager;
+		private PageManager pageManager;
+
 		[SetUp]
 		public void CreatePageManager()
         {
-			PageManager = new PageManager();
+			pageManager = new PageManager();
         }
 
 		[Test]
 		public void ShouldContainAllElements()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.IsTrue(PageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
-			Assert.IsTrue(PageManager.TaskPage.ReturnAboutPageLinkText());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
+			Assert.IsTrue(pageManager.TaskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]
 		public void AboutLinkNavigation()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
 
-			PageManager.TaskPage.ClickAboutLink();
-			PageManager.SwitchTab(1);
+			pageManager.TaskPage.ClickAboutLink();
+			pageManager.SwitchTab(1);
 
 			//Assert
-			PageManager.AboutPage.EnsurePageLoaded();
+			pageManager.AboutPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void SignInLinkNavigation()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
-			PageManager.TaskPage.NavigateToLogin();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateToLogin();
 
 			//Assert
-			PageManager.LoginPage.EnsurePageLoaded();
+			pageManager.LoginPage.EnsurePageLoaded();
 		}
 		[TearDown]
 		public void TearDown()
 		{
-			PageManager.CleanWebDriver();
+			pageManager.CleanWebDriver();
 		}
 	}
 }

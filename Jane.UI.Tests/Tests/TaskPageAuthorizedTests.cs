@@ -7,70 +7,70 @@ namespace Jane.UI.Tests
 	[Parallelizable]
 	public class TaskPageAuthorizedTests
 	{
-		PageManager PageManager;
+		PageManager pageManager;
 
 		[SetUp]
 		public void Setup()
 		{
-			PageManager = new PageManager();
-			PageManager.LoginPage.NavigateAndLogin();
+			pageManager = new PageManager();
+			pageManager.LoginPage.NavigateAndLogin();
 		}
 
 		[Test]
 		public void ShouldContainAllElements()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			Assert.IsTrue(PageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
-			Assert.IsTrue(PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed(true));
-			Assert.IsTrue(PageManager.TaskPage.ReturnAboutPageLinkText());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed(true));
+			Assert.IsTrue(pageManager.TaskPage.ReturnAboutPageLinkText());
 		}
 
 		[Test]
 		public void AboutLinkNavigation()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
-			PageManager.TaskPage.ClickAboutLink();
-			PageManager.SwitchTab(1);
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.ClickAboutLink();
+			pageManager.SwitchTab(1);
 
 			//Assert
-			PageManager.AboutPage.EnsurePageLoaded();
+			pageManager.AboutPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void NavigateToAddTaskPage()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
-			PageManager.TaskPage.NavigateToAddTask();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateToAddTask();
 
 			//Assert
-			PageManager.AddEditTaskPage.EnsurePageLoaded();
+			pageManager.AddEditTaskPage.EnsurePageLoaded();
 		}
 
 		[Test]
 		public void LogOut()
 		{
 			//Act
-			PageManager.TaskPage.NavigateTo();
-			PageManager.TaskPage.WaitForPageLoaded();
-			PageManager.TaskPage.ClickLogoutButton();
-			PageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.NavigateTo();
+			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.ClickLogoutButton();
+			pageManager.TaskPage.WaitForPageLoaded();
 
 			//Assert
-			PageManager.TaskPage.EnsurePageLoaded();
-			Assert.IsTrue(PageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
+			pageManager.TaskPage.EnsurePageLoaded();
+			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
 		}
 		[TearDown]
 		public void TearDown()
 		{
-			PageManager.CleanWebDriver();
+			pageManager.CleanWebDriver();
 		}
 	}
 }
