@@ -23,7 +23,6 @@ namespace Jane.UI.Tests
 			//Act
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
-			pageManager.TaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
@@ -39,7 +38,6 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.ClickAboutLink();
 			pageManager.SwitchTab(1);
-			pageManager.AboutPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.AboutPage.EnsurePageLoaded();
@@ -52,7 +50,6 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.NavigateToAddTask();
-			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.AddEditTaskPage.EnsurePageLoaded();
@@ -66,15 +63,14 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.ClickLogoutButton();
 			pageManager.TaskPage.WaitForPageLoaded();
-			pageManager.TaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.TaskPage.EnsurePageLoaded();
-			Assert.IsTrue(pageManager.TaskPage.EnsureAllMenuItemsAreDisplayed());
 		}
 		[TearDown]
 		public void TearDown()
 		{
+			pageManager.TaskPage.CreateScreenshotIfFailed();
 			pageManager.CleanWebDriver();
 		}
 	}

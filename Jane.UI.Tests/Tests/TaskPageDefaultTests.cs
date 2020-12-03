@@ -22,7 +22,6 @@ namespace Jane.UI.Tests
 			//Act
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
-			pageManager.TaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
@@ -40,7 +39,6 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.ClickAboutLink();
 			pageManager.SwitchTab(1);
 			pageManager.AboutPage.WaitAboutPageToBeLoaded();
-			pageManager.AboutPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.AboutPage.EnsurePageLoaded();
@@ -53,7 +51,6 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.NavigateToLogin();
-			pageManager.LoginPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.LoginPage.EnsurePageLoaded();
@@ -61,6 +58,7 @@ namespace Jane.UI.Tests
 		[TearDown]
 		public void TearDown()
 		{
+			pageManager.TaskPage.CreateScreenshotIfFailed();
 			pageManager.CleanWebDriver();
 		}
 	}

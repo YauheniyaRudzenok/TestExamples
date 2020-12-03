@@ -1,13 +1,12 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
-using Jane.Tests.Infrastructure;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Chrome;
 
 namespace Jane.UI.Tests.PageObjectModels
 {
-	public abstract class Page : IDisposable
+    public abstract class Page : IDisposable
 	{
 		protected Page(IWebDriver driver)
 		{
@@ -55,12 +54,21 @@ namespace Jane.UI.Tests.PageObjectModels
 			if(item!=null)
 			wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(item)));
 		}
+
 		public void CreateScreenshot(string title)
 		{
 			Screenshot image = ((ITakesScreenshot)Driver).GetScreenshot();
 			var _title = title.Replace('"', '_');
 			ReportPortal.Shared.Log.Info(_title, "image/png", image.AsByteArray);
 			//image.SaveAsFile(@$"C:\Jane\TestExamples\artifacts\UI\{_title}.png");
+		}
+
+		public void CreateScreenshotIfFailed()
+        {
+			if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
+			{
+				CreateScreenshot(TestContext.CurrentContext.Test.Name);
+			}
 		}
 
 		public void Dispose()

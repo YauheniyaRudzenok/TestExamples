@@ -6,6 +6,7 @@ using Jane.UI.Tests.Infrastructure;
 using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using RestSharp;
@@ -68,7 +69,6 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.CheckFinishedCheckbox();
 			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
 			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
-			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -84,7 +84,6 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.ClickEditLatestCreatedTask();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
-			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.AllItemsArePresented());
@@ -97,7 +96,6 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.ClickInfoForLatestCreatedTask();
-			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -116,7 +114,6 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.ClearTheData();
 			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
 			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
-			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -133,7 +130,6 @@ namespace Jane.UI.Tests
 			pageManager.ViewTaskPage.ClickEditButton();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 			pageManager.AddEditTaskPage.ClickDeleteButton();
-			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.Throws<NoSuchElementException>(() => pageManager.TaskPage.SearchByTaskTitle(taskTitle));
@@ -160,6 +156,7 @@ namespace Jane.UI.Tests
 		[TearDown]
 		public void TearDown()
 		{
+			pageManager.AddEditTaskPage.CreateScreenshotIfFailed();
 			pageManager.CleanWebDriver();
 		}
 	}
