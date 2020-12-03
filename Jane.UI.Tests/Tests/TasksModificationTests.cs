@@ -68,6 +68,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.CheckFinishedCheckbox();
 			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
 			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -83,6 +84,7 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.ClickEditLatestCreatedTask();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.AllItemsArePresented());
@@ -95,6 +97,7 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.ClickInfoForLatestCreatedTask();
+			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -113,6 +116,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.ClearTheData();
 			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
 			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -129,13 +133,14 @@ namespace Jane.UI.Tests
 			pageManager.ViewTaskPage.ClickEditButton();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 			pageManager.AddEditTaskPage.ClickDeleteButton();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.Throws<NoSuchElementException>(() => pageManager.TaskPage.SearchByTaskTitle(taskTitle));
 		}
 
 		[Test]
-		[Ignore ("can be run only with selenoid started excluded from common tuns")]
+		[Ignore ("can be run only with selenoid started excluded from common runs")]
 		public void GoogleWithSelenoidRun()
 		{
 			var URL = "https://www.google.com/";

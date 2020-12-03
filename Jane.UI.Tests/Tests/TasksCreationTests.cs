@@ -1,4 +1,5 @@
-﻿using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.Tests.Infrastructure;
+using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
 
@@ -24,6 +25,7 @@ namespace Jane.UI.Tests
 			//Act
 			pageManager.AddEditTaskPage.NavigateTo();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.AllItemsArePresented());
@@ -37,6 +39,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 			var currentDate = pageManager.AddEditTaskPage.CurrentDate();
 			var duedate = pageManager.AddEditTaskPage.ReturnDueDateDefaultValue();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.That(currentDate, Is.EqualTo(duedate));
@@ -50,6 +53,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 			pageManager.AddEditTaskPage.ClickSave();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyFormsValidationCheck());
@@ -64,6 +68,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
 			pageManager.AddEditTaskPage.ClickSave();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyTitleValidationCheck());
@@ -77,6 +82,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(5, 250));
 			pageManager.AddEditTaskPage.ClickSave();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.EmptyBodyValidationCheck());
@@ -91,6 +97,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
 			pageManager.AddEditTaskPage.ClickSave();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.TitleMoreThan250ValidationCheck());
@@ -106,6 +113,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.Title().SendKeys(Randoms.GenerateStringValueInRange(1, 250));
 			pageManager.AddEditTaskPage.ClickSave();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.BodyMoreThan250ValidationCheck());
@@ -121,6 +129,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(251, 400));
 			pageManager.AddEditTaskPage.ClickSave();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.AllFieldsMoreThan250ValidationCheck());
@@ -136,6 +145,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.TaskBody().SendKeys(Randoms.GenerateStringValueInRange(1, 4));
 			pageManager.AddEditTaskPage.ClickSave();
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
+			pageManager.AddEditTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.AddEditTaskPage.BodyLessThan5ItemsCheck());
@@ -149,6 +159,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit(false);
 			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
+			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -164,7 +175,7 @@ namespace Jane.UI.Tests
 			pageManager.AddEditTaskPage.WaitForPageToBeLoaded();
 			pageManager.AddEditTaskPage.PopulateAllItemsAndSubmit();
 			pageManager.ViewTaskPage.WaitForPageToBeLoaded();
-
+			pageManager.ViewTaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.ViewTaskPage.EnsurePageLoaded();
@@ -184,6 +195,7 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
 			var allTasks = pageManager.TaskPage.ListOfTasks();
+			pageManager.TaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.That(allTasks, Contains.Item(title));

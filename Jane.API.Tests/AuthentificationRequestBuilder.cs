@@ -25,5 +25,5 @@ namespace Jane.API.Tests
 		}
 
 		public AuthenticationRequestDto Build() => request;
-	}
+    }
 }

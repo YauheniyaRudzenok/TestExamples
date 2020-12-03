@@ -1,4 +1,5 @@
-﻿using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.Tests.Infrastructure;
+using Jane.UI.Tests.PageObjectModels;
 using Jane.UI.Tests.TestServices;
 using NUnit.Framework;
 
@@ -21,6 +22,7 @@ namespace Jane.UI.Tests
 		{
 			//Act
 			pageManager.LoginPage.NavigateTo();
+			pageManager.LoginPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.LoginPage.CheckThatLableUserNameLableIsCorrect());
@@ -34,6 +36,7 @@ namespace Jane.UI.Tests
 			//Act
 			pageManager.LoginPage.NavigateTo();
 			pageManager.LoginPage.Submit();
+			pageManager.LoginPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.LoginPage.CheckTopValidation());
@@ -48,6 +51,7 @@ namespace Jane.UI.Tests
 			pageManager.LoginPage.NavigateAndLogin(Randoms.GenerateStringValueInRange(1, 100),
 				Randoms.GenerateStringValueInRange(1, 100));
 			pageManager.LoginFailedPage.EnsurePageLoaded();
+			pageManager.LoginFailedPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.LoginFailedPage.CheckFailedLoginHeader());
@@ -63,6 +67,7 @@ namespace Jane.UI.Tests
 		{
 			//Act
 			pageManager.LoginPage.NavigateAndLogin(name, password);
+			pageManager.LoginPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.TaskPage.EnsurePageLoaded();

@@ -55,6 +55,12 @@ namespace Jane.UI.Tests.PageObjectModels
 			if(item!=null)
 			wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(item)));
 		}
+		public void CreateScreenshot(string title)
+		{
+			Screenshot image = ((ITakesScreenshot)Driver).GetScreenshot();
+			var _title = title.Replace('"', '_');
+			image.SaveAsFile(@$"C:\Jane\TestExamples\artifacts\UI\{_title}.png");
+		}
 
 		public void Dispose()
 		{

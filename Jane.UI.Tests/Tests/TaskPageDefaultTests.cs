@@ -1,4 +1,5 @@
-﻿using Jane.UI.Tests.PageObjectModels;
+﻿using Jane.Tests.Infrastructure;
+using Jane.UI.Tests.PageObjectModels;
 using NUnit.Framework;
 
 namespace Jane.UI.Tests
@@ -21,6 +22,7 @@ namespace Jane.UI.Tests
 			//Act
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
+			pageManager.TaskPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			Assert.IsTrue(pageManager.TaskPage.EnsureAllHeaderItemsAreDisplayed());
@@ -38,6 +40,7 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.ClickAboutLink();
 			pageManager.SwitchTab(1);
 			pageManager.AboutPage.WaitAboutPageToBeLoaded();
+			pageManager.AboutPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.AboutPage.EnsurePageLoaded();
@@ -50,6 +53,7 @@ namespace Jane.UI.Tests
 			pageManager.TaskPage.NavigateTo();
 			pageManager.TaskPage.WaitForPageLoaded();
 			pageManager.TaskPage.NavigateToLogin();
+			pageManager.LoginPage.CreateScreenshot(TestContext.CurrentContext.Test.Name);
 
 			//Assert
 			pageManager.LoginPage.EnsurePageLoaded();

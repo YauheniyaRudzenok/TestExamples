@@ -23,6 +23,9 @@
     <PackageReference Include="Selenium.Support" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="86.0.4240.2200" />
+    <PackageReference Include="ReportPortal.Client" Version="3.0.3" />
+    <PackageReference Include="ReportPortal.NUnit" Version="4.0.0" />
+    <PackageReference Include="ReportPortal.Shared" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +35,9 @@
 
   <ItemGroup>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ReportPortal.config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
