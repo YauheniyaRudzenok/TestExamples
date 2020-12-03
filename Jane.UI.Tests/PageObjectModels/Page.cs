@@ -59,7 +59,8 @@ namespace Jane.UI.Tests.PageObjectModels
 		{
 			Screenshot image = ((ITakesScreenshot)Driver).GetScreenshot();
 			var _title = title.Replace('"', '_');
-			image.SaveAsFile(@$"C:\Jane\TestExamples\artifacts\UI\{_title}.png");
+			ReportPortal.Shared.Log.Info(_title, "image/png", image.AsByteArray);
+			//image.SaveAsFile(@$"C:\Jane\TestExamples\artifacts\UI\{_title}.png");
 		}
 
 		public void Dispose()
