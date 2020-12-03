@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/reportportal/agent-net-nunit/master/src/ReportPortal.NUnitExtension/ReportPortal.config.schema",
+  "enabled": true,
+  "server": {
+    "url": "http://localhost:8080",
+    "project": "superadmin_personal",
+    "authentication": {
+      "uuid": "2a5bad8b-3b59-4853-a474-4d080dbe1d68"
+    }
+  },
+  "launch": {
+    "name": "UI_Tests",
+    "description": "this is description",
+    "debugMode": false,
+    "attributes": [ "t1", "t2", "platform:x64" ]
+  }
+}
